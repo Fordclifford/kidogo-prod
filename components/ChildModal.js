@@ -10,7 +10,7 @@ import { Gender, GenderStrings } from '../constants/Enrollment'
 import Backdrop from './Backdrop'
 import Spacer from './Spacer'
 import { GetShortDate } from '../utilities/dates'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+//import { Colors } from 'react-native/Libraries/'
 
 
 const ChildModal = (props) => {

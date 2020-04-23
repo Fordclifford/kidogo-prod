@@ -55,10 +55,13 @@ const ConfirmCode = (props) => {
 
     try {
      const result = await SetNewPassword(userData.username, code, password)
+     console.log(result)
      
 
       try {
         confirmResult = await SignInCaregiver(userData.username, password)
+        console.log(confirmResult)
+        
         
 
     const caregiversResp = await ListDB(CAREGIVER)
@@ -68,7 +71,7 @@ const ConfirmCode = (props) => {
       if (caregiver.username === userData.username) {
        userStore.dispatch(saveUser(caregiver));
     
-        console.log(userStore.getState())
+       // console.log(userStore.getState())
         break
       }
     }
@@ -97,6 +100,7 @@ const ConfirmCode = (props) => {
     //console.log(userData)
     try {
       const resend = await ForgotPassword(userData.username)
+      console.log(resend)
       setLoading(false)
       setError('Confirmation code resent')
     } catch (error) {

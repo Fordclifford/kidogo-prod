@@ -16,7 +16,7 @@ export const createCaregiver = /* GraphQL */ `
       lastName
       centreName
       location
-      address
+      
       city
       lastUpdate
       accounts {
@@ -47,7 +47,7 @@ export const updateCaregiver = /* GraphQL */ `
       lastName
       centreName
       location
-      address
+      
       city
       lastUpdate
       accounts {
@@ -78,7 +78,7 @@ export const deleteCaregiver = /* GraphQL */ `
       lastName
       centreName
       location
-      address
+      
       city
       lastUpdate
       accounts {
@@ -115,7 +115,7 @@ export const createAccount = /* GraphQL */ `
         lastName
         centreName
         location
-        address
+        
         city
         lastUpdate
         accounts {
@@ -218,7 +218,7 @@ export const updateAccount = /* GraphQL */ `
         lastName
         centreName
         location
-        address
+        
         city
         lastUpdate
         accounts {
@@ -321,7 +321,7 @@ export const deleteAccount = /* GraphQL */ `
         lastName
         centreName
         location
-        address
+        
         city
         lastUpdate
         accounts {
@@ -426,7 +426,7 @@ export const createChild = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -486,7 +486,7 @@ export const updateChild = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -546,7 +546,7 @@ export const deleteChild = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -606,7 +606,7 @@ export const createGuardian = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -668,7 +668,7 @@ export const updateGuardian = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -730,7 +730,7 @@ export const deleteGuardian = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -792,7 +792,7 @@ export const createContact = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -850,7 +850,7 @@ export const updateContact = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -908,7 +908,7 @@ export const deleteContact = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -966,7 +966,7 @@ export const createAttendance = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1023,7 +1023,7 @@ export const updateAttendance = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1080,7 +1080,7 @@ export const deleteAttendance = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1137,7 +1137,7 @@ export const createFinances = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1194,7 +1194,7 @@ export const updateFinances = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1251,7 +1251,7 @@ export const deleteFinances = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1308,7 +1308,7 @@ export const createPayment = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1365,7 +1365,7 @@ export const updatePayment = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1422,7 +1422,7 @@ export const deletePayment = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1479,7 +1479,7 @@ export const createExpense = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1536,7 +1536,7 @@ export const updateExpense = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1593,7 +1593,7 @@ export const deleteExpense = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1650,7 +1650,7 @@ export const createQuestion = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1706,7 +1706,7 @@ export const updateQuestion = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }
@@ -1762,7 +1762,7 @@ export const deleteQuestion = /* GraphQL */ `
           lastName
           centreName
           location
-          address
+          
           city
           lastUpdate
         }

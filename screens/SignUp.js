@@ -55,8 +55,7 @@ console.log(signup1Data)
         lastName,
         phone,
         centreName,
-        address,
-        location,
+       location,
         city,
       }
       console.log(caregiverData)

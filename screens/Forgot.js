@@ -33,6 +33,7 @@ const Forgot = (props) => {
     }
     setLoading(true)
     const user= await ForgotPassword(username)
+    console.log(user)
     if (user.message) {
       setError(user.message)
       setLoading(false)

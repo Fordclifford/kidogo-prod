@@ -72,7 +72,8 @@ export const SignInCaregiver = async (username, password) => {
   try {
     return await Auth.signIn(username, password)
   } catch(error) {
-    return error  
+      return error  
+    
   }
 }
 

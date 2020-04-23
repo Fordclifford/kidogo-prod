@@ -24,14 +24,6 @@ const CentreEntry = (props) => {
         onChangeText={props.onChangeCentreName}
       />
 
-      <TextField
-        style={Styles.textfield}
-        blurOnSubmit={false}
-        value={props.address}
-        label={Language.address}
-        onChangeText={props.onChangeAddress}
-      />
-
 
       <TextField
       style={Styles.textfield}
