@@ -17,6 +17,7 @@ const General = {
   Yes: "Yes",
   No: "No",
   True: "True",
+  Select: "Select",
   False: "False",
   And: "and",
   Or: "or",
@@ -41,11 +42,11 @@ const Keywords = {
 
 
 const Members = {
-  Caregiver: "Caregiver",
+  Caregiver: "Mamapreneur",
   Child: "Child",
   Children: "Children",
-  Guardian: "Guardian",
-  Guardians: "Guardians",
+  Guardian: "Parent",
+  Guardians: "Parents",
   Contact: "Contact",
   Contacts: "Contacts",
   Family: "Family",

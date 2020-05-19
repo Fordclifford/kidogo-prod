@@ -12,7 +12,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 const CaregiverEntry = (props) => {
  
-  const [username, setUsername] = useState('')
+ 
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [email, setEmail] = useState('')
@@ -80,14 +80,7 @@ const CaregiverEntry = (props) => {
         onChangeText={props.onChangePhone}
       />
       
-      <TextField
-        style={Styles.textfield}
-        label= { Language.Username }
-        //value={props.username}
-        value="TestAccount"
-        onChangeText={props.onChangeUsername}
-        blurOnSubmit={false}
-      />
+      
 
       <TextField
        // value={props.password}

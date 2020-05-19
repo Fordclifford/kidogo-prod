@@ -17,21 +17,28 @@ const FinanceHistory = (props) => {
     const rowData = []
 
     for (const [date, expensesData] of Object.entries(expenses)) {
-      for (const expense of Object.values(expensesData)) {
-        rowData.push({
-          date,
-          type: expense.type,
-          amount: `-${expense.amount}`,
+    
+    
+      for (const [id, data] of Object.entries(expensesData)) {
+         rowData.push({
+          id,
+           date,
+           transaction:"expense",
+          type: data.type,
+          amount: `-${data.amount}`,
         })
       }
     }
 
     for (const [date, paymentsData] of Object.entries(payments)) {
-      for (const payments of Object.values(paymentsData)) {
-        rowData.push({
+           for (const [id, dat] of Object.entries(paymentsData)) {
+ rowData.push({
+          id,
+          transaction:"income",
           date,
-          type: payments.type,
-          amount: payments.amount,
+          accountId:dat.accountId,
+          type: dat.type,
+          amount: dat.amount,
         })
       }
     }
@@ -41,9 +48,12 @@ const FinanceHistory = (props) => {
     return rowData.map((data, i) => (
       <FinanceHistoryRow
         key={i}
+        data={data}
         date={data.date}
         type={data.type}
         amount={data.amount}
+        id={data.id}
+        transaction={data.transaction}
       />
     ))
   }

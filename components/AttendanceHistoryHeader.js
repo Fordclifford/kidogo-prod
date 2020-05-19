@@ -27,7 +27,7 @@ const AttendanceHistoryHeader = (props) => {
           style={Styles.attendanceDateArrow}
           onPress={() => props.shiftDateRange(-1)}
         >
-          <Icon name="chevron-left" size={40} color="white" />
+          <Icon name="chevron-left" size={40} color="black" />
         </TouchableOpacity>
 
         <Text
@@ -41,7 +41,7 @@ const AttendanceHistoryHeader = (props) => {
           style={Styles.attendanceDateArrow}
           onPress={() => props.shiftDateRange(1)}
         >
-          <Icon name="chevron-right" size={40} color="white" />
+          <Icon name="chevron-right" size={40} color="black" />
         </TouchableOpacity>
       </View>
 

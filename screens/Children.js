@@ -22,7 +22,7 @@ const Children = (props) => {
   const [lastName, setLastName] = useState('')
   const [birthdate, setBirthdate] = useState('')
   const [gender, setGender] = useState('')
-  const [immunization, setImmunization] = useState(false)
+  const [immunization, setImmunization] = useState('')
   const [note, setNote] = useState('')
   const [soundObject, setSoundObject] = useState(null)
   const [callbackId, setCallbackId] = useState(null)
@@ -32,6 +32,25 @@ const Children = (props) => {
 
 
   const onSubmitChild = () => {
+ 
+    if(lastName===""){
+      alert("lastname required")
+      return
+    }
+    if(birthdate===""){
+      alert("birthdate required")
+      return
+    }
+    if(gender===""){
+      alert("gender required")
+      return
+    }
+    if(immunization===""){
+      alert("immunization required")
+     
+      return
+    }
+
     const child = {
       id,
       firstName,
@@ -43,6 +62,7 @@ const Children = (props) => {
     }
 
     dispatch({ type: SET_NEW_CHILD, id, child })
+    setError("Child information submitted")
   }
 
 
@@ -52,8 +72,12 @@ const Children = (props) => {
 
 
   const onNextChild = () => {
+    if(firstName===""){
+      alert("firstname required")
+      return;
+    }
     onSubmitChild()
-    setError("Child information submitted")
+   
     setId(uuid())
     resetForm()
   }

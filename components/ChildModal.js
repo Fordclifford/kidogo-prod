@@ -17,6 +17,7 @@ const ChildModal = (props) => {
   const children = useSelector(state => state.children)
 
   const [firstName, setFirstName] = useState('')
+  const [immunization, setImmunization] = useState('')
   const [lastName, setLastName] = useState('')
   const [birthdate, setBirthdate] = useState(null)
   const [gender, setGender] = useState('')
@@ -79,6 +80,7 @@ const ChildModal = (props) => {
           key={i}
           label={GenderStrings[gender]}
           value={gender}
+         
         />
       )
     })
@@ -139,7 +141,7 @@ const ChildModal = (props) => {
             </View>
 
             <View style={{ flex: .5, marginLeft: 5}} >
-              <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+              <View style={[Styles.input1, { height: 30, paddingLeft: 0 }]} >
                 <Picker
                   style={Styles.financePicker}
                   selectedValue={gender}
@@ -153,6 +155,29 @@ const ChildModal = (props) => {
                 { Language.Gender }
               </Text>
             </View>
+
+            <View style={{ flex: .5, marginLeft: 2}} >
+              <View style={[Styles.input1, { height: 30, paddingLeft: 0 }]} >
+              <Picker
+              selectedValue={immunization}
+              style={Styles.genderPicker}
+              
+              onValueChange={(value, pos) => setImmunization(value)}
+            >
+              <Picker.Item label='Select' value='' />
+              <Picker.Item label={Language.True} value={1} />
+              <Picker.Item label={Language.False} value={0} />
+            </Picker>
+              </View>
+
+              <Text style={Styles.label} >
+                { Language.Immunization }
+              </Text>
+            </View>
+
+           
+
+
           </View>
 
           <Spacer medium />
@@ -169,10 +194,26 @@ const ChildModal = (props) => {
 
             <TouchableOpacity
               style={Styles.rowButton}
-              onPress={() => props.submit(
-                props.id,
-                { firstName, lastName, birthdate, gender }
-              )}
+              onPress={() => {
+                if (firstName === "") {
+                  alert("firstname required")
+                  return
+                 }
+                 if (lastName === "") {
+                  alert("lastname required")
+                  return
+                 }
+                 if (gender === "") {
+                  alert("gender required")
+                  return
+                 }
+                props.submit(
+                  props.id, { firstName, lastName, birthdate, gender,immunization }
+                ) 
+              }
+                    
+            
+            }
             >
               <Text style={Styles.buttonText} >
                 { Language.Confirm }

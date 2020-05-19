@@ -1,6 +1,7 @@
 import { StatusBar } from 'react-native'
 import { Dimensions, StyleSheet } from 'react-native'
 import CentreEntry from '../components/CentreEntry'
+import { colors } from 'react-native-elements'
 
 
 export const Screen = {
@@ -30,9 +31,9 @@ export const Colors = {
   gradient_dark: '#4fc7f4',
   gradient_light: '#d1f1fc',
   backgroundHighlight: '#42314b',
-  attendanceSelect: '#c38fff',
+  attendanceSelect: 'yellow',
   familyColor:'#6a52a2',
-  attendanceEmpty: '#888888',
+  attendanceEmpty: 'green',
 }
 
 
@@ -171,6 +172,16 @@ export const Styles = StyleSheet.create({
     paddingLeft: 10,
   },
 
+  input1: {
+    fontSize: 18,
+    color: "black",
+    borderColor: Colors.signin,
+    borderBottomWidth: 2,
+    margin: 7,
+    paddingLeft: 7,
+  },
+
+
    textfield: {
        fontSize: 18,
        color: Colors.mainText,
@@ -219,7 +230,13 @@ export const Styles = StyleSheet.create({
   },
   financeRow: {
     height: 50,
+    backgroundColor:"red",
     flexDirection: 'row',
+  },
+  paymentRow: {
+    height: 50,
+    flexDirection: 'row',
+    backgroundColor:"green"
   },
   iconHolder: {
     flex: 0.19,
@@ -250,7 +267,7 @@ export const Styles = StyleSheet.create({
   tableRow: {
     lineHeight: 50,
     flex: 0.27,
-    color: Colors.mainText,
+    color: "white",
   },
   container: {
     flex: 1,
@@ -262,11 +279,11 @@ export const Styles = StyleSheet.create({
   },
   attendanceDateText: {
     fontSize: 14,
-    color: Colors.mainText,
+    color: colors.mainText,
     transform: [{ rotate: '-66deg' }],
   },
   attendanceHeader: {
-    backgroundColor: '#00000090',
+   // backgroundColor: 'white',
     height: 100,
   },
   attendanceControlContainer: {
@@ -681,7 +698,7 @@ export const Styles = StyleSheet.create({
   },
   attendanceCard: {
     width: 105,
-    height: 150,
+    height: 165,
     padding: 10,
     position: 'relative',
     borderWidth: 1,

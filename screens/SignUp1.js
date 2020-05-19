@@ -33,6 +33,8 @@ const SignUp1 = (props) => {
   const onNext = async () => {
     setLoading(true)
 
+  
+
 
     if (password !== passwordConfirm) {
       setError(Language.PasswordMismatch)
@@ -40,6 +42,9 @@ const SignUp1 = (props) => {
       setPasswordConfirm('')
       setLoading(false)
     } else {
+      var uname=firstName+lastName
+      const username=uname.replace(/\s/g, '');
+      setUsername(username)
       const signup1Data = {
         id: uuid(),
         lastUpdate: GetShortDate(-1),
@@ -139,15 +144,7 @@ const SignUp1 = (props) => {
         label= { Language.Phone }
         onChangeText={setPhone}
       />
-      
-      <TextField
-        style={Styles.textfield}
-        label= { Language.Username }
-        value={username}
-       // value="TestAccount"
-        onChangeText={setUsername}
-        blurOnSubmit={false}
-      />
+  
 
       <TextField
         value={password}

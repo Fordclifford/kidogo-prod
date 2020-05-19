@@ -5,7 +5,7 @@ import {
 import { Audio } from 'expo-av'
 import { Styles, Size } from '../constants/Style';
 import { Icon } from 'react-native-elements'
-import { SignUpCaregiver } from '../utilities/auth'
+import { SignUpCaregiver,sendToAPi } from '../utilities/auth'
 import uuid from 'uuid'
 import Loading from '../components/Loading'
 import Spacer from '../components/Spacer'
@@ -17,7 +17,7 @@ import { GetShortDate } from '../utilities/dates';
 
 const SignUp = (props) => {
   const { signup1Data } = props.navigation.state.params
-console.log(signup1Data)
+
 
   const username= signup1Data.username;
   const password=signup1Data.password;
@@ -37,6 +37,7 @@ console.log(signup1Data)
 
   const onSignUp = async () => {
     setLoading(true)
+    
 
        const userData = {
         username,
@@ -58,8 +59,7 @@ console.log(signup1Data)
        location,
         city,
       }
-      console.log(caregiverData)
-
+  
       const signUpResult = await SignUpCaregiver(userData)
 
       setLoading(false)

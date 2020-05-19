@@ -11,43 +11,49 @@ import { GetTOD, GetShortDate } from '../utilities/dates'
 import Spacer from '../components/Spacer'
 import { Update } from '../utilities/localstore'
 import { QUESTIONS } from '../constants/Store'
+import Loading from '../components/Loading';
+
 
 
 const Questions = (props) => {
   const dispatch = useDispatch()
 
+  const [loading, setLoading] = useState(false)
   const [tod, setTOD] = useState(GetTOD())
   const [curQuestionIndex, setCurQuestionIndex] = useState(0)
-  const [questions, setQuestions] = useState({ morning: [], afternoon: [] })
+  const [questions, setQuestions] = useState({quiz:[]})
+  const [qs, setQs] = useState([])
 
   useEffect(() => {
-    getQuestions()
-  }, [])
+    getQuestions();
+      }, [])
 
 
   const getQuestions = async () => {
     try {
-      const serviceEndpoint = 'https://sheets.googleapis.com'
-      const baseResource = '/v4/spreadsheets/'
-      const spreadsheetID = '1JyYgZiaDscu81aayBUaLclHRVitenLIt4hmyUGL_M78'
-      const range = 'Sheet1'
-      const resource = `${baseResource}${spreadsheetID}/values/${range}`
-      const apiKey = 'AIzaSyCDWxwQTxeZJhqiwLHKHP3V6ESgy2TBXQo'
 
-      const url = serviceEndpoint + resource + '?key=' + apiKey
-
-      const resp = await fetch(url)
-      const json = await resp.json()
-      const sheetValues = json['values']
-
-      const questions = sheetValues.splice(1).reduce((res, value) => {
-        res.morning.push(value[0])
-        value[1] && res.afternoon.push(value[1])
-
-        return res
-      }, { morning: [], afternoon: [] })
-
-      setQuestions(questions)
+      setLoading(true)    
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "PHPSESSID=1qn6rbmkose1pfrcnagfu79i83");
+      
+      var raw = JSON.stringify({"token":35444,"question_session":tod});
+      
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+       
+      
+      fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/get-daily-questions", requestOptions)
+      .then((response) => response.json())
+        
+        .then((json) =>  setQuestions({quiz:json}))
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+      //setQuestions(questions)
     } catch (error) {
       console.error(error)
     }
@@ -56,7 +62,7 @@ const Questions = (props) => {
 
   const answer = async (response) => {
     const today = GetShortDate()
-    const update = { [questions[tod][curQuestionIndex]]: response }
+    const update = { [qs[curQuestionIndex]]: response }
 
     dispatch({ type: UPDATE_QUESTIONS, id: today, update })
     await Update(QUESTIONS, today, update)
@@ -74,8 +80,7 @@ const Questions = (props) => {
 
 
   const forward = () => {
-    const numQuestions = tod < 15
-      ? questions.morning.length : questions.afternoon.length
+    const numQuestions = questions.quiz.length
     const nextIndex = curQuestionIndex + 1 < numQuestions
       ? curQuestionIndex + 1 : curQuestionIndex
 
@@ -84,55 +89,70 @@ const Questions = (props) => {
 
 
   const getCurrentQuestion = () => {
+   
     if (!questions) {
       return null
     }
+    //var q=[];
 
+    var i;
+    for (i = 0; i <questions.quiz.length; i++) {
+    var single= questions.quiz[i].question;
+     qs.push(single)
+
+    
+    }
+
+    //setQs(q)
     return (
       <Text style={Styles.h2} >
-        { questions[tod][curQuestionIndex] }
+      {qs[curQuestionIndex]}
       </Text>
     )
   }
 
 
   return (
+    
     <Backdrop>
+       { loading 
+        ? <Loading />
+        : <View style={Styles.loading} >
       <Spacer height={Size.statusbar} />
 
       <Spacer medium />
+      <View style={Styles.questionHolder} >
+        {getCurrentQuestion()}
+      </View>
+
+      <Spacer medium />
+
 
       <View style={Styles.rowElements} >
         <TouchableOpacity
           style={Styles.rowElement}
           onPress={back}
         >
-          <Icon name="chevron-left" size={48} color='#ffffff80' />
+          <Icon name="chevron-left" size={48} color='black' />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={Styles.rowElement}
           onPress={forward}
         >
-          <Icon name="chevron-right" size={48} color='#ffffff80' />
+          <Icon name="chevron-right" size={48} color='black' />
         </TouchableOpacity>
       </View>
 
       <Spacer medium />
-
-      <View style={Styles.questionHolder} >
-        { getCurrentQuestion() }
-      </View>
-
-      <Spacer large />
-
+      
       <View style={Styles.rowElements} >
         <TouchableOpacity
           style={Styles.rowButton}
           onPress={() => answer(Answer.Yes)}
         >
           <Text style={Styles.buttonText} >
-            { Language.Yes }
+            {Language.Yes}
           </Text>
         </TouchableOpacity>
 
@@ -141,10 +161,12 @@ const Questions = (props) => {
           onPress={() => answer(Answer.No)}
         >
           <Text style={Styles.buttonText} >
-            { Language.No }
+            {Language.No}
           </Text>
         </TouchableOpacity>
       </View>
+      </View>
+      }
     </Backdrop>
   )
 }

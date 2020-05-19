@@ -12,6 +12,7 @@ const AttendanceHistoryRow = (props) => {
   const getAttendanceComponents = () => {
     return (
       props.attendance.map((status, i) => {
+      //  console.log(i+"status")
         return (
           <View key={i} style={Styles.dateStatusHolder} >
             <View

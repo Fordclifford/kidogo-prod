@@ -63,7 +63,7 @@ const Finances = (props) => {
       />
 
       <ExpenseModal
-        visible={expensesModalVisible}
+          visible={expensesModalVisible}
         setVisible={setExpensesModalVisible }
       />
     </Backdrop>

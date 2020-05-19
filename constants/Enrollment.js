@@ -2,13 +2,15 @@ import Language from '../languages'
 
 
 export const Gender = {
-  Male: "male",
-  Female: "female",
+   Select: "",
+   Male: "M",
+  Female: "F",
   Other: "other",
 }
 
 
 export const GenderStrings = {
+  [Gender.Select]: Language.Select,
   [Gender.Male]: Language.Male,
   [Gender.Female]: Language.Female,
   [Gender.Other]: Language.Other,

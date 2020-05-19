@@ -259,7 +259,7 @@ export const InitAttendance = async (dispatch, targetDate) => {
     const children = await Get(CHILDREN)
 
     const attendanceToday = Object.keys(children).reduce((res, id) => {
-      res[id] = { checkIn: true, checkOut: false }
+      res[id] = { checkIn: false, checkOut: false }
       return res
     }, {})
 
@@ -349,7 +349,7 @@ export const SubmitAccount = async (dispatch, newAccount) => {
 
     const today = GetShortDate()
     const attendanceToday = await Get(ATTENDANCE, today)
-    attendanceToday[id] = { checkIn: true, checkOut: false }
+    attendanceToday[id] = { checkIn: false, checkOut: false }
 
     dispatch({ type: SET_ATTENDANCE, id: today, attendance: attendanceToday })
     await Update(ATTENDANCE, today, attendanceToday)
@@ -403,6 +403,7 @@ export const UpdateFees = async (dispatch) => {
 
 export const GetCaregiver = async () => {
   const caregiverResp = await SecureStore.getItemAsync(CAREGIVER)
+  
   return caregiverResp === null ? {} : JSON.parse(caregiverResp)
 }
 
@@ -449,8 +450,13 @@ export const Create = async (key, id, data) => {
 export const Update = async (key, id, data) => {
   const currentDataResp = await SecureStore.getItemAsync(`${key}_${id}`)
   const currentData = JSON.parse(currentDataResp)
+  console.log('store')
+  console.log(currentData)
 
+  
   if (typeof currentData === "object") {
+    console.log('save')
+    console.log(data)
     const mergedData = Object.assign({}, currentData, data)
     await SecureStore.setItemAsync(`${key}_${id}`, JSON.stringify(mergedData))
   } else if (Array.isArray(data)) {

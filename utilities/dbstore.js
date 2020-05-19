@@ -6,6 +6,9 @@ import {
   CAREGIVER,
 } from "../constants/Store";
 import { GetCaregiver } from "./localstore";
+import moment from "moment";
+
+
 
 
 export const GetDB = async (type, id) => {
@@ -52,3 +55,9 @@ export const UploadData = async (userData) => {
   console.log(caregiver)
   console.log(userData)
 }
+
+
+export const UploadToStore = async (userData) => {
+ 
+}
+

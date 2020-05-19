@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   DatePickerAndroid, Modal, Picker, ScrollView, Text,
-  TextInput, View, TouchableOpacity,
+  TextInput, View, TouchableOpacity, ProgressViewIOSComponent,
 } from 'react-native'
 import Language from '../languages'
 import { Styles, Size } from '../constants/Style'
@@ -10,12 +10,13 @@ import Backdrop from './Backdrop'
 import Spacer from './Spacer'
 import {
   ADD_PAYMENT, UPDATE_INCOME,
-  FinanceType, FinanceTypeNames, PaymentType,
+  FinanceType, FinanceTypeNames, PaymentType,UPDATE_PAYMENT,
 } from '../constants/Finances'
 import { Update, Get, InitPayments, InitFinances } from '../utilities/localstore'
 import { PAYMENTS, FINANCES } from '../constants/Store'
 import { GetShortDate } from '../utilities/dates'
 import uuid from 'uuid'
+import moment from 'moment'
 
 
 const PaymentModal = (props) => {
@@ -23,10 +24,27 @@ const PaymentModal = (props) => {
   const accounts = useSelector(state => state.accounts)
   const guardians = useSelector(state => state.guardians)
 
-  const [accountId, setAccountId] = useState(Object.keys[0])
-  const [date, setDate] = useState(new Date())
-  const [type, setType] = useState(FinanceType.MPesa)
-  const [amount, setAmount] = useState('100')
+  const [accountId, setAccountId] = useState('')
+  const [date, setDate] = useState(null)
+  const [type, setType] = useState('')
+  const [amount, setAmount] = useState('')
+
+  
+  useEffect(() => {
+   
+    if (props.id) {   
+    
+      setDate(moment(props.id.date, "DD-MM-YYYY"))
+      setType(props.id.type)
+      setAmount(props.id.amount)
+      setAccountId(props.id.accountId)
+     }else{
+      setDate(null)
+      setType('')
+      setAmount('')
+      setAccountId('')
+     }
+  }, [props.id])
 
 
   const getPaymentTypeItems = () => {
@@ -48,19 +66,78 @@ const PaymentModal = (props) => {
 
 
   const onSubmitPayment = async () => {
-    const shortDate = GetShortDate(0, date)
-    const payment = { accountId, type, amount }
-    const update = { [uuid()]: payment }
+
+    if(accountId==''){
+      alert("Account Required")
+      return
+    }
+if(date==null){
+  alert("Date Required")
+  return
+}
+  if(type==''){
+    alert("Payment Type Required")
+    return
+  }
+
+if(amount==''){
+  alert("Amount Required")
+  return
+}
+
+
+    if (props.id) {
+      let payData=props.id
+      let id=payData.id;    
+ 
+     let amt=payData.amount.replace('-','')
+    
+      
+      //console.log(expense);return;
+      let shortDate = GetShortDate(0, date)
+       let pay = { type, amount,accountId,date:shortDate }
+       let up = { type, amount,accountId }
+       let u = { [props.id.id]: up }
+
+       await InitPayments(dispatch, shortDate)
+       await InitFinances(dispatch, shortDate)
+ 
+        // alert(props.id.date);return;
+        dispatch({ type: UPDATE_PAYMENT, id, update: pay })
+        await Update(PAYMENTS, shortDate, u)
+
+        
+ 
+      let finances = await Get(FINANCES)
+      let payAmount =  parseFloat(amount) -  parseFloat(amt)
+      let financesUpdate = {
+        expenses: parseFloat(finances[shortDate].income) + payAmount
+      }
+  
+      dispatch({ type: UPDATE_INCOME, id: shortDate, amount: payAmount })
+      await Update(FINANCES, shortDate, financesUpdate)
+  
+      props.setVisible(false)
+      delete props.id;
+      
+      return;
+ 
+   
+     } 
+ 
+    let shortDate = GetShortDate(0, date)
+    let payment = { accountId, type, amount }
+    let um = { [uuid()]: payment }
 
     await InitPayments(dispatch, shortDate)
     await InitFinances(dispatch, shortDate)
 
-    dispatch({ type: ADD_PAYMENT, id: shortDate, payment: update })
-    await Update(PAYMENTS, shortDate, update)
+    dispatch({ type: ADD_PAYMENT, id: shortDate, payment: um })
+    await Update(PAYMENTS, shortDate, um)
 
-    const finances = await Get(FINANCES)
-    const paymentAmount = parseFloat(payment.amount)
-    const financesUpdate = {
+    let finances = await Get(FINANCES)
+    let paymentAmount = parseFloat(payment.amount)
+    let financesUpdate = {
       income: parseFloat(finances[shortDate].income) + paymentAmount
     }
 
@@ -68,6 +145,7 @@ const PaymentModal = (props) => {
     await Update(FINANCES, shortDate, financesUpdate)
 
     props.setVisible(false)
+    delete props.id;
   }
 
 
@@ -107,6 +185,7 @@ const PaymentModal = (props) => {
                   selectedValue={accountId}
                   onValueChange={(value, pos) => setAccountId(value)}
                 >
+                  <Picker.Item label='Select' value=''></Picker.Item>
                   { getFamilyItems() }
                 </Picker>
               </View>
@@ -139,6 +218,7 @@ const PaymentModal = (props) => {
                   selectedValue={type}
                   onValueChange={(value, pos) => setType(value)}
                 >
+                   <Picker.Item label='Select' value=''></Picker.Item>
                   { getPaymentTypeItems() }
                 </Picker>
               </View>

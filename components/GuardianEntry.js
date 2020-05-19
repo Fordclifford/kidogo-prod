@@ -95,6 +95,7 @@ const GuardianEntry = (props) => {
               selectedValue={props.relation}
               onValueChange={(value, pos) => props.setRelation(value)}
             >
+              <Picker.Item label='Select' value=''></Picker.Item>
               { getRelationItems() }
             </Picker>
           </View>

@@ -12,24 +12,34 @@ import { FetchCaregiver } from '../utilities/auth';
 import Backdrop from '../components/Backdrop';
 import Spacer from '../components/Spacer';
 import Message from '../components/Message';
+import { GetCaregiver } from "../utilities/localstore";
+import Loading from '../components/Loading';
+import { Styles } from '../constants/Style';
 
 
 
-export default class Profile extends Component {
+const Profile = (props) => {
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState({})
 
-  constructor(props) {
-    super(props);
- this.state=userStore.getState();
-  }
+  useEffect(() => {
+   setLoading(true)
 
+ GetCaregiver()
+           
+        .then((json) =>  setData(json))
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+ 
 
-  render() {
-   
+      }, [])
+    
 
     return (
       <Backdrop>
-     
- 
+      { loading 
+        ? <Loading />
+        : <View style={Styles.loading} >
       
     
         <View style={styles.container}>
@@ -38,23 +48,28 @@ export default class Profile extends Component {
             <Icon style={styles.avatar} name="account-circle" size={150}
             />
 
-            <Text style={styles.name}>{this.state.firstName + " " + this.state.lastName} </Text>
-            <Text style={styles.userInfo}>{this.state.email} </Text>
-            <Text style={styles.userInfo}>{this.state.phone} </Text>
-            <Text style={styles.userInfo}>{this.state.address} </Text>
-            <Text style={styles.userInfo}>{this.state.centreName} </Text>
-            <Text style={styles.userInfo}>{this.state.city} </Text>
+         
+            <Text style={styles.name}>NAME: { data.firstName+" "+data.lastName  } </Text>
+            <Text style={styles.userInfo}>EMAIL: {data.email} </Text>
+            <Text style={styles.userInfo}>MOBILE: {data.phone} </Text>
+            <Text style={styles.userInfo}>CENTER: {data.centreName} </Text>
+            <Text style={styles.userInfo}>CITY: {data.city} </Text>
+            <Text style={styles.userInfo}>LOCATION: {data.location} </Text>
             
 
           </View>
         </View>
         </View>
+        </View>
+      }
         </Backdrop>
     
     );
 
   }
-}
+
+export default Profile
+
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "#DCDCDC",

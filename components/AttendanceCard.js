@@ -9,7 +9,7 @@ const AttendanceCard = (props) => {
     if (props.selected) {
       return (
         <View style={Styles.present} >
-          <Icon name="check-circle" color="white" size={20} />
+          <Icon name="check-circle" color="white" size={10} />
         </View>
       )
     } else {

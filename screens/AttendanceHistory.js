@@ -40,7 +40,25 @@ const AttendanceHistory = (props) => {
 
   const getChildAttendance = (id) => {
     return dateRange.map((date) => {
+     // console.log(date+"date")
+     
+    //   var arr = json2array(attendance)
+    //  // console.log(arr)
+    //   function json2array(json){
+    //     var result = [];
+    //     var keys = Object.keys(json);
+    //     keys.forEach(function(key){
+    //         result.push(json[key]);
+    //     });
+    //     return result;
+    // }
+  //  console.log(attendance["18-05-2020"][id])
+
+     
       if (date in attendance) {
+       // console.log(date)
+      //  console.log(attendance[date][id].checkIn)
+
         return attendance[date][id].checkIn && attendance[date][id].checkOut
       } else {
         return false
@@ -51,6 +69,7 @@ const AttendanceHistory = (props) => {
 
   const getAttendanceRowComponents = () => {
     const attendanceRowData = Object.entries(children).map(([id, child]) => {
+      console.log( getChildAttendance(id))
       return {
         id,
         firstName: child.firstName,

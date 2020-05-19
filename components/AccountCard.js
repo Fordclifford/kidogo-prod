@@ -14,6 +14,7 @@ const AccountCard = (props) => {
       if (id in children) {
         acc.push(children[id].firstName + ' ' + children[id].lastName)
       }
+     // console.log(acc)
       return acc
     }, [])
 

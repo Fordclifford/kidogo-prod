@@ -60,21 +60,69 @@ const ConfirmCode = (props) => {
 
       try {
         confirmResult = await SignInCaregiver(userData.username, password)
-        console.log(confirmResult)
+       
         
-        
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
 
-    const caregiversResp = await ListDB(CAREGIVER)
-    const caregivers = caregiversResp["data"]["listCaregivers"]["items"]
-
-    for (const caregiver of caregivers) {
-      if (caregiver.username === userData.username) {
-       userStore.dispatch(saveUser(caregiver));
     
-       // console.log(userStore.getState())
+    var raw = JSON.stringify({"token":55452});
+    
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+     
+    
+     let response = await  fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/get-care-givers", requestOptions)
+    
+     if (response) { // if HTTP-status is 200-299
+      // get the response body (the method explained below)
+      let json = await response.json();
+
+      var i;
+       for (i = 0; i <json.length; i++) {
+       var single= json[i].username;
+       if (single === userData.username) {
+        const caregiverData = {
+          id: json[i].id_user,
+          lastUpdate: GetShortDate(-1),
+          username:userData.username,
+          password:json[i].password_hash,
+          email:json[i].email,
+          firstName:json[i].first_name,
+          lastName:json[i].last_name,
+          phone:json[i].phone,
+          centreName:json[i].address,
+         location:json[i].city,
+          city:json[i].city,
+        }
+        await CreateCaregiver(caregiverData)
         break
       }
-    }
+         
+       
+       }
+      // return
+      }
+
+        
+        
+
+    // const caregiversResp = await ListDB(CAREGIVER)
+    // const caregivers = caregiversResp["data"]["listCaregivers"]["items"]
+
+    // for (const caregiver of caregivers) {
+    //   if (caregiver.username === userData.username) {
+    //    userStore.dispatch(saveUser(caregiver));
+    
+    //    // console.log(userStore.getState())
+    //     break
+    //   }
+    // }
         setLoading(false)
         setError(Language.ResetSuccessful)
 

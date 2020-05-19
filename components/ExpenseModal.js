@@ -9,20 +9,39 @@ import { Styles, Size } from '../constants/Style'
 import Backdrop from './Backdrop'
 import Spacer from './Spacer'
 import {
-  ADD_EXPENSE, UPDATE_EXPENSES, FinanceType, FinanceTypeNames, ExpenseType
+  ADD_EXPENSE, UPDATE_EXPENSES,UPDATE_EXPENSE, FinanceType, FinanceTypeNames, ExpenseType
 } from '../constants/Finances'
 import { Get, Update, InitExpenses, InitFinances } from '../utilities/localstore';
 import { FINANCES, EXPENSES, PAYMENTS } from '../constants/Store';
 import { GetShortDate } from '../utilities/dates'
 import uuid from 'uuid'
+import moment from 'moment'
 
 
 const ExpenseModal = (props) => {
+  const expenses = useSelector(state => state.expenses)
+  
   const dispatch = useDispatch()
+ 
+   const [date, setDate] = useState(null)
+  const [type, setType] = useState('')
+  const [amount, setAmount] = useState('')
+  //console.log(expenses)
 
-  const [date, setDate] = useState(new Date())
-  const [type, setType] = useState(FinanceType.Rent)
-  const [amount, setAmount] = useState('100')
+   useEffect(() => {
+   
+    if (props.id) {
+    
+      setDate(moment(props.id.date, "DD-MM-YYYY"))
+      setType(props.id.type)
+      setAmount(props.id.amount.replace('-',''))
+     }else{
+      setDate(null)
+      setType('')
+      setAmount('')
+     }
+  }, [props.id])
+
 
 
   const getExpenseTypeItems = () => {
@@ -33,6 +52,56 @@ const ExpenseModal = (props) => {
 
 
   const onSubmitExpense = async () => {
+    
+  
+if(date==null){
+  alert("Date Required")
+  return
+}
+  if(type==''){
+    alert("Payment Type Required")
+    return
+  
+}
+if(amount==''){
+  alert("Amount Required")
+  return
+}
+
+    if (props.id) {
+     let expData=props.id
+     let id=expData.id;    
+
+    let amt=expData.amount.replace('-','')
+   
+     
+     //console.log(expense);return;
+     let shortDate = GetShortDate(0, date)
+      let expense = { type, amount,date:shortDate }
+      let up = { type, amount }
+      let u = { [props.id.id]: up }
+
+     await InitExpenses(dispatch, shortDate)
+     await InitFinances(dispatch, shortDate)
+
+       // alert(props.id.date);return;
+       dispatch({ type: UPDATE_EXPENSE, id, update: expense })
+       await Update(EXPENSES, shortDate, u)
+
+     let finances = await Get(FINANCES)
+     let expenseAmount =  parseFloat(amount) -  parseFloat(amt)
+     let financesUpdate = {
+       expenses: parseFloat(finances[shortDate].expenses) + expenseAmount
+     }
+ 
+     dispatch({ type: UPDATE_EXPENSES, id: shortDate, amount: expenseAmount })
+     await Update(FINANCES, shortDate, financesUpdate)
+ 
+     props.setVisible(false)
+     return;
+
+  
+    } 
     const shortDate = GetShortDate(0, date)
     const expense = { type, amount }
     const update = { [uuid()]: expense }

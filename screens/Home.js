@@ -41,7 +41,7 @@ const Home = (props) => {
 
         setSoundObject(soundObject)
       }
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
   }
@@ -50,31 +50,30 @@ const Home = (props) => {
   return (
     <Backdrop>
       <Message text={message} />
-      <View  style={{ flex: 1,alignItems:'center' }}>
-      <Spacer height={200} />
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <Spacer height={200} />
+        <Image
+          style={Styles.homeTitle}
+          source={require('../assets/images/ic.png')}
+        />
 
-      <Image
-        style={Styles.homeTitle}
-        source={require('../assets/images/kidogo.png')}
-      />
+        <Spacer height={50} />
 
-      <Spacer height={50} />
+        <TouchableOpacity
+          style={Styles.mainButton}
+          onPress={() => props.navigation.navigate('SignUp1')}
+        >
+          <Text style={Styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={Styles.mainButton}
-        onPress={() => props.navigation.navigate('SignUp1')}
-      >
-        <Text style={Styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
+        <Spacer medium />
 
-      <Spacer medium />
-
-      <TouchableOpacity
-        style={Styles.mainButton}
-        onPress={() => props.navigation.navigate('SignIn')}
-      >
-        <Text style={Styles.buttonText}>{ Language.SignIn }</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={Styles.mainButton}
+          onPress={() => props.navigation.navigate('SignIn')}
+        >
+          <Text style={Styles.buttonText}>{Language.SignIn}</Text>
+        </TouchableOpacity>
       </View>
 
     </Backdrop>

@@ -41,6 +41,61 @@ export const ConfirmCaregiver = async (username, code) => {
 }
 
 
+export const sendToAPi = async (caregiverData) => {
+  try {
+
+   
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "PHPSESSID=1qn6rbmkose1pfrcnagfu79i83");
+    
+    var raw = JSON.stringify({"email":caregiverData.email,"phone":caregiverData.phone,"token":55452,"first_name":caregiverData.firstName,"last_name":caregiverData.lastName,"gender":"F","password":caregiverData.password,"address":caregiverData.centreName,"country":"Kenya","city":caregiverData.city,"idorpassport":caregiverData.phone});
+    
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+     
+    
+    return await  fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/add-caregiver", requestOptions)
+ 
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const getCaregiver = async () => {
+  try {
+
+   
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "PHPSESSID=1qn6rbmkose1pfrcnagfu79i83");
+    
+    var raw = JSON.stringify({"email":caregiverData.email,"phone":caregiverData.phone,"token":55452,"first_name":caregiverData.firstName,"last_name":caregiverData.lastName,"gender":"F","password":caregiverData.password,"address":caregiverData.centreName,"country":"Kenya","city":caregiverData.city,"idorpassport":caregiverData.phone});
+    
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+     
+    
+    const res = await fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/add-caregiver", requestOptions)
+    return res;
+     
+    //setQuestions(questions)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+
+
+
 export const ResendConfirmCode = async (username) => {
   try {
     return await Auth.resendSignUp(username)

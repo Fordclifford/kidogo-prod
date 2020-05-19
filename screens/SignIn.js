@@ -17,6 +17,7 @@ import {saveUser}  from '../constants/User'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
 import TextField from 'react-native-md-textinput';
+import { GetShortDate } from '../utilities/dates';
 
 
 const SignIn = (props) => {
@@ -24,6 +25,7 @@ const SignIn = (props) => {
   
   //console.log(userStore.getState())
   const [username, setUsername] = useState('')
+  const [mamapre, setMamapre] = useState([])
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [callbackId, setCallbackId] = useState(null)
@@ -68,6 +70,7 @@ const SignIn = (props) => {
         setPassword('')
         setUsername('')
         setLoading(false)
+        return;
         // The error happens if the user didn't finish the confirmation step when signing up
         // In this case you need to resend the code and confirm the user
         // About how to resend the code and confirm the user, please check the signUp part
@@ -76,6 +79,7 @@ const SignIn = (props) => {
       setPassword('')
       setUsername('')
       setLoading(false)
+      return;
     
         // The error happens when the password is reset in the Cognito console
         // In this case you need to call forgotPassword to reset the password
@@ -85,45 +89,97 @@ const SignIn = (props) => {
       setPassword('')
      
       setLoading(false)
+      return;
         // The error happens when the incorrect password is provided
     } else if (user.code === 'UserNotFoundException') {
       setError(Language.InvalidUsername)
       setPassword('')
       setUsername('')
       setLoading(false)
+      return;
         // The error happens when the supplied username/email does not exist in the Cognito user pool
     } 
     else if (user.code === 'NetworkError') {
       setError(Language.NetwordError)
     
       setLoading(false)
+      return;
         // The error happens when the supplied username/email does not exist in the Cognito user pool
     }else {
       setError(Language.UnknownError)
       setLoading(false)
        console.log(user);
+       return;
     }
     }
 
 
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
 
-    const caregiversResp = await ListDB(CAREGIVER)
-    const caregivers = caregiversResp["data"]["listCaregivers"]["items"]
-
-    for (const caregiver of caregivers) {
-      if (caregiver.username === username) {
-       userStore.dispatch(saveUser(caregiver));
     
-        await CreateCaregiver(caregiver)
-        console.log(userStore.getState())
+    var raw = JSON.stringify({"token":55452});
+    
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+     
+    
+     let response = await  fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/get-care-givers", requestOptions)
+    
+     if (response) { // if HTTP-status is 200-299
+      // get the response body (the method explained below)
+      let json = await response.json();
+
+      var i;
+       for (i = 0; i <json.length; i++) {
+       var single= json[i].username;
+       if (single === username) {
+        const caregiverData = {
+          id: json[i].id_user,
+          lastUpdate: GetShortDate(-1),
+          username:username,
+          password:json[i].password_hash,
+          email:json[i].email,
+          firstName:json[i].first_name,
+          lastName:json[i].last_name,
+          phone:json[i].phone,
+          centreName:json[i].address,
+         location:json[i].city,
+          city:json[i].city,
+        }
+        await CreateCaregiver(caregiverData)
+        setLoading(false)
+
+        props.navigation.navigate('Dash')
         break
       }
-    }
+         
+       
+       }
+      // return
+      }
+//return
+
+
+    // const caregiversResp = await ListDB(CAREGIVER)
+    // const caregivers = caregiversResp["data"]["listCaregivers"]["items"]
+
+    // for (const caregiver of caregivers) {
+    //   if (caregiver.username === username) {
+         
+    //     await CreateCaregiver(caregiver)
+       
+    //     break
+    //   }
+    // }
    
 
-    setLoading(false)
-
-    props.navigation.navigate('Dash')
+  
   }
   const toggleHelpAudio = async () => {
     try {
@@ -153,6 +209,9 @@ const SignIn = (props) => {
             <Text style={[Styles.h1, { fontSize: 35 }, Styles.raleway]} >
               { Language.SignIn }
             </Text>
+            <Text style={Styles.label} >
+              { Language.Username }
+            </Text>
 
             <TextInput
               style={Styles.input}
@@ -161,18 +220,16 @@ const SignIn = (props) => {
               blurOnSubmit={false}
             />
 
-            <Text style={Styles.label} >
-              { Language.Username }
+            
+<Text style={Styles.label} >
+              { Language.Password }
             </Text>
-
             <SecureInput
               value={password}
               setValue={setPassword}
             />
 
-            <Text style={Styles.label} >
-              { Language.Password }
-            </Text>
+           
 
             <Spacer large />
 

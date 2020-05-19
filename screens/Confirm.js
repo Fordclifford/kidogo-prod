@@ -5,7 +5,7 @@ import {
 } from 'react-native'
 import { Styles, Size } from '../constants/Style';
 import {
-  SignInCaregiver, ConfirmCaregiver, ResendConfirmCode
+  SignInCaregiver, ConfirmCaregiver, ResendConfirmCode,sendToAPi
 } from '../utilities/auth'
 import {
   CreateCaregiver, InitDatabase, UpdateStore
@@ -43,6 +43,9 @@ const Confirm = (props) => {
 
     setLoading(true)
 
+ 
+    
+
     const confirmResult = await ConfirmCaregiver(caregiverData.username, code)
 
     if (confirmResult === 'SUCCESS') {
@@ -55,12 +58,42 @@ const Confirm = (props) => {
         })
       })
 
+      
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+
+    
+    var raw = JSON.stringify({"email":caregiverData.email,"phone":caregiverData.phone,"token":55452,"first_name":caregiverData.firstName,"last_name":caregiverData.lastName,"gender":"F","password":caregiverData.password,"address":caregiverData.centreName,"country":"Kenya","city":caregiverData.city,"idorpassport":caregiverData.phone});
+    console.log(raw)
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+     
+    
+     let response = await  fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/add-caregiver", requestOptions)
+    
+    // if (response) { // if HTTP-status is 200-299
+      // get the response body (the method explained below)
+      let json = await response;
+      setLoading(false)
+      setMessage("Successfully Created")
+    
+      props.navigation.navigate('Home')
+      // console.log(response+"response")
+      // console.log(json.transactionStatus+"stat")
+      // console.log(json+"json")
+
+     // if(json.transactionStatus=="SUCCESS") {
+
       try {
         await SignInCaregiver(caregiverData.username, caregiverData.password)
 
         caregiverData.password = hashedPassword
-        userStore.dispatch(saveUser(caregiverData));
-
+        caregiverData.id = json.idUser
         await CreateCaregiver(caregiverData)
         await CreateDB(CAREGIVER, caregiverData)
         await InitDatabase(dispatch)
@@ -76,13 +109,24 @@ const Confirm = (props) => {
         setError(errorText)
         setLoading(false)
       }
-    } else {
-      setError(confirmResult.message)
-      setLoading(false)
-    }
+    // } else {
+    //   setLoading(false)
+    //   console.log(json+"success")
+    //  // setError(json.transactionStatus)
+   
+    // }
+  
+    
+    // } else {
+    //   setLoading(false)
+    //   //setError(response.status)
+    //   console.log(response+"http")
+     
+    // }
+
   }
 
-
+} 
   const onResend = async () => {
     setCode('')
     await ResendConfirmCode(caregiverData.username)
