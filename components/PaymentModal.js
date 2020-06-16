@@ -12,11 +12,13 @@ import {
   ADD_PAYMENT, UPDATE_INCOME,
   FinanceType, FinanceTypeNames, PaymentType,UPDATE_PAYMENT,
 } from '../constants/Finances'
-import { Update, Get, InitPayments, InitFinances } from '../utilities/localstore'
-import { PAYMENTS, FINANCES } from '../constants/Store'
+import { Update, Get, InitPayments, InitFinances, GetPayments } from '../utilities/localstore'
+import { PAYMENTS, FINANCES, ACCOUNTS } from '../constants/Store'
 import { GetShortDate } from '../utilities/dates'
 import uuid from 'uuid'
 import moment from 'moment'
+import { UPDATE_ACCOUNT } from '../constants/Accounts'
+import Swal from 'sweetalert2'
 
 
 const PaymentModal = (props) => {
@@ -28,12 +30,14 @@ const PaymentModal = (props) => {
   const [date, setDate] = useState(null)
   const [type, setType] = useState('')
   const [amount, setAmount] = useState('')
+  const [payments, setPayments] = useState('')
 
   
   useEffect(() => {
    
     if (props.id) {   
-    
+      console.log(accounts[props.id.accountId].balance)
+   
       setDate(moment(props.id.date, "DD-MM-YYYY"))
       setType(props.id.type)
       setAmount(props.id.amount)
@@ -53,12 +57,26 @@ const PaymentModal = (props) => {
     )
   }
 
+  const getPayments = async () => {
 
+    //  setLoading(true)
+
+    return GetPayments()
+      .then((json) => {
+        setPayments(json)
+        console.log(payments)
+        return json;
+      })
+      .catch((error) => console.error(error))
+    // .finally(() => setLoading(false));
+
+
+  }
   const getFamilyItems = () => {
     return Object.entries(accounts).map(([id, account]) =>
       <Picker.Item
         key={id}
-        label={guardians[account.guardians[0]].lastName}
+        label={guardians[account.guardians[0]].firstName +" "+ guardians[account.guardians[0]].lastName}
         value={id}
       />
     )
@@ -111,14 +129,16 @@ if(amount==''){
       let finances = await Get(FINANCES)
       let payAmount =  parseFloat(amount) -  parseFloat(amt)
       let financesUpdate = {
-        expenses: parseFloat(finances[shortDate].income) + payAmount
-      }
-  
+        income: parseFloat(finances[shortDate].income) + payAmount
+      } 
+
       dispatch({ type: UPDATE_INCOME, id: shortDate, amount: payAmount })
       await Update(FINANCES, shortDate, financesUpdate)
   
       props.setVisible(false)
       delete props.id;
+     
+    await getBalance()
       
       return;
  
@@ -144,10 +164,89 @@ if(amount==''){
     dispatch({ type: UPDATE_INCOME, id: shortDate, amount: paymentAmount })
     await Update(FINANCES, shortDate, financesUpdate)
 
+    await getBalance()
+
     props.setVisible(false)
     delete props.id;
   }
 
+  const getBalance=async()=>{
+
+    let start= moment().format("YYYY-MM-DD")
+    
+    let end = moment(accounts[accountId].joinedon).format("YYYY-MM-DD")
+   
+   
+    var paid=0.00;
+
+    let pay=await getPayments()
+
+    for (const [date, paymentsData] of Object.entries(pay)) {
+
+      for (const [paymentId, pdata] of Object.entries(paymentsData)) {
+       
+        let acc = pdata.accountId
+        if (acc === accountId) {
+           paid +=  parseFloat(pdata.amount)
+                            
+        }
+
+      }
+    }
+    console.log(paid)
+   
+if(accounts[accountId].frequency=='daily'){
+  var diff =  Math.floor(( Date.parse(start) - Date.parse(end) ) / 86400000); 
+let pending=parseFloat(accounts[accountId].rate)*parseFloat(diff)
+let bal=pending-parseFloat(paid)
+console.log(pending)
+if(bal<0){
+  accounts[accountId].balance=0
+}else{
+  accounts[accountId].balance=bal
+}
+console.log(bal)
+
+}else if(accounts[accountId].frequency=='weekly'){
+console.log("weekly")
+var diff =  Math.floor(( Date.parse(start) - Date.parse(end) ) / (86400000*7)); 
+if(diff==0){
+  diff=1
+}
+let pending=parseFloat(accounts[accountId].rate)*parseFloat(diff)
+let bal=pending-parseFloat(paid)
+console.log(diff)
+if(bal<0){
+  accounts[accountId].balance=0
+}else{
+  accounts[accountId].balance=bal
+}
+console.log(bal)
+}
+else if(accounts[accountId].frequency=='termly'){
+console.log("termly")
+var diff =  Math.floor(( Date.parse(start) - Date.parse(end) ) / (86400000*7*4*3)); 
+if(diff==0){
+  diff=1
+}
+let pending=parseFloat(accounts[accountId].rate)*parseFloat(diff)
+let bal=pending-parseFloat(paid)
+console.log(diff)
+if(bal<0){
+  accounts[accountId].balance=0
+}else{
+  accounts[accountId].balance=bal
+}
+}
+let id=accountId
+let data=accounts[accountId]
+data.paid=paid
+dispatch({ type: UPDATE_ACCOUNT, id, update: data })
+await Update(ACCOUNTS, id, data)
+// Swal.fire({  title: 'Error!',  text: 'Do you want to continue',  icon: 'error',  confirmButtonText: 'Cool'})
+
+
+  }
 
   const onDateSelection = async () => {
     try {

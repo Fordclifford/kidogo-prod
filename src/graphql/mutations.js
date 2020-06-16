@@ -1795,3 +1795,180 @@ export const deleteQuestion = /* GraphQL */ `
     }
   }
 `;
+export const createResponse = /* GraphQL */ `
+  mutation CreateResponse(
+    $input: CreateResponseInput!
+    $condition: ModelResponsenConditionInput
+  ) {
+    createResponse(input: $input, condition: $condition) {
+      text
+      account {
+        id
+        balance
+        rate
+        frequency
+        lastFee
+        caregiver {
+          id
+          username
+          email
+          password
+          phone
+          firstName
+          lastName
+          centreName
+          location
+          
+          city
+          lastUpdate
+        }
+        children {
+          nextToken
+        }
+        guardians {
+          nextToken
+        }
+        contacts {
+          nextToken
+        }
+        attendance {
+          nextToken
+        }
+        finances {
+          nextToken
+        }
+        payments {
+          nextToken
+        }
+        expenses {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+        responses {
+          nextToken
+        }
+      }
+      response
+    }
+  }
+`;
+export const updateResponse = /* GraphQL */ `
+  mutation UpdateResponse(
+    $input: UpdateResponseInput!
+    $condition: ModelResponseConditionInput
+  ) {
+    updateResponse(input: $input, condition: $condition) {
+      text
+      account {
+        id
+        balance
+        rate
+        frequency
+        lastFee
+        caregiver {
+          id
+          username
+          email
+          password
+          phone
+          firstName
+          lastName
+          centreName
+          location
+          
+          city
+          lastUpdate
+        }
+        children {
+          nextToken
+        }
+        guardians {
+          nextToken
+        }
+        contacts {
+          nextToken
+        }
+        attendance {
+          nextToken
+        }
+        finances {
+          nextToken
+        }
+        payments {
+          nextToken
+        }
+        expenses {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+        responses {
+          nextToken
+        }
+      }
+      response
+    }
+  }
+`;
+export const deleteResponse = /* GraphQL */ `
+  mutation DeleteResponse(
+    $input: DeleteResponseInput!
+    $condition: ModelResponseConditionInput
+  ) {
+    deleteResponse(input: $input, condition: $condition) {
+      text
+      account {
+        id
+        balance
+        rate
+        frequency
+        lastFee
+        caregiver {
+          id
+          username
+          email
+          password
+          phone
+          firstName
+          lastName
+          centreName
+          location
+          
+          city
+          lastUpdate
+        }
+        children {
+          nextToken
+        }
+        guardians {
+          nextToken
+        }
+        contacts {
+          nextToken
+        }
+        attendance {
+          nextToken
+        }
+        finances {
+          nextToken
+        }
+        payments {
+          nextToken
+        }
+        expenses {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+        responses {
+          nextToken
+        }
+      }
+      response
+    }
+  }
+`;

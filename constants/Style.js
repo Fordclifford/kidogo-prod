@@ -31,7 +31,7 @@ export const Colors = {
   gradient_dark: '#4fc7f4',
   gradient_light: '#d1f1fc',
   backgroundHighlight: '#42314b',
-  attendanceSelect: 'yellow',
+  attendanceSelect: 'red',
   familyColor:'#6a52a2',
   attendanceEmpty: 'green',
 }
@@ -100,6 +100,16 @@ export const Styles = StyleSheet.create({
     height: 30,
     paddingLeft: 0,
   },
+
+  financePickerContainer1: {
+    borderBottomWidth: 1,
+    borderColor: Colors.signin,
+    margin: 10,
+    fontSize: 18,
+    color: Colors.mainText,
+    height: 30,
+    paddingLeft: 0,
+  },
   financePicker: {
     height: 30,
     color: Colors.mainText,
@@ -139,6 +149,11 @@ export const Styles = StyleSheet.create({
     fontSize: 36,
     textAlign: 'center',
   },
+  financeSummaryDisplay: {
+    //flex: 0.5,
+    fontSize: 36,
+    textAlign: 'left',
+  },
   dashText: {
     fontSize: 36,
   },
@@ -162,7 +177,11 @@ export const Styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.btnText,
   },
-  
+  buttonText3: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: "red",
+  },
   input: {
     fontSize: 18,
     color: "black",
@@ -200,7 +219,7 @@ export const Styles = StyleSheet.create({
   },
   prefix: {
     flex: 0.2,
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
     borderBottomWidth: 2,
     borderColor: Colors.mainText,
@@ -363,6 +382,7 @@ export const Styles = StyleSheet.create({
     fontSize: 36,
     color: Colors.mainText,
     margin: 10,
+    
   },
   h2: {
     fontSize: 24,
@@ -595,6 +615,33 @@ export const Styles = StyleSheet.create({
     marginHorizontal: 8,
   },
 
+  daily: {
+    borderRadius:15,
+    width:100,
+    borderWidth: 1,
+    borderColor: Colors.buttonBack,
+    backgroundColor:'blue',
+    marginHorizontal: 8,
+  },
+
+  
+  weekly: {
+    borderRadius:15,
+    width:100,
+    borderWidth: 1,
+    borderColor: Colors.buttonBack,
+    backgroundColor:'green',
+    marginHorizontal: 8,
+  },
+  
+  monthly: {
+    borderRadius:15,
+    width:100,
+    borderWidth: 1,
+    borderColor: Colors.buttonBack,
+    backgroundColor:'red',
+    marginHorizontal: 8,
+  },
   sendCode: {
      width:200,
     borderWidth: 0,
@@ -614,6 +661,9 @@ export const Styles = StyleSheet.create({
   },
   raleway: {
     fontFamily: 'Raleway-Bold',
+  },
+  aligning: {
+    textAlign: 'center',
   },
   helpButton: {
     backgroundColor: Colors.btnText,
@@ -655,6 +705,16 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  financeSummaryHeader: {
+    backgroundColor: Colors.gradient_light,
+    height: 150,
+    justifyContent: 'center',
+    // alignItems: 'flex-start',
+    marginBottom: 10,
+    zIndex: 100,
+    padding:20
+  },
   actionsContainer: {
     flex: 1,
     padding: 10,
@@ -682,6 +742,12 @@ export const Styles = StyleSheet.create({
   buttonImage: {
     borderRadius: 5,
     height: 150
+  },
+
+  buttonImage1: {
+    borderRadius: 5,
+
+    height: 140
   },
   attendanceHolder: {
     flexDirection: 'row',

@@ -8,7 +8,7 @@ const CurrencyInput = (props) => {
     <View style={Styles.rowElement} >
       <View style={Styles.rowElements} >
         <Text style={Styles.prefix} >
-          K
+          KES
         </Text>
 
         <TextInput

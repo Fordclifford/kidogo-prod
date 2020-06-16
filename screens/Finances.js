@@ -11,6 +11,7 @@ import PaymentModal from '../components/PaymentModal'
 import FinanceHistory from '../components/FinanceHistory';
 
 
+
 const Finances = (props) => {
   
   const [paymentsModalVisible, setPaymentsModalVisible] = useState(false)

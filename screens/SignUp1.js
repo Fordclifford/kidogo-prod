@@ -14,54 +14,136 @@ import Message from '../components/Message';
 import Backdrop from '../components/Backdrop';
 import Language from '../languages'
 import { GetShortDate } from '../utilities/dates';
+import { SignUpCaregiver,sendToAPi, SendSms, SendMessage } from '../utilities/auth'
 
 
 const SignUp1 = (props) => {
+  
+  
+  const { signupData } = props.navigation.state.params
+
+
+  const country = signupData.country;
+
+
+  const res = country.split("#");
+const countryName= res[1]
+const countryCode= res[0].substring(1)
+
+
+const centreName= signupData.centreName;
+  const address=signupData.address;
+  const location = signupData.location;
+
+  const city = signupData.city;
+ 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
-  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [phone, setPhone] = useState('')
+  const [passwordConfirm, setPasswordConfirm] = useState('')
+
+
   const [callbackId, setCallbackId] = useState(null)
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
   const [soundObject, setSoundObject] = useState(null)
-
-
-  const onNext = async () => {
+  const onSignUp = async () => {
     setLoading(true)
-
-  
-
 
     if (password !== passwordConfirm) {
       setError(Language.PasswordMismatch)
       setPassword('')
       setPasswordConfirm('')
       setLoading(false)
-    } else {
-      var uname=firstName+lastName
-      const username=uname.replace(/\s/g, '');
-      setUsername(username)
-      const signup1Data = {
+      return
+    }
+    
+
+       const userData = {
+        username,
+        password,
+        phone,
+      }
+
+      const caregiverData = {
         id: uuid(),
         lastUpdate: GetShortDate(-1),
         username,
         password,
-        passwordConfirm,
-        email,
         firstName,
         lastName,
-        phone
+        phone,
+        countryCode,
+        countryName,
+        centreName,
+       location,
+        city,
+      }
+  
+      const signUpResult = await SignUpCaregiver(caregiverData)
+
+     
+      
+      if(signUpResult.statusCode){
+        if(signUpResult.statusCode===200){
+
+        
+           if(countryCode==='254'){
+            var ph =phone.split('-').join('')
+            var pn = ph.substring(ph.length - 9)
+            var phone_number = countryCode + pn
+        
+      
+          }else{
+            var phone_number = countryCode + phone.split('-').join('')
+          }
+          const message="Success! Your username is "+phone_number +" and password "+password
+        
+         const sms = await SendSms(message,phone.trim(),countryCode)
+         console.log(sms)
+
+         if(sms.statusCode){
+          if(sms.statusCode===200){
+            clearTimeout(callbackId)
+            setMessage(Language.SignupSuccessful)
+            setCallbackId(setTimeout(() => {setMessage(null)
+              props.navigation.navigate('Home')
+             // setLoading(false)
+            }, 4000))
+          }
+        else{
+          setError(Language.UnknownError)
+          setLoading(false)
+          return
+        }
+        }else{
+          setError(Language.UnknownError)
+          setLoading(false)
+          return
+        }
+
+
+      
+        }
+      }
+      console.log(signUpResult)
+
+      return;
+
+      if (signUpResult.message) {
+        setError(signUpResult.message)
+        setLoading(false)
+
+      } else {
+        
+        props.navigation.navigate('Confirm', { caregiverData })
       }
     
-      props.navigation.navigate('SignUp', { signup1Data })
-     
-    }
-
   }
+
+
   const toggleHelpAudio = async () => {
     try {
       if (soundObject) {
@@ -126,13 +208,13 @@ const SignUp1 = (props) => {
 
 
 
-      <TextField
+      {/* <TextField
        style={Styles.textfield}
         value={email}
         //value="cmasi@techsavanna.technology"
         label=  { Language.Email }
         onChangeText={setEmail}
-      />
+      /> */}
 
      
       <TextField
@@ -167,20 +249,22 @@ const SignUp1 = (props) => {
 
     
     </ScrollView>
+
+    <Spacer large />
+            <View  style={{ alignItems:'center' }}>
+            <TouchableOpacity
+              style={Styles.mainButton}
+              onPress={onSignUp}
+            >
+              <Text style={Styles.buttonText}>
+                { Language.Confirm }
+              </Text>
+            </TouchableOpacity>
+</View>
  
 
 
-          <Spacer large />
-          <View style={{ alignItems: 'center' }}>
-            <TouchableOpacity
-              style={Styles.mainButton}
-              onPress={onNext}
-            >
-              <Text style={Styles.buttonText}>
-                {Language.Next}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          
           <Spacer height={322} />
         </ScrollView>
       }

@@ -61,7 +61,7 @@ const Home = (props) => {
 
         <TouchableOpacity
           style={Styles.mainButton}
-          onPress={() => props.navigation.navigate('SignUp1')}
+          onPress={() => props.navigation.navigate('SignUp')}
         >
           <Text style={Styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>

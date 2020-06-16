@@ -21,7 +21,7 @@ import Loading from '../components/Loading';
 import { CreateDB } from '../utilities/dbstore';
 import { CAREGIVER } from '../constants/Store';
 import { SetNewPassword } from '../utilities/auth';
-import {ForgotPassword} from '../utilities/auth';
+import {ForgotPassword,SendSms} from '../utilities/auth';
 import userStore from '../utilities/store';
 import {saveUser}  from '../constants/User'
 import { ListDB } from '../utilities/dbstore';
@@ -30,12 +30,18 @@ import { ListDB } from '../utilities/dbstore';
 const ConfirmCode = (props) => {
  
    const { userData } = props.navigation.state.params
+
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [password, setPassword] = useState('')
   const [code, setCode] = useState('')
+  var [verificationCode, setVerificationCode] = useState(userData.code)
   const [callbackId, setCallbackId] = useState(null)
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
+  const countryCode = userData.countryCode
+  const username= userData.username
+
+  
 
 
   const onConfirmAttempt = async () => {
@@ -50,115 +56,119 @@ const ConfirmCode = (props) => {
  
     if (!code) {
       setError(Language.CodeMissing)
-      return
+      setLoading(false)
+     // return
+    }
+    if(verificationCode!==code){
+      console.log(verificationCode)
+      console.log(code)
+      setError(Language.InvalidCode)
+      setLoading(false)
+    //  return
     }
 
-    try {
-     const result = await SetNewPassword(userData.username, code, password)
+   
+     
+     const result = await SetNewPassword(username.trim(), password,countryCode)
      console.log(result)
-     
 
-      try {
-        confirmResult = await SignInCaregiver(userData.username, password)
-       
-        
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Accept", "application/json");
+     if(result.statusCode){
 
-    
-    var raw = JSON.stringify({"token":55452});
-    
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-     
-    
-     let response = await  fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/get-care-givers", requestOptions)
-    
-     if (response) { // if HTTP-status is 200-299
-      // get the response body (the method explained below)
-      let json = await response.json();
+if(result.statusCode===200){
+  
+  if(countryCode==='254'){
+    var ph =username.trim().split('-').join('')
+    var phone = ph.substring(ph.length - 9)
+    var phone_number = countryCode + phone
 
-      var i;
-       for (i = 0; i <json.length; i++) {
-       var single= json[i].username;
-       if (single === userData.username) {
-        const caregiverData = {
-          id: json[i].id_user,
-          lastUpdate: GetShortDate(-1),
-          username:userData.username,
-          password:json[i].password_hash,
-          email:json[i].email,
-          firstName:json[i].first_name,
-          lastName:json[i].last_name,
-          phone:json[i].phone,
-          centreName:json[i].address,
-         location:json[i].city,
-          city:json[i].city,
-        }
-        await CreateCaregiver(caregiverData)
-        break
-      }
-         
-       
-       }
-      // return
-      }
 
-        
-        
+  }else{
+    var phone_number = countryCode + username.split('-').join('')
+  }
 
-    // const caregiversResp = await ListDB(CAREGIVER)
-    // const caregivers = caregiversResp["data"]["listCaregivers"]["items"]
 
-    // for (const caregiver of caregivers) {
-    //   if (caregiver.username === userData.username) {
-    //    userStore.dispatch(saveUser(caregiver));
-    
-    //    // console.log(userStore.getState())
-    //     break
-    //   }
-    // }
-        setLoading(false)
-        setError(Language.ResetSuccessful)
+  const message="Success! Your username is "+phone_number +" and password "+password
 
-        props.navigation.navigate('Dash')
-      } catch (error) {
-        const errors = error.errors.map((error) => error.message)
-        const errorText = errors.join('\n')
 
-        setError(errorText)
-        setLoading(false)
-      }
-    
-  } catch (error) {
-      setError(error.message)
+  const sms = await SendSms(message,username.trim(),countryCode)
+  console.log(sms)
+
+
+  if(sms.statusCode){
+    if(sms.statusCode===200){
+      clearTimeout(callbackId)
+      setMessage(Language.ResetSuccessful)
+      setCallbackId(setTimeout(() => {setMessage(null)
+        props.navigation.navigate('Home')
+       // setLoading(false)
+      }, 4000))
+    }
+  else{
+    setError(Language.UnknownError)
     setLoading(false)
+    return
   }
+  }else{
+    setError(Language.UnknownError)
+    setLoading(false)
+    return
+  }
+
     
-  }
+}else{
+  setError(Language.UnknownError)
+  setLoading(false)
+ // return
+}
+
+     }else{
+       setError(Language.UnknownError)
+       setLoading(false)
+     //  return
+
+     }
+  
+
+        
+      }
+    
+ 
+      
+    
+  
     
   const onResend = async () => {
     setCode('')
     setLoading(true)
     //console.log(userData)
-    try {
-      const resend = await ForgotPassword(userData.username)
-      console.log(resend)
+    const user= await ForgotPassword(username.trim(),countryCode)
+    
+    console.log(user)
+    if (user.statusCode===200) {
+      
+       userData.code=user.token
+      const sms= await SendSms(Language.VerifyCode+userData.code,username.trim(),countryCode)
+      if (sms.statusCode===200) {
+        setVerificationCode(userData.code)
+        setError("Confirmation code resent")
       setLoading(false)
-      setError('Confirmation code resent')
-    } catch (error) {
-      setLoading(fale)
-      setError(erro.message)
-    }
+     
+      }else{
+        setError(Language.UnknownError)
+        setLoading(false)
+       // return
+      }
+    
+    }else  if (user.statusCode===411) {
+      setError(Language.InvalidUsername)
+      setLoading(false)
+     // return
+    } else {
+      setError(Language.UnknownError)
+      setLoading(false)
   
-   
   }
-
+  }
 
   const setError = (text) => {
     clearTimeout(callbackId)

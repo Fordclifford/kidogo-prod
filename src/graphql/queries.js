@@ -770,6 +770,60 @@ export const listExpenses = /* GraphQL */ `
     }
   }
 `;
+export const getResponses = /* GraphQL */ `
+  query GetResponse($id: ID!) {
+    getResponse(id: $id) {
+      text
+      account {
+        id
+        balance
+        rate
+        frequency
+        lastFee
+        caregiver {
+          id
+          username
+          email
+          password
+          phone
+          firstName
+          lastName
+          centreName
+          location
+          address
+          city
+          lastUpdate
+        }
+        children {
+          nextToken
+        }
+        guardians {
+          nextToken
+        }
+        contacts {
+          nextToken
+        }
+        attendance {
+          nextToken
+        }
+        finances {
+          nextToken
+        }
+        payments {
+          nextToken
+        }
+        expenses {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+      }
+      response
+    }
+  }
+`;
+
 export const getQuestion = /* GraphQL */ `
   query GetQuestion($id: ID!) {
     getQuestion(id: $id) {
@@ -824,6 +878,28 @@ export const getQuestion = /* GraphQL */ `
   }
 `;
 export const listQuestions = /* GraphQL */ `
+  query ListQuestions(
+    $filter: ModelQuestionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listQuestions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        text
+        account {
+          id
+          balance
+          rate
+          frequency
+          lastFee
+        }
+        response
+      }
+      nextToken
+    }
+  }
+`;
+export const listResponses = /* GraphQL */ `
   query ListQuestions(
     $filter: ModelQuestionFilterInput
     $limit: Int

@@ -13,6 +13,8 @@ import AttendanceCard from '../components/AttendanceCard'
 import { ATTENDANCE } from '../constants/Store';
 import { Update } from '../utilities/localstore';
 import { SET_ATTENDANCE } from '../constants/Attendance'
+import moment from 'moment'
+
 
 
 const CheckIn = (props) => {
@@ -48,8 +50,12 @@ const CheckIn = (props) => {
 
   const toggleCheckIn = async (id) => {
     const today = GetShortDate()
+    const datettime = GetFullDate()
     const update = { ...attendance[today] }
     update[id].checkIn = !update[id].checkIn
+    update[id].checkindatetime=   moment().format('YYYY-MM-DD HH:mm:ss');
+ 
+
 
     dispatch({ type: SET_ATTENDANCE, id: today, attendance: update })
     await Update(ATTENDANCE, today, update)

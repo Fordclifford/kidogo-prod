@@ -107,7 +107,7 @@ const Dash = (props) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={Styles.actionButton}
-            onPress={()=> props.navigation.navigate('Finances')}
+            onPress={()=> props.navigation.navigate('FinanceOptions')}
           >
             <ImageBackground
               style={Styles.buttonImage}

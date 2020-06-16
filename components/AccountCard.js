@@ -2,11 +2,26 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { Styles } from '../constants/Style'
+import {GetHofs} from '../utilities/localstore'
+import { GetShortDateRange, GetShortDate } from '../utilities/dates'
+import moment from 'moment'
 
 
 const AccountCard = (props) => {
+  const payments = useSelector(state => state.payments)
+  useEffect(() => {
+ //   setLoading(true)
+
+      GetHofs()
+      .then((json) => setHofs(json))
+      .catch((error) => console.error(error))
+      //.finally(() => setLoading(false));
+    
+
+  }, [])
   const children = useSelector(state => state.children)
   const guardians = useSelector(state => state.guardians)
+  const [hofs, setHofs] = useState(null)
 
 
   const getChildNames = () => {
@@ -35,7 +50,7 @@ const AccountCard = (props) => {
 
 
   const getAccountName = () => {
-    return guardians[props.account.guardians[0]].lastName
+    return guardians[props.account.guardians[0]].firstName+" " +guardians[props.account.guardians[0]].lastName
   }
 
 
@@ -55,7 +70,10 @@ const AccountCard = (props) => {
       </Text>
 
       <Text style={Styles.balance} >
-        K{ props.account.balance }
+       Balance: KES { props.account.balance }
+      </Text>
+      <Text style={Styles.balance} >
+       Paid: KES { props.account.paid }
       </Text>
 
       <View style={Styles.members} >

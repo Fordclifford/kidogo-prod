@@ -5,7 +5,6 @@ import { Styles, Size } from '../constants/Style';
 import Backdrop from '../components/Backdrop';
 import Spacer from '../components/Spacer';
 
-
 const Attendance = (props) => {
   return (
     <Backdrop>
@@ -52,6 +51,18 @@ const Attendance = (props) => {
             source={require('../assets/images/history.png')}
           >
             <Text style={[Styles.actionText, Styles.raleway]}>History</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={Styles.actionButton}
+          onPress={() => props.navigation.navigate('AttendanceSummary')}
+        >
+          <ImageBackground
+            style={Styles.buttonImage}
+            source={require('../assets/images/history.png')}
+          >
+            <Text style={[Styles.actionText, Styles.raleway]}>Attendance Summary</Text>
           </ImageBackground>
         </TouchableOpacity>
       </View>

@@ -40,6 +40,7 @@
     "react-navigation-hooks": "^1.0.1",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
+    "sweetalert2": "^9.15.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

@@ -15,69 +15,64 @@ import Backdrop from '../components/Backdrop';
 import Language from '../languages'
 import { GetShortDate } from '../utilities/dates';
 
+
 const SignUp = (props) => {
-  const { signup1Data } = props.navigation.state.params
-
-
-  const username= signup1Data.username;
-  const password=signup1Data.password;
-  const phone = signup1Data.phone;
-
-  const firstName = signup1Data.firstName;
-  const lastName = signup1Data.lastName;
-  const email=signup1Data.email;
+  
   const [centreName, setCentreName] = useState('')
   const [address, setAddress] = useState('')
   const [location, setLocation] = useState('')
+  const [country, setCountry] = useState('+254#Kenya')
   const [city, setCity] = useState('')
   const [callbackId, setCallbackId] = useState(null)
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
   const [soundObject, setSoundObject] = useState(null)
 
-  const onSignUp = async () => {
+  const onNext = async () => {
     setLoading(true)
+
+    if (centreName== '') {
+      setError(Language.CenterRequired)
+    //  setPassword('')
+     // setPasswordConfirm('')
+      setLoading(false)
+      return
+      
+    } 
+    if (location== '') {
+      setError(Language.LocationRequired)
+    //  setPassword('')
+     // setPasswordConfirm('')
+      setLoading(false)
+      return
+    }
+
+    if (city== '') {
+      setError(Language.CityRequired)
+    //  setPassword('')
+     // setPasswordConfirm('')
+      setLoading(false)
+      return
+    }
     
-
-       const userData = {
-        username,
-        password,
-        email,
-        phone,
-      }
-
-      const caregiverData = {
+  
+     
+      const signupData = {
         id: uuid(),
         lastUpdate: GetShortDate(-1),
-        username,
-        password,
-        email,
-        firstName,
-        lastName,
-        phone,
         centreName,
-       location,
+        address,
+        location,
         city,
-      }
-  
-      const signUpResult = await SignUpCaregiver(userData)
-
-      setLoading(false)
-      
-      
-      console.log(signUpResult)
-
-      if (signUpResult.message) {
-        setError(signUpResult.message)
-        setLoading(false)
-
-      } else {
-        
-        props.navigation.navigate('Confirm', { caregiverData })
+        country
+       
       }
     
-  }
+      props.navigation.navigate('SignUp1', { signupData })
+    } 
+    
 
+  
 
   const toggleHelpAudio = async () => {
     try {
@@ -103,6 +98,9 @@ const SignUp = (props) => {
   }
 
 
+
+
+
   return (
     <Backdrop>
       <Spacer height={Size.statusbar} />
@@ -116,25 +114,28 @@ const SignUp = (props) => {
             <CentreEntry
               centreName={centreName}
               address={address}
+              country={country}
               location={location}
               city={city}
+              onChangeCountry={setCountry}
               onChangeCentreName={setCentreName}
               onChangeAddress={setAddress}
               onChangeLocation={setLocation}
               onChangeCity={setCity}
+              setCountry={setCountry}
             />
 
-            <Spacer large />
-            <View  style={{ alignItems:'center' }}>
+<Spacer large />
+          <View style={{ alignItems: 'center' }}>
             <TouchableOpacity
               style={Styles.mainButton}
-              onPress={onSignUp}
+              onPress={onNext}
             >
               <Text style={Styles.buttonText}>
-                { Language.Confirm }
+                {Language.Next}
               </Text>
             </TouchableOpacity>
-</View>
+          </View>
             <Spacer height={322} />
           </ScrollView>
       }

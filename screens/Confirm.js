@@ -22,6 +22,7 @@ import { CreateDB } from '../utilities/dbstore';
 import userStore from '../utilities/store';
 import {saveUser}  from '../constants/User'
 import { CAREGIVER } from '../constants/Store';
+import { baseUrl } from '../utilities/config';
 
 
 const Confirm = (props) => {
@@ -74,13 +75,15 @@ const Confirm = (props) => {
     };
      
     
-     let response = await  fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/add-caregiver", requestOptions)
+     let response = await  fetch(baseUrl+"frontend/web/index.php?r=api/add-caregiver", requestOptions)
     
     // if (response) { // if HTTP-status is 200-299
       // get the response body (the method explained below)
       let json = await response;
       setLoading(false)
       setMessage("Successfully Created")
+      setError("Signup successful")
+      
     
       props.navigation.navigate('Home')
       // console.log(response+"response")

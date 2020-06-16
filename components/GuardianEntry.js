@@ -84,6 +84,11 @@ const GuardianEntry = (props) => {
         label= { Language.Phone }
         onChangeText={props.setPhone}
       />
+       <TextField
+            value={props.govtId}
+            label= { Language.IdentificationNumber }
+               onChangeText={props.setGovtId}
+          />
 
      
 
@@ -105,15 +110,6 @@ const GuardianEntry = (props) => {
           </Text>
         </View>
 
-        <View style={Styles.rowElement} >
-          <TextField
-            value={props.govtId}
-            label= { Language.IdentificationNumber }
-            setValue={props.setGovtId}
-          />
-
-          
-        </View>
       </View>
     </View>
   )

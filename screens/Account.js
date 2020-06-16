@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect} from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import uuid from 'uuid'
@@ -17,6 +17,8 @@ import { GetShortDate } from '../utilities/dates';
 import {
   ACCOUNTS, CHILDREN, ATTENDANCE, GUARDIANS, CONTACTS
 } from '../constants/Store';
+import { GetContacts, GetCaregiver, GetResponses, GetKids, GetGuardians, GetHofs, GetPayments, GetExpenses, GetAccounts } from '../utilities/localstore';
+
 import { SET_ACCOUNT } from '../constants/Accounts';
 import { SET_ATTENDANCE, UPDATE_ATTENDANCE } from '../constants/Attendance';
 import { UPDATE_CHILD, SET_CHILD, DELETE_CHILD } from '../constants/Children';
@@ -29,13 +31,44 @@ import {
 
 
 const Account = (props) => {
+  // useEffect(() => {
+  //  // setLoading(true)
+
+
+  //   GetGuardians()
+  //     .then((json) => setGuardians(json))
+  //     .catch((error) => console.error(error))
+
+
+  //   GetKids()
+  //   .then((json) => setChildren(json))
+  //   .catch((error) => console.error(error))
+
+  //   GetContacts()
+  //   .then((json) => setContacts(json))
+  //   .catch((error) => console.error(error))
+
+
+  //   GetAccounts()
+  //     .then((json) => {
+  //       console.log(json)
+  //       setAccounts(json)
+  //     })
+  //     .catch((error) => console.error(error))
+  //   // .finally(() => setLoading(false));
+
+
+  // }, [])
   const { accountId } = props.navigation.state.params
 
   const dispatch = useDispatch()
+
+
+
   const accounts = useSelector(state => state.accounts)
-  const children = useSelector(state => state.children)
-  const guardians = useSelector(state => state.guardians)
-  const contacts = useSelector(state => state.contacts)
+  const children= useSelector(state => state.children)
+  const guardians=  useSelector(state => state.guardians)
+  const contacts= useSelector(state => state.contacts)
 
   const [rate, setRate] = useState(accounts[accountId].rate)
   const [frequency, setFrequency] = useState(accounts[accountId].frequency)
@@ -47,8 +80,10 @@ const Account = (props) => {
   const [contactModalVisible, setContactModalVisible] = useState(false)
 
 
+    
+
   const getAccountName = () => {
-    return guardians[accounts[accountId].guardians[0]].lastName
+    return guardians[accounts[accountId].guardians[0]].firstName + " "+guardians[accounts[accountId].guardians[0]].lastName
   }
 
 

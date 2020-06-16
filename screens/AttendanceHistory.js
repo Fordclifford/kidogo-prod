@@ -56,10 +56,16 @@ const AttendanceHistory = (props) => {
 
      
       if (date in attendance) {
+
+        if(attendance[date][id]){
+          return attendance[date][id].checkIn && attendance[date][id].checkOut
+        }else{
+          return false
+        }
        // console.log(date)
       //  console.log(attendance[date][id].checkIn)
 
-        return attendance[date][id].checkIn && attendance[date][id].checkOut
+       
       } else {
         return false
       }

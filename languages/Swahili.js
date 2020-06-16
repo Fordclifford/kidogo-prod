@@ -99,7 +99,7 @@ const Finances = {
   Equipment: "Vifaa",
   Payment: "Malipo",
   Expense: "Gharama",
-  MPesa: "M-Pesa",
+  MPesa: "mpesa",
   Cash: "Cash",
   WeekTotal: "Jumla ya Wiki",
   ThisAccountPays: "Akaunti hii inalipa",

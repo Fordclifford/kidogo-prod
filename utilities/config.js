@@ -17,4 +17,4 @@ export const ConfigureBcrypt = () => {
     return buf.map(() => Math.floor(isaac.random() * 256))
   })
 }
-
+export const baseUrl="https://techsavanna.net:8181/kidogoadmin/"

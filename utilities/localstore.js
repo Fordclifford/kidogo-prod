@@ -3,20 +3,22 @@ import uuid from 'uuid'
 import {
   CAREGIVER,
   GUARDIANS, CONTACTS, CHILDREN,
-  PAYMENTS, ACCOUNTS, ATTENDANCE, FINANCES, QUESTIONS, EXPENSES,
+  PAYMENTS, ACCOUNTS, ATTENDANCE, FINANCES, QUESTIONS, EXPENSES, RESPONSES,HOFS
 } from '../constants/Store';
 import { GetShortDate, GetDateNoTime } from './dates';
 import { Gender, CLEAR_NEW_ACCOUNT } from '../constants/Enrollment';
 import { SET_GUARDIAN } from '../constants/Guardians';
 import { SET_CHILD } from '../constants/Children';
 import { SET_CONTACT } from '../constants/Contacts';
+import { SET_HOF } from '../constants/Hof';
 import { SET_ATTENDANCE } from '../constants/Attendance';
 import { SET_ACCOUNT, UPDATE_ACCOUNT } from '../constants/Accounts';
 import {
   Frequency,
   SET_FINANCES, SET_PAYMENTS, SET_EXPENSES, FeeDelta,
 } from '../constants/Finances';
-import { SET_QUESTIONS } from '../constants/Questions';
+import { SET_QUESTIONS, SET_RESPONSES } from '../constants/Questions';
+import HOFs from '../screens/Hof';
 
 
 export const TestDataNeeded = async () => {
@@ -213,6 +215,8 @@ export const LogTestData = async () => {
   console.log(PAYMENTS, await Get(PAYMENTS))
   console.log(EXPENSES, await Get(EXPENSES))
   console.log(QUESTIONS, await Get(QUESTIONS))
+  console.log(RESPONSES, await Get(RESPONSES))
+  console.log(HOFS, await Get(HOFS))
   console.log("=---------------------------=")
 }
 
@@ -315,6 +319,15 @@ export const InitQuestions = async (dispatch, targetDate) => {
   }
 }
 
+export const InitResponses = async (dispatch, targetDate) => {
+  const responsesDates = await GetIds(RESPONSES)
+
+  if (!responsesDates.find((date) => date === targetDate)) {
+    dispatch({ type: SET_RESPONSES, id: targetDate, responses: {} })
+    await Create(RESPONSES, targetDate, {})
+  }
+}
+
 
 export const InitDatabase = async (dispatch) => {
   const today = GetShortDate()
@@ -324,20 +337,25 @@ export const InitDatabase = async (dispatch) => {
   InitPayments(dispatch, today)
   InitExpenses(dispatch, today)
   InitQuestions(dispatch, today)
+  InitResponses(dispatch, today)
 }
 
 
 export const SubmitAccount = async (dispatch, newAccount) => {
   const accountId = uuid()
 
+
+
   const accountData = {
     balance: 0,
+    paid: 0,
     rate: newAccount.rate,
     frequency: newAccount.frequency,
     lastFee: GetDateNoTime(),
     children: [],
     guardians: [],
     contacts: [],
+    hofs: [],
   }
 
 
@@ -365,6 +383,16 @@ export const SubmitAccount = async (dispatch, newAccount) => {
     accountData.contacts.push(id)
     dispatch({ type: SET_CONTACT, id, contact })
     await Create(CONTACTS, id, { accountId, ...contact })
+  }
+
+  for (const [id, hof] of Object.entries(newAccount.hofs)) {
+    accountData.hofs.push(id)
+    console.log(hof)
+    accountData.rate=hof.amount
+    accountData.joinedon=hof.date
+    accountData.frequency=hof.frequency
+    dispatch({ type: SET_HOF, id, hof })
+    await Create(HOFS, id, { accountId, ...hof })
   }
 
   dispatch({ type: CLEAR_NEW_ACCOUNT })
@@ -405,6 +433,91 @@ export const GetCaregiver = async () => {
   const caregiverResp = await SecureStore.getItemAsync(CAREGIVER)
   
   return caregiverResp === null ? {} : JSON.parse(caregiverResp)
+}
+
+export const GetQuestions = async () => {
+  let q = await SecureStore.getItemAsync(QUESTIONS)
+  let r = await Get(QUESTIONS)
+  //console.log(r)
+//  console.log(q)
+  
+ 
+  return r === null ? {} : r
+
+}
+
+export const GetResponses = async () => {
+  let q = await SecureStore.getItemAsync(RESPONSES)
+  let r = await Get(RESPONSES)
+ 
+  return r === null ? {} : r
+
+}
+
+export const GetAttendance = async () => {
+  let q = await SecureStore.getItemAsync(ATTENDANCE)
+  let r = await Get(ATTENDANCE)
+ 
+  return r === null ? {} : r
+
+}
+
+export const GetGuardians = async () => {
+  let q = await SecureStore.getItemAsync(GUARDIANS)
+  let r = await Get(GUARDIANS)
+ 
+  return r === null ? {} : r
+
+}
+
+export const GetExpenses = async () => {
+  let q = await SecureStore.getItemAsync(EXPENSES)
+  let r = await Get(EXPENSES)
+ 
+  return r === null ? {} : r
+
+}
+
+
+export const GetPayments = async () => {
+  let q = await SecureStore.getItemAsync(PAYMENTS)
+  let r = await Get(PAYMENTS)
+ // console.log(r)
+ 
+  return r === null ? {} : r
+
+}
+
+
+export const GetHofs = async () => {
+  let q = await SecureStore.getItemAsync(HOFS)
+  let r = await Get(HOFS)
+ 
+  return r === null ? {} : r
+
+}
+export const GetAccounts = async () => {
+  let q = await SecureStore.getItemAsync(ACCOUNTS)
+  let r = await Get(ACCOUNTS)
+  console.log(r)
+ 
+  return r === null ? {} : r
+
+}
+export const GetKids = async () => {
+  let q = await SecureStore.getItemAsync(CHILDREN)
+  let r = await Get(CHILDREN)
+ 
+  return r === null ? {} : r
+
+}
+
+export const GetContacts = async () => {
+  let q = await SecureStore.getItemAsync(CONTACTS)
+  let r = await Get(CONTACTS)
+ 
+  return r === null ? {} : r
+
 }
 
 
@@ -450,13 +563,11 @@ export const Create = async (key, id, data) => {
 export const Update = async (key, id, data) => {
   const currentDataResp = await SecureStore.getItemAsync(`${key}_${id}`)
   const currentData = JSON.parse(currentDataResp)
-  console.log('store')
-  console.log(currentData)
+
 
   
   if (typeof currentData === "object") {
-    console.log('save')
-    console.log(data)
+    
     const mergedData = Object.assign({}, currentData, data)
     await SecureStore.setItemAsync(`${key}_${id}`, JSON.stringify(mergedData))
   } else if (Array.isArray(data)) {

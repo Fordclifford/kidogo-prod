@@ -15,14 +15,14 @@ const AccountFinances = (props) => {
     // console.log(rate)
     // const frequency = FrequencyStrings[props.account.frequency].toLowerCase()
 
-    return `${ Language.ThisAccountPays } K${ rate }`
+    return `${ Language.ThisAccountPays } KES ${ rate }`
   }
 
 
   const getFrequencyItems = () => {
     return Object.values(Frequency).map((frequency, i) =>
       <Picker.Item
-        key={i} label={FrequencyStrings[frequency]} type={frequency}
+        key={i} label={FrequencyStrings[frequency]} value={frequency}
       />
     )
   }
@@ -31,7 +31,7 @@ const AccountFinances = (props) => {
   return (
     <View>
       <Text style={Styles.balance} >
-        { Language.Balance }: K{ props.account.balance }
+        { Language.Balance }: KES { props.account.balance }
       </Text>
 
       <Text style={Styles.frequencyDisplay} >

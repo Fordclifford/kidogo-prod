@@ -31,7 +31,7 @@ const FinanceHeader = (props) => {
 
   const getFinanceSummary = () => {
     return (
-      `${Language.WeekTotal}: ${weekFinances.income - weekFinances.expenses}`
+      `${Language.WeekTotal}: KES ${weekFinances.income - weekFinances.expenses}`
     )
   }
 
@@ -50,11 +50,11 @@ const FinanceHeader = (props) => {
       <View style={Styles.financeHeader} >
         <View style={{ flexDirection: 'row' }} >
           <Text style={[Styles.financeDisplay, { color: 'green' }]} >
-            K{weekFinances.income}
+            KES {weekFinances.income}
           </Text>
 
           <Text style={[Styles.financeDisplay, { color: 'red' }]} >
-            K{weekFinances.expenses}
+            KES {weekFinances.expenses}
           </Text>
         </View>
       </View>

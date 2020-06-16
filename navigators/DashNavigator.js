@@ -26,6 +26,7 @@ const routeConfig = {
       header: null,
     },
   },
+  
   Questions: {
     screen: QuestionsNavigator,
     navigationOptions: {

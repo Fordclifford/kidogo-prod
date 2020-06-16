@@ -12,6 +12,7 @@ import ChildEntry from '../components/ChildEntry';
 import Backdrop from '../components/Backdrop';
 import { SET_NEW_CHILD } from '../constants/Enrollment'
 import Message from '../components/Message'
+import { SubmitAccount } from '../utilities/localstore';
 
 
 const Children = (props) => {
@@ -27,29 +28,39 @@ const Children = (props) => {
   const [soundObject, setSoundObject] = useState(null)
   const [callbackId, setCallbackId] = useState(null)
   const [message, setMessage] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const newAccount = useSelector(state => state.newAccount)
 
   const scrollRef = useRef(null)
+
+  const onSubmitFamily = async () => {
+    setLoading(true)
+    onSubmitChild()
+    clearTimeout(callbackId)
+    await SubmitAccount(dispatch, newAccount)
+    setLoading(false)
+  //  setError("Family submitted")
+
+    props.navigation.navigate('Dash')
+  }
 
 
   const onSubmitChild = () => {
  
+    if(firstName===""){
+      alert("firstName required")
+      return
+    }
     if(lastName===""){
       alert("lastname required")
       return
     }
-    if(birthdate===""){
-      alert("birthdate required")
-      return
-    }
+ 
     if(gender===""){
       alert("gender required")
       return
     }
-    if(immunization===""){
-      alert("immunization required")
-     
-      return
-    }
+   
 
     const child = {
       id,
@@ -80,6 +91,12 @@ const Children = (props) => {
    
     setId(uuid())
     resetForm()
+  }
+
+  const onAddContact = async () => {
+    onSubmitChild()
+    clearTimeout(callbackId)
+    props.navigation.navigate('Contacts')
   }
 
 
@@ -163,16 +180,17 @@ const Children = (props) => {
         </View>
 
         <Spacer medium />
-        <View style={{ alignItems: 'center' }}>
-        <TouchableOpacity
-          style={Styles.mainButton}
-          onPress={onAddGuardians}
-        >
-          <Text style={Styles.buttonText}>
-            { Language.Add } { Language.Guardians }
-          </Text>
-        </TouchableOpacity>
-        </View>
+        <View  style={{ alignItems:'center' }}>
+            <TouchableOpacity
+              style={Styles.mainButton}
+              onPress={onAddContact}
+            >
+              <Text style={Styles.buttonText} >
+                { Language.Add } { Language.Contact }
+              </Text>
+            </TouchableOpacity>
+            </View>
+
 
         <Spacer height={Size.keyboard} />
       </ScrollView>

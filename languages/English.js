@@ -7,8 +7,9 @@ const App = {
   Profile:"Profile",
   CheckOut: "Check Out",
   Attendance: "Attendance",
+  AttendanceSummary: "Attendance Summary",
   Finances: "Finances",
-  DailyQuestions: "Daily Questions",
+  DailyQuestions: "The Kidogo Way",
   Upload: "Upload",
 }
 
@@ -47,7 +48,10 @@ const Members = {
   Children: "Children",
   Guardian: "Parent",
   Guardians: "Parents",
+  HOF: "Head of Family",
+  FAM: "Family Member",
   Contact: "Contact",
+  Country: "Country",
   Contacts: "Contacts",
   Family: "Family",
   Families: "Families",
@@ -79,6 +83,7 @@ const Attributes = {
   City: "City",
   Phone: "Phone",
   Notes: "Notes",
+  JoinedDate:"Joined On",
   Immunization: "Immunization",
   IdentificationNumber: "Identification Number",
 }
@@ -89,7 +94,7 @@ const Finances = {
   Type: "Type",
   Amount: "Amount",
   Balance: "Balance",
-  Rate: "Rate",
+  Rate: "Pays",
   Frequency: "Frequency",
   Daily: "Daily",
   Weekly: "Weekly",
@@ -104,9 +109,13 @@ const Finances = {
   WeekTotal: "Week Total",
   Payment: "Payment",
   Expense: "Expense",
-  MPesa: "M-Pesa",
-  Cash: "Cash",
+  mpesa: "M-Pesa",
+  cash: "Cash",
   ThisAccountPays: "This account pays",
+  Income:"Income",
+  Total:'Total',
+  Profit:'Profit',
+  Loss:'Loss'
 }
 
 const Center={
@@ -117,19 +126,22 @@ const Center={
 }
 
 const Other = {
-  MorningGreeting: "Who's here today?",
-  AfternoonGreeting: "Has anyone left?",
+  ConfirmUpload: "Sure to upload?",
   EveningGreeting: "Did you buy anything today?",
+  MorningGreeting:"Has anyone attended?",
+  AfternoonGreeting:"Has anyone left?",
   CodeMessage: `
     You will receive a text message with a 6-digit code.
     Please enter the code below:
   `,
   CodeMsg:  "Verification code ",
+  VerifyCode:  "Your Verification code is ",
   InvalidPassword:"Invalid password provided",
-  InvalidUsername:"'Invalid username provided",
+  InvalidUsername:"Invalid username provided",
+  InvalidUsernameOrPassword:"Invalid username/password provided",
   ResetMessage:"You need to reset password to continue",
   ResetTitle:"Reset Password",
-  AccountNotConfirmed:"'Account not confirmed",
+  AccountNotConfirmed:"Account not confirmed",
   UnknownError:"Technical error occured try again later",
   NetwordError:"Network time out try again",
   ResetPassword:"Forgot password?",
@@ -138,8 +150,13 @@ const Other = {
   CodeMissing:"Confirmation code is missing",
   PasswordMismatch:'Password confirmation does not match',
   ResetSuccessful:'Password reset successfully',
+  LoginSuccessful:'Login Successful',
   usernameEmpty:"Username required",
-  passwordEmpty:"password required"
+  passwordEmpty:"password required",
+  LocationRequired:"Location required",
+  CityRequired:"City required",
+  CenterRequired:"Center name required",
+  SignupSuccessful:"Signup successful"
 }
 
 

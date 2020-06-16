@@ -24,7 +24,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kidogoApp.kidogoApp"
+      "bundleIdentifier": "com.kidogoApp.kidogoApp",
+      "icon": "./assets/images/ios.png"
     },
     "android": {
       "package": "com.kidogoApp.kidogoApp"

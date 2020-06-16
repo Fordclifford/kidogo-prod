@@ -10,6 +10,8 @@ import financesReducer from './FinancesReducer';
 import paymentsReducer from './PaymentsReducer';
 import expensesReducer from './ExpensesReducer';
 import questionsReducer from './QuestionsReducer';
+import responsesReducer from './ResponsesReducer';
+import hofReducer from './HofReducer';
 
 
 const rootReducer = combineReducers({
@@ -23,6 +25,8 @@ const rootReducer = combineReducers({
   payments: paymentsReducer,
   expenses: expensesReducer,
   questions: questionsReducer,
+  responses: responsesReducer,
+  hofs: hofReducer,
 })
 
 

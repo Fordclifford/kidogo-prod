@@ -36,8 +36,8 @@ export const FrequencyStrings = {
 
 
 export const PaymentType = {
-  MPesa: "M-Pesa",
-  Cash: "Cash",
+  mpesa: "mpesa",
+  cash: "cash",
 }
 
 
@@ -66,8 +66,8 @@ export const FinanceTypeNames = {
   [FinanceType.Electricity]: Language.Electricity,
   [FinanceType.Salary]: Language.Salary,
   [FinanceType.Equipment]: Language.Equipment,
-  [FinanceType.MPesa]: Language.MPesa,
-  [FinanceType.Cash]: Language.Cash,
+  [FinanceType.mpesa]: Language.mpesa,
+  [FinanceType.cash]: Language.cash,
 }
 
 
@@ -79,6 +79,6 @@ export const FinanceTypeIcons = {
   [FinanceType.Electricity]: 'bolt',
   [FinanceType.Salary]: 'money',
   [FinanceType.Equipment]: 'book',
-  [FinanceType.MPesa]: 'comment',
-  [FinanceType.Cash]: 'dollar',
+  [FinanceType.mpesa]: 'comment',
+  [FinanceType.cash]: 'dollar',
 }

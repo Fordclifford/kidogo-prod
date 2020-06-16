@@ -1,71 +1,87 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { TouchableOpacity, Text, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 
 import Backdrop from '../components/Backdrop'
 import { Styles, Size } from '../constants/Style'
-import { Answer, UPDATE_QUESTIONS } from '../constants/Questions'
+import { Answer, UPDATE_QUESTIONS, UPDATE_RESPONSES,SET_RESPONSES } from '../constants/Questions'
 import Language from '../languages'
 import { GetTOD, GetShortDate } from '../utilities/dates'
 import Spacer from '../components/Spacer'
-import { Update } from '../utilities/localstore'
-import { QUESTIONS } from '../constants/Store'
+import { Update, GetQuestions, Get } from '../utilities/localstore'
+import { RESPONSES } from '../constants/Store';
 import Loading from '../components/Loading';
+import Message from '../components/Message';
 
 
 
 const Questions = (props) => {
-  const dispatch = useDispatch()
-
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState(null)
   const [tod, setTOD] = useState(GetTOD())
-  const [curQuestionIndex, setCurQuestionIndex] = useState(0)
-  const [questions, setQuestions] = useState({quiz:[]})
+  var [curQuestionIndex, setCurQuestionIndex] = useState(0)
+  const [responses, setResponses] = useState(null)
+  const [date, setDate] = useState(GetShortDate)
+  const [question, setQuestion] = useState([])
   const [qs, setQs] = useState([])
+  const [callbackId, setCallbackId] = useState(null)
+  const [numQ, setnumQ] = useState(0)
+  var [remaining, setRemaining] = useState(0)
 
   useEffect(() => {
-    getQuestions();
-      }, [])
+    setLoading(true)
+
+    GetQuestions()
+      .then((json) => {setResponses(json)
+
+        for (const [dt, resData] of Object.entries(json)) {
+
+          // console.log(resData.afternoon)
+           if (resData[tod] != null) {
+            setQs(json[dt][tod])
+         setnumQ(json[dt][tod].length)
+         setRemaining(json[dt][tod].length)
+         
+         }else{
+                setLoading(true)
+                setError("No questions today!")
+              
+         }
+         }
+      
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+     // console.log(responses)
+
+     
+     //  console.log(numQ)
+
+  }, [])
+
+  const dispatch = useDispatch()
 
 
-  const getQuestions = async () => {
-    try {
 
-      setLoading(true)    
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Cookie", "PHPSESSID=1qn6rbmkose1pfrcnagfu79i83");
-      
-      var raw = JSON.stringify({"token":35444,"question_session":tod});
-      
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
-       
-      
-      fetch("https://techsavanna.net:8181/kidogoadmin/frontend/web/index.php?r=api/get-daily-questions", requestOptions)
-      .then((response) => response.json())
-        
-        .then((json) =>  setQuestions({quiz:json}))
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
-      //setQuestions(questions)
-    } catch (error) {
-      console.error(error)
-    }
+
+
+  const setError = (text) => {
+    clearTimeout(callbackId)
+    setMessage(text)
+    setCallbackId(setTimeout(() => props.navigation.navigate('Dash'), 4000))
   }
-
-
   const answer = async (response) => {
     const today = GetShortDate()
-    const update = { [qs[curQuestionIndex]]: response }
+    const update = { [qs[curQuestionIndex]['id']]: response,uploaded:false }
+    //const update={question: qs[curQuestionIndex]['id'],answer:response}
+  // question.push(update)
 
-    dispatch({ type: UPDATE_QUESTIONS, id: today, update })
-    await Update(QUESTIONS, today, update)
+    dispatch({ type: SET_RESPONSES, id: today, responses:update })
+    await Update(RESPONSES, today, update)
+
+   
+   
 
     forward()
   }
@@ -78,94 +94,120 @@ const Questions = (props) => {
     setCurQuestionIndex(nextIndex)
   }
 
-
   const forward = () => {
-    const numQuestions = questions.quiz.length
-    const nextIndex = curQuestionIndex + 1 < numQuestions
-      ? curQuestionIndex + 1 : curQuestionIndex
 
-    setCurQuestionIndex(nextIndex)
+    
+    setRemaining(remaining--)
+    setRemaining(remaining--)
+
+
+  
+
+    setCurQuestionIndex(curQuestionIndex++)
+    setCurQuestionIndex(curQuestionIndex++)
   }
 
 
   const getCurrentQuestion = () => {
-   
-    if (!questions) {
-      return null
+    if (!numQ) {
+      setLoading(true)
+      setError("No questions today!")
     }
-    //var q=[];
-
-    var i;
-    for (i = 0; i <questions.quiz.length; i++) {
-    var single= questions.quiz[i].question;
-     qs.push(single)
 
     
+    else if (curQuestionIndex === numQ) {
+      setLoading(true)
+      setError("You have reached the end of questions!")
+//curQuestionIndex--
+      //setTimeout(props.navigation.navigate('Dash'))
+    }else{
+
+          return (
+            <Text style={Styles.h2} >
+              {qs[curQuestionIndex]['question']}
+            </Text>
+          )
+          }   
+      
     }
 
-    //setQs(q)
-    return (
-      <Text style={Styles.h2} >
-      {qs[curQuestionIndex]}
-      </Text>
-    )
+
+
+   
+
+
+
+
+  if (!responses) {
+    return null
   }
 
 
+
   return (
-    
+
     <Backdrop>
-       { loading 
+      <Message text={message} />
+      {loading
         ? <Loading />
         : <View style={Styles.loading} >
-      <Spacer height={Size.statusbar} />
+          <Spacer height={Size.statusbar} />
 
-      <Spacer medium />
-      <View style={Styles.questionHolder} >
-        {getCurrentQuestion()}
-      </View>
+          
 
-      <Spacer medium />
+          <Spacer medium />
+          <View style={Styles.questionHolder} >
+      <Text style={Styles.buttonText3}>Question {curQuestionIndex+1} of {numQ}</Text>
+          </View>
+
+          <Spacer medium />
 
 
-      <View style={Styles.rowElements} >
-        <TouchableOpacity
-          style={Styles.rowElement}
-          onPress={back}
-        >
-          <Icon name="chevron-left" size={48} color='black' />
-        </TouchableOpacity>
+          <View style={Styles.rowElements} >
+            <TouchableOpacity
+              style={Styles.rowElement}
+              onPress={back}
+            >
+              <Icon name="chevron-left" size={48} color='black' />
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          style={Styles.rowElement}
-          onPress={forward}
-        >
-          <Icon name="chevron-right" size={48} color='black' />
-        </TouchableOpacity>
-      </View>
+            <Spacer medium />
+          <View style={Styles.questionHolder} >
+            {getCurrentQuestion()}
+          </View>
 
-      <Spacer medium />
-      
-      <View style={Styles.rowElements} >
-        <TouchableOpacity
-          style={Styles.rowButton}
-          onPress={() => answer(Answer.Yes)}
-        >
-          <Text style={Styles.buttonText} >
-            {Language.Yes}
-          </Text>
-        </TouchableOpacity>
+          <Spacer medium />
 
-        <TouchableOpacity
-          style={Styles.rowButton}
-          onPress={() => answer(Answer.No)}
-        >
-          <Text style={Styles.buttonText} >
-            {Language.No}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      </View>
+            <TouchableOpacity
+              style={Styles.rowElement}
+              onPress={forward}
+            >
+              <Icon name="chevron-right" size={48} color='black' />
+            </TouchableOpacity>
+          </View>
+
+          <Spacer medium />
+
+          <View style={Styles.rowElements} >
+            <TouchableOpacity
+              style={Styles.rowButton}
+              onPress={() => answer(Answer.Yes)}
+            >
+              <Text style={Styles.buttonText} >
+                {Language.Yes}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={Styles.rowButton}
+              onPress={() => answer(Answer.No)}
+            >
+              <Text style={Styles.buttonText} >
+                {Language.No}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       }
     </Backdrop>
   )

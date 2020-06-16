@@ -1,7 +1,7 @@
 import {
   SET_RATE, SET_FREQUENCY,
   SET_NEW_CHILD, SET_NEW_GUARDIAN, SET_NEW_CONTACT,
-  DELETE_NEW_CHILD, DELETE_NEW_GUARDIAN, DELETE_NEW_CONTACT,
+  DELETE_NEW_CHILD, DELETE_NEW_GUARDIAN, DELETE_NEW_CONTACT, SET_NEW_HOF,
 } from "../constants/Enrollment"
 import {
   Frequency,
@@ -15,6 +15,7 @@ const initialState = {
   children: {},
   guardians: {},
   contacts: {},
+  hofs: {},
 }
 
 
@@ -40,6 +41,10 @@ const newAccountReducer = (state = initialState, action) => {
     }
     case SET_NEW_CONTACT: {
       newState.contacts[action.id] = action.contact
+      return newState
+    }
+    case SET_NEW_HOF: {
+      newState.hofs[action.id] = action.hof
       return newState
     }
     case DELETE_NEW_CHILD: {

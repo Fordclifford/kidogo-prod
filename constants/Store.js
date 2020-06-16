@@ -8,6 +8,7 @@ import {
   createExpense,
   createPayment,
   createQuestion,
+  createResponse,
   createAccount
 } from "../src/graphql/mutations"
 import {
@@ -20,6 +21,7 @@ import {
   getExpense,
   getPayment,
   getQuestion,
+  getResponses,
   getAccount,
   listCaregivers,
   listGuardians,
@@ -30,11 +32,13 @@ import {
   listPayments,
   listExpenses,
   listQuestions,
+  listResponses,
   listAccounts,
 } from "../src/graphql/queries"
 
 
 export const CAREGIVER = 'Caregiver'
+export const RESPONSES = 'Responses'
 export const GUARDIANS = 'Guardians'
 export const CONTACTS = 'Contacts'
 export const CHILDREN = 'Children'
@@ -44,6 +48,7 @@ export const EXPENSES = 'Expenses'
 export const PAYMENTS = 'Payments'
 export const QUESTIONS = 'Questions'
 export const ACCOUNTS = 'Accounts'
+export const HOFS = 'Hofs'
 
 
 export const QueryGetTypes = {
@@ -57,6 +62,7 @@ export const QueryGetTypes = {
   [EXPENSES]: getExpense,
   [PAYMENTS]: getPayment,
   [QUESTIONS]: getQuestion,
+  [RESPONSES]: getResponses,
 }
 
 
@@ -71,6 +77,7 @@ export const QueryListTypes = {
   [EXPENSES]: listExpenses,
   [PAYMENTS]: listPayments,
   [QUESTIONS]: listQuestions,
+  [RESPONSES]: listResponses,
 }
 
 
@@ -85,4 +92,5 @@ export const MutationTypes = {
   [EXPENSES]: createExpense,
   [PAYMENTS]: createPayment,
   [QUESTIONS]: createQuestion,
+  [RESPONSES]: createResponse,
 }

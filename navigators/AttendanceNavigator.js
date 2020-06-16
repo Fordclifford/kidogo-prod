@@ -4,6 +4,7 @@ import Attendance from '../screens/Attendance';
 import CheckIn from '../screens/CheckIn'
 import CheckOut from '../screens/CheckOut'
 import AttendanceHistory from '../screens/AttendanceHistory';
+import AttendanceSummary from '../screens/AttendanceSummary'
 
 
 const routeConfig = {
@@ -27,6 +28,12 @@ const routeConfig = {
   },
   AttendanceHistory: {
     screen: AttendanceHistory,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  AttendanceSummary: {
+    screen: AttendanceSummary,
     navigationOptions: {
       header: null,
     },

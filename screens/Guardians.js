@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import {
   ScrollView, Text, TouchableOpacity, View
 } from 'react-native'
@@ -14,6 +14,7 @@ import GuardianEntry from '../components/GuardianEntry';
 import { SET_NEW_GUARDIAN, Relation } from '../constants/Enrollment';
 import Backdrop from '../components/Backdrop';
 import Language from '../languages'
+
 
 
 const Guardians = (props) => {
@@ -32,6 +33,9 @@ const Guardians = (props) => {
   const [message, setMessage] = useState(null)
 
   const scrollRef = useRef(null)
+
+  const newAccount = useSelector(state => state.newAccount)
+
 
 
   const onSubmitGuardian = () => {
@@ -58,10 +62,10 @@ const Guardians = (props) => {
   }
 
 
-  const onAddContacts = async () => {
+  const onAddChildren = async () => {
     onSubmitGuardian()
     clearTimeout(callbackId)
-    props.navigation.navigate('Contacts')
+    props.navigation.navigate('Children')
   }
 
 
@@ -110,7 +114,11 @@ const Guardians = (props) => {
 
       <Message text={message} />
 
+      
+
       <ScrollView ref={scrollRef} >
+   
+
         <GuardianEntry
           firstName={firstName}
           setFirstName={setFirstName}
@@ -141,17 +149,20 @@ const Guardians = (props) => {
         </TouchableOpacity>
         </View>
 
+     
         <Spacer medium />
         <View  style={{ alignItems:'center' }}>
         <TouchableOpacity
           style={Styles.mainButton}
-          onPress={onAddContacts}
+          onPress={onAddChildren}
         >
           <Text style={Styles.buttonText} >
-            { Language.Add } { Language.Contacts }
+            { Language.Add } { Language.Children }
           </Text>
         </TouchableOpacity>
         </View>
+ 
+
 
         <Spacer height={Size.keyboard} />
       </ScrollView>
