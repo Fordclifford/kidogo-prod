@@ -164,9 +164,9 @@ const ChildModal = (props) => {
               
               onValueChange={(value, pos) => setImmunization(value)}
             >
-              <Picker.Item label='Select' value='' />
-              <Picker.Item label={Language.True} value={1} />
-              <Picker.Item label={Language.False} value={0} />
+             <Picker.Item label={Language.Select} value=''/>
+              <Picker.Item label={Language.Immunized} value={true} />
+              <Picker.Item label={Language.NotImmunized} value={false} />
             </Picker>
               </View>
 

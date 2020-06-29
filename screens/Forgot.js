@@ -116,6 +116,7 @@ const Forgot = (props) => {
             <TextInput
               style={Styles.input}
               value={username}
+              keyboardType="number-pad"
               onChangeText={setUsername}
               blurOnSubmit={false}
             />

@@ -96,6 +96,7 @@ const ContactModal = (props) => {
           <Text style={Styles.label} >
             { Language.Phone }
           </Text>
+          <Spacer medium />
 
           <View style={Styles.rowElements} >
             <TouchableOpacity
@@ -119,6 +120,7 @@ const ContactModal = (props) => {
               </Text>
             </TouchableOpacity>
           </View>
+          <Spacer medium />
 
           { getDeleteButton() }
 

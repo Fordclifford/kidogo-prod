@@ -51,6 +51,7 @@ const Guardians = (props) => {
     }
 
     dispatch({ type: SET_NEW_GUARDIAN, id, guardian })
+    setError("Information submitted successfuly")
   }
 
 

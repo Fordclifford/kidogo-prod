@@ -38,21 +38,22 @@ const FinanceHistoryRow = (props) => {
         <Text style={Styles.tableRow} >
           { props.date }
         </Text>
-
-        <Icon
-          size={30}
-          iconStyle={Styles.financeIcon}
-          type="font-awesome"
-          color={Colors.mainText}
-          name={FinanceTypeIcons[props.type]}
-        />
+      
 
         <Text style={Styles.tableRow} >
           { FinanceTypeNames[props.type] }
         </Text>
 
+       
+
         <Text style={Styles.tableRow} >
           { props.amount }
+        </Text>
+
+      
+
+        <Text style={Styles.tableRow} >
+          { props.paymentFor }
         </Text>
         <TouchableOpacity
          onPress={onUpdatePayment}
@@ -90,21 +91,18 @@ const FinanceHistoryRow = (props) => {
           { props.date }
         </Text>
 
-        <Icon
-          size={30}
-          iconStyle={Styles.financeIcon}
-          type="font-awesome"
-          color={Colors.mainText}
-          name={FinanceTypeIcons[props.type]}
-        />
-
-        <Text style={Styles.tableRow} >
+              <Text style={Styles.tableRow} >
           { FinanceTypeNames[props.type] }
         </Text>
-
         <Text style={Styles.tableRow} >
           { props.amount }
         </Text>
+
+        <Text style={Styles.tableRow} >
+        
+        </Text>     
+        
+
         <TouchableOpacity
           onPress={onUpdateExpense}
         >

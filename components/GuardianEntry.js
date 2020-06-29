@@ -8,14 +8,38 @@ import Language from '../languages'
 import SecureInput from './SecureInput';
 import { Relation, RelationStrings } from '../constants/Enrollment';
 import TextField from 'react-native-md-textinput';
-
+import  counties from '../assets/counties.json';
+import { City, CityStrings } from '../constants/Enrollment';
 
 const GuardianEntry = (props) => {
   const [hideId, setHideId] = useState(true)
 
 
   const toggleHideId = () => setHideId(!hideId)
+  const getCounties = () => {
+  return Object.values(counties).map((counties, i) => {
+    return (
+      <Picker.Item
+        key={i}
+        label={counties.name}
+        value={counties.name}
+      />
+    )
+  })
+}
 
+
+const getCity = () => {
+  return Object.values(City).map((city, i) => {
+    return (
+      <Picker.Item
+        key={i}
+        label={CityStrings[city]}
+        value={city}
+      />
+    )
+  })
+}
 
   const getRelationItems = () => {
     return Object.values(Relation).map((relation, i) => {
@@ -59,23 +83,40 @@ const GuardianEntry = (props) => {
 
 
 
-      <TextField
-        value={props.address}
-        style={Styles.textfield}
-        label=  { Language.Location }
-        onChangeText={props.setAddress}
-      />
+<View style={Styles.rowElement} >
+          <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+            <Picker
+              style={Styles.genderPicker}
+              selectedValue={props.address}
+              onValueChange={(value, pos) => props.setAddress(value)}
+            >           
+               <Picker.Item label='Select' value='' />   
+              { getCounties() }
+            </Picker>
+          </View>
+          <Text style={Styles.label} >
+            { Language.Location }
+          </Text>
+          </View>
 
-     
 
-      <TextField
-        value={props.city}
-        style={Styles.textfield}
-        label=  { Language.City }
-        onChangeText={props.setCity}
-      />
+          <View style={Styles.rowElement} >
+          <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+            <Picker
+              style={Styles.genderPicker}
+              selectedValue={props.city}
+              onValueChange={(value, pos) => props.setCity(value)}
+            >
+              
+              { getCity() }
+            </Picker>
+          </View>
+          <Text style={Styles.label} >
+            { Language.City }
+          </Text>
+          </View>
+ 
 
-   
       <TextField
         style={Styles.textfield}
         maxLength={11}

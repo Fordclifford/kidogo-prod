@@ -30,7 +30,7 @@ const AccountFinances = (props) => {
 
   return (
     <View>
-      <Text style={Styles.balance} >
+      <Text style={Styles.balance1} >
         { Language.Balance }: KES { props.account.balance }
       </Text>
 

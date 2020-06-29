@@ -8,23 +8,12 @@ import moment from 'moment'
 
 
 const AccountCard = (props) => {
-  const payments = useSelector(state => state.payments)
-  useEffect(() => {
- //   setLoading(true)
-
-      GetHofs()
-      .then((json) => setHofs(json))
-      .catch((error) => console.error(error))
-      //.finally(() => setLoading(false));
-    
-
-  }, [])
   const children = useSelector(state => state.children)
   const guardians = useSelector(state => state.guardians)
-  const [hofs, setHofs] = useState(null)
+  const contacts = useSelector(state => state.contacts)
+  const guard= useState()
 
-
-  const getChildNames = () => {
+ const getChildNames = () => {
     const childNames = props.account.children.reduce((acc, id) => {
       if (id in children) {
         acc.push(children[id].firstName + ' ' + children[id].lastName)
@@ -50,12 +39,63 @@ const AccountCard = (props) => {
 
 
   const getAccountName = () => {
-    return guardians[props.account.guardians[0]].firstName+" " +guardians[props.account.guardians[0]].lastName
-  }
+    console.log("account")
+   
+    console.log(props)
+    console.log("guardians")
+   
+    if(guardians[props.account.guardians[0]]){
+      return guardians[props.account.guardians[0]].firstName+" " +guardians[props.account.guardians[0]].lastName
+
+    }else{
+      return null
+    }
+
+     }
 
 
   const onSelect = () => {
-    props.navigate('Account', { accountId: props.id })
+    // guard.pop()
+    // guard.pop()
+    // guard.pop()
+    // for (const [id, guards] of Object.entries(guardians)) {
+    //   if (props.id === guards.accountId) {
+    //     guards.id=id
+    //     guard.push(guards)
+    //   }
+    // }
+    // console.log(guard)
+  
+
+    const guard = props.account.guardians.reduce((acc, id) => {
+      if (id in guardians) {
+        guardians[id].id=id
+        acc.push(guardians[id])
+      }
+      return acc
+    }, [])
+
+    const child = props.account.children.reduce((acc, id) => {
+      if (id in children) {
+        children[id].id=id
+        acc.push(children[id])
+      }
+      return acc
+    }, [])
+
+    const conta = props.account.contacts.reduce((acc, id) => {
+      if (id in contacts) {
+        contacts[id].id=id
+        acc.push(contacts[id])
+      }
+      return acc
+    }, [])
+   
+    // console.log(conta)
+    // console.log(guard)
+    // console.log(child)
+    // console.log(props.account)
+    props.navigate('Account', { accountId: props.id,account:props.account,child,conta,guard })
   }
 
 

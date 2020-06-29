@@ -39,6 +39,11 @@ export const Colors = {
 
 export const Styles = StyleSheet.create({
   questionHolder: {
+       alignItems: 'center',
+  },
+
+  questionHolder1: {
+    height:100,
     alignItems: 'center',
   },
   buttonBlock: {
@@ -66,6 +71,11 @@ export const Styles = StyleSheet.create({
     fontSize: 28,
     margin: 6,
     color: '#ffffff',
+  },
+  balance1: {
+    fontSize: 28,
+    margin: 6,
+    color: Colors.mainText,
   },
   header: {
     flexDirection: 'row',
@@ -181,6 +191,7 @@ export const Styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: "red",
+    margin:10
   },
   input: {
     fontSize: 18,
@@ -388,6 +399,13 @@ export const Styles = StyleSheet.create({
     fontSize: 24,
     color: Colors.mainText,
     margin: 10,
+    textAlign: 'center',
+  },
+  h23: {
+    fontSize: 18,
+    color: Colors.mainText,
+  height:60,
+    textAlign: 'center',
   },
   h4: {
     fontSize: 24,
@@ -581,6 +599,15 @@ export const Styles = StyleSheet.create({
   },
   rowElement: {
     flex: 0.5,
+  },
+ 
+  rowElement1: {
+    flex: 0.5,
+  },
+ 
+  rowElement2: {
+   // flex: 5,
+   
   },
   rowButton: {
     flex: 0.5,

@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from 'react'
+import React, { useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import uuid from 'uuid'
@@ -17,8 +17,6 @@ import { GetShortDate } from '../utilities/dates';
 import {
   ACCOUNTS, CHILDREN, ATTENDANCE, GUARDIANS, CONTACTS
 } from '../constants/Store';
-import { GetContacts, GetCaregiver, GetResponses, GetKids, GetGuardians, GetHofs, GetPayments, GetExpenses, GetAccounts } from '../utilities/localstore';
-
 import { SET_ACCOUNT } from '../constants/Accounts';
 import { SET_ATTENDANCE, UPDATE_ATTENDANCE } from '../constants/Attendance';
 import { UPDATE_CHILD, SET_CHILD, DELETE_CHILD } from '../constants/Children';
@@ -28,50 +26,27 @@ import {
 import {
   UPDATE_CONTACT, SET_CONTACT, DELETE_CONTACT
 } from '../constants/Contacts';
+import Message from '../components/Message';
+import Loading from '../components/Loading';
 
 
 const Account = (props) => {
-  // useEffect(() => {
-  //  // setLoading(true)
-
-
-  //   GetGuardians()
-  //     .then((json) => setGuardians(json))
-  //     .catch((error) => console.error(error))
-
-
-  //   GetKids()
-  //   .then((json) => setChildren(json))
-  //   .catch((error) => console.error(error))
-
-  //   GetContacts()
-  //   .then((json) => setContacts(json))
-  //   .catch((error) => console.error(error))
-
-
-  //   GetAccounts()
-  //     .then((json) => {
-  //       console.log(json)
-  //       setAccounts(json)
-  //     })
-  //     .catch((error) => console.error(error))
-  //   // .finally(() => setLoading(false));
-
-
-  // }, [])
   const { accountId } = props.navigation.state.params
-
+  const { account } = props.navigation.state.params
+  const { child } = props.navigation.state.params
+  const { conta } = props.navigation.state.params
+  const { guard } = props.navigation.state.params
+  const [callbackId, setCallbackId] = useState(null)
+  const [message, setMessage] = useState(null)
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
-
-
-
   const accounts = useSelector(state => state.accounts)
-  const children= useSelector(state => state.children)
-  const guardians=  useSelector(state => state.guardians)
-  const contacts= useSelector(state => state.contacts)
+  const children = useSelector(state => state.children)
+  const guardians = useSelector(state => state.guardians)
+  const contacts = useSelector(state => state.contacts)
 
-  const [rate, setRate] = useState(accounts[accountId].rate)
-  const [frequency, setFrequency] = useState(accounts[accountId].frequency)
+  const [rate, setRate] = useState(account.rate)
+  const [frequency, setFrequency] = useState(account.frequency)
   const [selectedChildId, setSelectedChildId] = useState(null)
   const [selectedGuardianId, setSelectedGuardianId] = useState(null)
   const [selectedContactId, setSelectedContactId] = useState(null)
@@ -80,10 +55,8 @@ const Account = (props) => {
   const [contactModalVisible, setContactModalVisible] = useState(false)
 
 
-    
-
   const getAccountName = () => {
-    return guardians[accounts[accountId].guardians[0]].firstName + " "+guardians[accounts[accountId].guardians[0]].lastName
+    return guardians[account.guardians[0]].lastName
   }
 
 
@@ -148,7 +121,8 @@ const Account = (props) => {
 
     dispatch({ type: DELETE_CHILD, id })
     await Delete(CHILDREN, id)
-
+  
+    setError("Sucess!")
     setChildModalVisible(false)
   }
 
@@ -177,11 +151,12 @@ const Account = (props) => {
       await Update(ACCOUNTS, accountId, { children: updatedAccount.children })
 
       const today = GetShortDate()
-      const update = { [newChildId]: { checkIn: false, checkOut: false }}
+      const update = { [newChildId]: { checkIn: true, checkOut: false }}
 
       dispatch({ type: UPDATE_ATTENDANCE, id: today, update })
       await Update(ATTENDANCE, today, update)
     }
+    setError("Sucess!")
 
     setChildModalVisible(false)
   }
@@ -190,6 +165,15 @@ const Account = (props) => {
   const onAddGuardian = () => {
     setSelectedGuardianId(null)
     setGuardianModalVisible(true)
+  }
+
+  const setError = (text) => {
+    setLoading(true)
+    clearTimeout(callbackId)
+    setMessage(text)
+    setCallbackId(setTimeout(() => {setMessage(null)
+  props.navigation.navigate('Accounts')
+    }, 2000))
   }
 
 
@@ -209,7 +193,7 @@ const Account = (props) => {
 
     dispatch({ type: DELETE_GUARDIAN, id })
     await Delete(GUARDIANS, id)
-
+    setError("Sucess!")
     setGuardianModalVisible(false)
   }
 
@@ -237,7 +221,7 @@ const Account = (props) => {
       dispatch({ type: SET_ACCOUNT, id: accountId, account: updatedAccount })
       await Update(ACCOUNTS, accountId, updatedAccount.guardians)
     }
-
+    setError("Sucess!")
     setGuardianModalVisible(false)
   }
 
@@ -264,7 +248,7 @@ const Account = (props) => {
 
     dispatch({ type: DELETE_CONTACT, id })
     await Delete(CONTACTS, id)
-
+    setError("Sucess!")
     setContactModalVisible(false)
   }
 
@@ -292,7 +276,7 @@ const Account = (props) => {
       dispatch({ type: SET_ACCOUNT, newContactId, account: updatedAccount })
       await Update(ACCOUNTS, newContactId, { contacts: updatedAccount.contacts })
     }
-
+    setError("Sucess!")
     setContactModalVisible(false)
   }
 
@@ -326,7 +310,10 @@ const Account = (props) => {
   return (
     <Backdrop>
       <Spacer height={Size.statusbar} />
-
+      <Message text={message} />
+      {loading
+        ? <Loading />
+        : <View style={Styles.loading} >
       <ScrollView>
         <Text style={[Styles.h1, Styles.raleway]} >
           { getAccountName() }
@@ -350,19 +337,19 @@ const Account = (props) => {
           title={Language.Children}
           addMember={onAddChild}
           updateMember={onUpdateChild}
-          members={getChildren()}
+          members={child}
         />
         <DisplayMembers
           title={Language.Guardians}
           addMember={onAddGuardian}
           updateMember={onUpdateGuardian}
-          members={getGuardians()}
+          members={guard}
         />
         <DisplayMembers
           title={Language.Contacts}
           addMember={onAddContact}
           updateMember={onUpdateContact}
-          members={getContacts()}
+          members={conta}
         />
 
         <Spacer height={Size.keyboard} />
@@ -391,6 +378,11 @@ const Account = (props) => {
         submit={onSubmitContact}
         delete={onDeleteContact}
       />
+        
+        </View>
+
+        
+}
     </Backdrop>
   )
 }

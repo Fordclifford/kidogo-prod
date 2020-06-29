@@ -86,10 +86,16 @@ const Attributes = {
   JoinedDate:"Joined On",
   Immunization: "Immunization",
   IdentificationNumber: "Identification Number",
+   Nairobi:"Nairobi",
+   Mombasa:"Mombasa",
+   Kisumu:"Kisumu",
+
 }
 
 
 const Finances = {
+  Action:"Action",
+  PaymentFor:"For",
   Fee: "Fee",
   Type: "Type",
   Amount: "Amount",
@@ -121,11 +127,15 @@ const Finances = {
 const Center={
   centreName:"Centre Name",
   address:"Address",
-  location:"Location",
+  location:"County",
   city:"City"
 }
 
 const Other = {
+  FamilyAddesSuccessfully:"Family added successfully",
+  QuestionsAnswered:"All Questions already answered",
+  Immunized:"Child Immunized",
+  NotImmunized:"Child not Immunized",
   ConfirmUpload: "Sure to upload?",
   EveningGreeting: "Did you buy anything today?",
   MorningGreeting:"Has anyone attended?",
@@ -137,8 +147,8 @@ const Other = {
   CodeMsg:  "Verification code ",
   VerifyCode:  "Your Verification code is ",
   InvalidPassword:"Invalid password provided",
-  InvalidUsername:"Invalid username provided",
-  InvalidUsernameOrPassword:"Invalid username/password provided",
+  InvalidUsername:"Invalid phone number provided",
+  InvalidUsernameOrPassword:"Invalid phone/password provided",
   ResetMessage:"You need to reset password to continue",
   ResetTitle:"Reset Password",
   AccountNotConfirmed:"Account not confirmed",
@@ -152,6 +162,7 @@ const Other = {
   ResetSuccessful:'Password reset successfully',
   LoginSuccessful:'Login Successful',
   usernameEmpty:"Username required",
+  DuplicatePhone:"Pnone number already registered! Recover your account",
   passwordEmpty:"password required",
   LocationRequired:"Location required",
   CityRequired:"City required",

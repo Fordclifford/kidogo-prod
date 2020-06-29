@@ -34,7 +34,7 @@ export const SignUpCaregiver = async (caregiverData) => {
     myHeaders.append("Accept", "application/json");
 
 
-    var raw = JSON.stringify({"phone":phone_number,"token":55452,"first_name":caregiverData.firstName,"last_name":caregiverData.lastName,"gender":"F","password":caregiverData.password,"address":caregiverData.centreName,"country":caregiverData.countryName,"city":caregiverData.city,"idorpassport":phone_number});
+    var raw = JSON.stringify({"phone":phone_number,"token":55452,"first_name":caregiverData.firstName,"last_name":caregiverData.lastName,"gender":caregiverData.gender,"password":caregiverData.password,"address":caregiverData.centreName,"country":caregiverData.countryName,"city":caregiverData.city,"idorpassport":phone_number});
     
     console.log(raw)
     var cin = {
@@ -49,14 +49,17 @@ export const SignUpCaregiver = async (caregiverData) => {
       .then((response) => response.json()
       )
       .then((json) => {
+        console.log(json)
         return json;
       })
       .catch((error) => {
-      
+       // console.log(error)
        // setLoading(false)
         return error
+      //   console.log(json)
       });
   } catch(error) {
+   // console.log(error)
       return error  
     
   }

@@ -499,7 +499,7 @@ export const GetHofs = async () => {
 export const GetAccounts = async () => {
   let q = await SecureStore.getItemAsync(ACCOUNTS)
   let r = await Get(ACCOUNTS)
-  console.log(r)
+ // console.log(r)
  
   return r === null ? {} : r
 

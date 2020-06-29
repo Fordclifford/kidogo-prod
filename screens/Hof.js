@@ -11,7 +11,7 @@ import { Styles, Colors, Size } from '../constants/Style';
 import Spacer from '../components/Spacer';
 import Message from '../components/Message';
 import GuardianEntry from '../components/GuardianEntry';
-import { SET_NEW_GUARDIAN, Relation,RelationStrings } from '../constants/Enrollment';
+import { SET_NEW_GUARDIAN, Relation,RelationStrings, City, CityStrings } from '../constants/Enrollment';
 import Backdrop from '../components/Backdrop';
 import Language from '../languages'
 import { SET_NEW_HOF } from '../constants/Enrollment';
@@ -20,6 +20,7 @@ import { GetShortDate } from '../utilities/dates'
 import { FrequencyStrings, Frequency } from '../constants/Finances'
 import CurrencyInput from '../components/CurrencyInput'
 import { TextInput } from 'react-native-gesture-handler'
+import counties from '../assets/counties.json'
 
 
 
@@ -52,6 +53,33 @@ const HOFs = (props) => {
           key={i}
           label={RelationStrings[relation]}
           value={relation}
+        />
+      )
+    })
+  }
+
+  
+  const getCounties = () => {
+   
+    return Object.values(counties).map((counties, i) => {
+      return (
+        <Picker.Item
+          key={i}
+          label={counties.name}
+          value={counties.name}
+        />
+      )
+    })
+  }
+
+
+  const getCity = () => {
+    return Object.values(City).map((city, i) => {
+      return (
+        <Picker.Item
+          key={i}
+          label={CityStrings[city]}
+          value={city}
         />
       )
     })
@@ -140,6 +168,7 @@ const HOFs = (props) => {
       }
   
       dispatch({ type: SET_NEW_HOF, id, hof})
+      setMessage("HOF information submitted")
       return true
     }
    
@@ -254,21 +283,40 @@ const getTitle=()=>{
 
 
 
-      <TextField
-        value={address}
-        style={Styles.textfield}
-        label=  { Language.Location }
-        onChangeText={setAddress}
-      />
+<View style={Styles.rowElement} >
+          <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+            <Picker
+              style={Styles.genderPicker}
+              selectedValue={address}
+              onValueChange={(value, pos) => setAddress(value)}
+            >           
+               <Picker.Item label='Select' value='' />   
+              { getCounties() }
+            </Picker>
+          </View>
+          <Text style={Styles.label} >
+            { Language.Location }
+          </Text>
+          </View>
 
-     
 
-      <TextField
-        value={city}
-        style={Styles.textfield}
-        label=  { Language.City }
-        onChangeText={setCity}
-      />
+          <View style={Styles.rowElement} >
+          <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+            <Picker
+              style={Styles.genderPicker}
+              selectedValue={city}
+              onValueChange={(value, pos) => setCity(value)}
+            >
+              
+              { getCity() }
+            </Picker>
+          </View>
+          <Text style={Styles.label} >
+            { Language.City }
+          </Text>
+          </View>
+ 
+
 
    
       <TextField

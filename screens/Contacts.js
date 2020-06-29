@@ -55,11 +55,14 @@ const Contacts = (props) => {
   const onSubmitFamily = async () => {
     setLoading(true)
     onSubmitContact()
-    clearTimeout(callbackId)
-    await SubmitAccount(dispatch, newAccount)
-    setLoading(false)
+      await SubmitAccount(dispatch, newAccount)
+      clearTimeout(callbackId)
+      setMessage(Language.FamilyAddesSuccessfully)
+      setCallbackId(setTimeout(() => {setMessage(null)
+        props.navigation.navigate('Dash')
+      }, 4000))
 
-    props.navigation.navigate('Dash')
+  
   }
 
 

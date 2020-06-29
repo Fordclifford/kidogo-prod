@@ -123,6 +123,8 @@ const SignUp = (props) => {
               onChangeLocation={setLocation}
               onChangeCity={setCity}
               setCountry={setCountry}
+              setLocation={setLocation}
+              setCity={setCity}
             />
 
 <Spacer large />

@@ -15,7 +15,6 @@ const Accounts = (props) => {
 
   const getAccountCards = () => {
     return Object.entries(accounts).map(([id, account]) =>
-   
       <AccountCard
         key={id}
         id={id}

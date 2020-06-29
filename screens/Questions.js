@@ -10,7 +10,7 @@ import Language from '../languages'
 import { GetTOD, GetShortDate } from '../utilities/dates'
 import Spacer from '../components/Spacer'
 import { Update, GetQuestions, Get } from '../utilities/localstore'
-import { RESPONSES } from '../constants/Store';
+import { RESPONSES, QUESTIONS } from '../constants/Store';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
 
@@ -21,31 +21,39 @@ const Questions = (props) => {
   const [message, setMessage] = useState(null)
   const [tod, setTOD] = useState(GetTOD())
   var [curQuestionIndex, setCurQuestionIndex] = useState(0)
-  const [responses, setResponses] = useState(null)
+  const [responses, setResponses] = useState('')
   const [date, setDate] = useState(GetShortDate)
   const [question, setQuestion] = useState([])
   const [qs, setQs] = useState([])
   const [callbackId, setCallbackId] = useState(null)
   const [numQ, setnumQ] = useState(0)
+  const [uploaded, setUploaded] = useState(0)
   var [remaining, setRemaining] = useState(0)
 
   useEffect(() => {
-    setLoading(true)
+//    setLoading(true)
+
+    
 
     GetQuestions()
       .then((json) => {setResponses(json)
 
+        const today = GetShortDate()
+        if(json[today].uploaded){
+          setUploaded(true)
+        }
+     
         for (const [dt, resData] of Object.entries(json)) {
 
-          // console.log(resData.afternoon)
-           if (resData[tod] != null) {
+           if (resData[tod] != undefined) {
+             
             setQs(json[dt][tod])
          setnumQ(json[dt][tod].length)
          setRemaining(json[dt][tod].length)
-         
+         break
          }else{
-                setLoading(true)
-                setError("No questions today!")
+              //  setLoading(true)
+             //   setError("No questions today!")
               
          }
          }
@@ -79,9 +87,14 @@ const Questions = (props) => {
 
     dispatch({ type: SET_RESPONSES, id: today, responses:update })
     await Update(RESPONSES, today, update)
+var ind = numQ-1;
+     if (curQuestionIndex === ind) {
+      const q= {uploaded:true}
 
-   
-   
+      dispatch({ type: UPDATE_QUESTIONS, id: today, questions: q })
+      await Update(QUESTIONS, today, q)
+    }
+
 
     forward()
   }
@@ -109,13 +122,31 @@ const Questions = (props) => {
 
 
   const getCurrentQuestion = () => {
-    if (!numQ) {
-      setLoading(true)
-      setError("No questions today!")
+
+    if (!responses) {
+      return null
     }
+
+    if (responses==='') {
+      console.log(responses)
+      return null
+    }
+
+   else if (numQ===0) {
+    
+
+        //   setLoading(true)
+    //  setError("There are no questions today!")
+    }
+   
+  else  if (uploaded) {
+      setLoading(true)
+ setError(Language.QuestionsAnswered)
+}
 
     
     else if (curQuestionIndex === numQ) {
+      console.log(numQ)
       setLoading(true)
       setError("You have reached the end of questions!")
 //curQuestionIndex--
@@ -123,7 +154,7 @@ const Questions = (props) => {
     }else{
 
           return (
-            <Text style={Styles.h2} >
+            <Text style={Styles.h23} >
               {qs[curQuestionIndex]['question']}
             </Text>
           )
@@ -138,9 +169,7 @@ const Questions = (props) => {
 
 
 
-  if (!responses) {
-    return null
-  }
+  
 
 
 
@@ -165,21 +194,21 @@ const Questions = (props) => {
 
           <View style={Styles.rowElements} >
             <TouchableOpacity
-              style={Styles.rowElement}
+              style={Styles.rowElement1}
               onPress={back}
             >
               <Icon name="chevron-left" size={48} color='black' />
             </TouchableOpacity>
 
             <Spacer medium />
-          <View style={Styles.questionHolder} >
+          <View  style={Styles.rowElement2}>
             {getCurrentQuestion()}
           </View>
 
           <Spacer medium />
 
             <TouchableOpacity
-              style={Styles.rowElement}
+              style={Styles.rowElement1}
               onPress={forward}
             >
               <Icon name="chevron-right" size={48} color='black' />

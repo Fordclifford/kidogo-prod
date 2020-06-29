@@ -10,7 +10,7 @@ import Backdrop from './Backdrop'
 import Spacer from './Spacer'
 import {
   ADD_PAYMENT, UPDATE_INCOME,
-  FinanceType, FinanceTypeNames, PaymentType,UPDATE_PAYMENT,
+  FinanceType, FinanceTypeNames, PaymentType,UPDATE_PAYMENT, PaymentFor,
 } from '../constants/Finances'
 import { Update, Get, InitPayments, InitFinances, GetPayments } from '../utilities/localstore'
 import { PAYMENTS, FINANCES, ACCOUNTS } from '../constants/Store'
@@ -29,6 +29,7 @@ const PaymentModal = (props) => {
   const [accountId, setAccountId] = useState('')
   const [date, setDate] = useState(null)
   const [type, setType] = useState('')
+  const [paymentFor, setPaymentFor] = useState('')
   const [amount, setAmount] = useState('')
   const [payments, setPayments] = useState('')
 
@@ -36,12 +37,13 @@ const PaymentModal = (props) => {
   useEffect(() => {
    
     if (props.id) {   
-      console.log(accounts[props.id.accountId].balance)
+    //  console.log(accounts[props.id.accountId].balance)
    
       setDate(moment(props.id.date, "DD-MM-YYYY"))
       setType(props.id.type)
       setAmount(props.id.amount)
       setAccountId(props.id.accountId)
+      setPaymentFor(props.id.paymentFor)
      }else{
       setDate(null)
       setType('')
@@ -53,6 +55,12 @@ const PaymentModal = (props) => {
 
   const getPaymentTypeItems = () => {
     return Object.values(PaymentType).map((type, i) =>
+      <Picker.Item key={i} label={FinanceTypeNames[type]} value={type} />
+    )
+  }
+
+  const getPaymentForItems = () => {
+    return Object.values(PaymentFor).map((type, i) =>
       <Picker.Item key={i} label={FinanceTypeNames[type]} value={type} />
     )
   }
@@ -103,6 +111,12 @@ if(amount==''){
   return
 }
 
+if(paymentFor==''){
+  alert("Payment for Required")
+  return
+}
+
+
 
     if (props.id) {
       let payData=props.id
@@ -113,8 +127,8 @@ if(amount==''){
       
       //console.log(expense);return;
       let shortDate = GetShortDate(0, date)
-       let pay = { type, amount,accountId,date:shortDate }
-       let up = { type, amount,accountId }
+       let pay = { type, amount,accountId,date:shortDate,paymentFor }
+       let up = { type, amount,accountId,paymentFor }
        let u = { [props.id.id]: up }
 
        await InitPayments(dispatch, shortDate)
@@ -146,7 +160,7 @@ if(amount==''){
      } 
  
     let shortDate = GetShortDate(0, date)
-    let payment = { accountId, type, amount }
+    let payment = { accountId, type, amount,paymentFor }
     let um = { [uuid()]: payment }
 
     await InitPayments(dispatch, shortDate)
@@ -326,6 +340,24 @@ await Update(ACCOUNTS, id, data)
                 { Language.Type}
               </Text>
             </View>
+
+            <View style={Styles.rowElement} >
+              <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+                <Picker
+                    style={Styles.financePicker}
+                  selectedValue={paymentFor}
+                  onValueChange={(value, pos) => setPaymentFor(value)}
+                >
+                   <Picker.Item label='Select' value=''></Picker.Item>
+                  { getPaymentForItems() }
+                </Picker>
+              </View>
+
+              <Text style={Styles.label} >
+                { Language.PaymentFor}
+              </Text>
+            </View>
+
 
             <View style={Styles.rowElement} >
               <TextInput

@@ -51,10 +51,18 @@ export const ExpenseType = {
   Equipment: "equipment",
 }
 
+export const PaymentFor = {
+  Food: "food",
+  Fees: "fees",
+  Other: "other",
+
+}
+
 
 export const FinanceType = {
   ...PaymentType,
   ...ExpenseType,
+  ...PaymentFor,
 }
 
 
@@ -68,6 +76,8 @@ export const FinanceTypeNames = {
   [FinanceType.Equipment]: Language.Equipment,
   [FinanceType.mpesa]: Language.mpesa,
   [FinanceType.cash]: Language.cash,
+  [FinanceType.Fees]: Language.Fee,
+  [FinanceType.Other]: Language.Other,
 }
 
 

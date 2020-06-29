@@ -113,9 +113,9 @@ const ChildEntry = (props) => {
               
               onValueChange={onImmunizationChange}
             >
-              <Picker.Item label={Language.Select} value='' />
-              <Picker.Item label={Language.True} value={true} />
-              <Picker.Item label={Language.False} value={false} />
+              <Picker.Item label={Language.Select} value=''/>
+              <Picker.Item label={Language.Immunized} value={true} />
+              <Picker.Item label={Language.NotImmunized} value={false} />
             </Picker>
           </View>
 

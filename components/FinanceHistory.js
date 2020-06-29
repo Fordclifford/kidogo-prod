@@ -39,6 +39,7 @@ const FinanceHistory = (props) => {
           accountId:dat.accountId,
           type: dat.type,
           amount: dat.amount,
+          paymentFor:dat.paymentFor
         })
       }
     }
@@ -52,6 +53,7 @@ const FinanceHistory = (props) => {
         date={data.date}
         type={data.type}
         amount={data.amount}
+        paymentFor={data.paymentFor}
         id={data.id}
         transaction={data.transaction}
       />
@@ -75,8 +77,17 @@ const FinanceHistory = (props) => {
           { Language.Type }
         </Text>
 
+
         <Text style={Styles.tableRow} >
           { Language.Amount }
+        </Text>
+        
+        <Text style={Styles.tableRow} >
+          { Language.PaymentFor }
+        </Text>
+
+        <Text style={Styles.tableRow} >
+          { Language.Action }
         </Text>
       </View>
 

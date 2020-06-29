@@ -7,6 +7,9 @@ import Spacer from './Spacer'
 
 
 const DisplayMembers = (props) => {
+
+  console.log("memmber")
+ // console.log(props.members)
   
   const [active, setActive] = useState(false)
 
@@ -16,6 +19,7 @@ const DisplayMembers = (props) => {
 
   const getMemberComponents = () => {
     const sortedMembers = Object.values(props.members).sort((a, b) => {
+ //     console.log(a)
       return (a.lastName + a.firstName) > (b.lastName + b.firstName)
     })
 

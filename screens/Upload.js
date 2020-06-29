@@ -258,7 +258,7 @@ const Upload = (props) => {
               console.log(resul)
 
             } else if (resu.statusCode == 400) {
-              setError("Some data did not upload please try again")
+              setError("Please click upload again")
               setLoading(false)
               return;
             }
@@ -298,7 +298,7 @@ const Upload = (props) => {
               // const kids = await getKids()
 
             } else if (rs.statusCode == 400) {
-              setError("Some data did not upload please try again")
+              setError("Please click upload again")
               setLoading(false)
               return;
             }
@@ -333,7 +333,7 @@ const Upload = (props) => {
 
 
             } else if (rs.statusCode == 400) {
-              setError("Some data did not upload please try again")
+              setError("Please click upload again")
               setLoading(false)
               return;
             }
@@ -362,8 +362,8 @@ const Upload = (props) => {
 
               if (response.statusCode === 200) {
 
-                let pay = { type: pdata.type, uploaded: true, amount: pdata.amount, accountId: paymentId, date: date }
-                let up = { type: pdata.type, uploaded: true, amount: pdata.amount, accountId: paymentId }
+                let pay = { type: pdata.type, uploaded: true, amount: pdata.amount, accountId: paymentId, date: date,paymentFor:pdata.paymentFor }
+                let up = { type: pdata.type, uploaded: true, amount: pdata.amount, accountId: paymentId,paymentFor:pdata.paymentFor }
                 let u = { [paymentId]: up }
 
                 // alert(props.id.date);return;
@@ -647,7 +647,7 @@ const Upload = (props) => {
     myHeaders.append("Accept", "application/json");
 
 
-    var raw = JSON.stringify({ "token": 3444, "caregiver": caregiver.id, "family_id": familyId, "amount": payment.amount, "payment_for": "fees", "payment_type": payment.type });
+    var raw = JSON.stringify({ "token": 3444, "caregiver": caregiver.id, "family_id": familyId, "amount": payment.amount, "payment_for": payment.paymentFor, "payment_type": payment.type });
     console.log(raw)
     var requestOptions = {
       method: 'POST',
@@ -751,10 +751,11 @@ const Upload = (props) => {
         return json;
       })
       .catch((error) => {
-        setError(error)
+        setError("error")
         setLoading(false)
-        return error
         console.error(error);
+        return error
+       
       });
   }
   const postCheckin = async (datetime, childid) => {

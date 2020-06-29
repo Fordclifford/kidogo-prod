@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Text, TouchableOpacity, ScrollView,Image
+  View, Text, TouchableOpacity, ScrollView,Image, Picker
 } from 'react-native';
 import TextField from 'react-native-md-textinput';
 import { Audio } from 'expo-av'
@@ -15,6 +15,7 @@ import Backdrop from '../components/Backdrop';
 import Language from '../languages'
 import { GetShortDate } from '../utilities/dates';
 import { SignUpCaregiver,sendToAPi, SendSms, SendMessage } from '../utilities/auth'
+import { GenderStrings, Gender } from '../constants/Enrollment';
 
 
 const SignUp1 = (props) => {
@@ -38,6 +39,7 @@ const centreName= signupData.centreName;
   const city = signupData.city;
  
   const [username, setUsername] = useState('')
+  const [gender, setGender] = useState('')
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -49,6 +51,18 @@ const centreName= signupData.centreName;
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
   const [soundObject, setSoundObject] = useState(null)
+
+  const getGenderItems = () => {
+    return Object.values(Gender).map((gender, i) => {
+      return (
+        <Picker.Item
+          key={i}
+          label={GenderStrings[gender]}
+          value={gender}
+        />
+      )
+    })
+  }
   const onSignUp = async () => {
     setLoading(true)
 
@@ -80,6 +94,7 @@ const centreName= signupData.centreName;
         centreName,
        location,
         city,
+        gender,
       }
   
       const signUpResult = await SignUpCaregiver(caregiverData)
@@ -90,33 +105,21 @@ const centreName= signupData.centreName;
         if(signUpResult.statusCode===200){
 
         
-           if(countryCode==='254'){
-            var ph =phone.split('-').join('')
-            var pn = ph.substring(ph.length - 9)
-            var phone_number = countryCode + pn
-        
-      
-          }else{
-            var phone_number = countryCode + phone.split('-').join('')
-          }
-          const message="Success! Your username is "+phone_number +" and password "+password
-        
-         const sms = await SendSms(message,phone.trim(),countryCode)
-         console.log(sms)
-
-         if(sms.statusCode){
-          if(sms.statusCode===200){
             clearTimeout(callbackId)
             setMessage(Language.SignupSuccessful)
             setCallbackId(setTimeout(() => {setMessage(null)
-              props.navigation.navigate('Home')
+              props.navigation.navigate('SignIn')
              // setLoading(false)
             }, 4000))
-          }
-        else{
-          setError(Language.UnknownError)
+          
+          }else if(signUpResult.statusCode===300){
+          setError(Language.DuplicatePhone)
           setLoading(false)
           return
+        }else{
+          setError(Language.UnknownError)
+          setLoading(false)
+          return 
         }
         }else{
           setError(Language.UnknownError)
@@ -126,8 +129,8 @@ const centreName= signupData.centreName;
 
 
       
-        }
-      }
+        
+      
       console.log(signUpResult)
 
       return;
@@ -208,13 +211,21 @@ const centreName= signupData.centreName;
 
 
 
-      {/* <TextField
-       style={Styles.textfield}
-        value={email}
-        //value="cmasi@techsavanna.technology"
-        label=  { Language.Email }
-        onChangeText={setEmail}
-      /> */}
+<View style={Styles.rowElement} >
+          <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+            <Picker
+              style={Styles.genderPicker}
+              selectedValue={gender}
+              onValueChange={(value, pos) => setGender(value)}
+            >
+              { getGenderItems() }
+            </Picker>
+          </View>
+
+          <Text style={Styles.label} >
+            { Language.Gender }
+          </Text>
+        </View>
 
      
       <TextField

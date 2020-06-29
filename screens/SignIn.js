@@ -25,8 +25,7 @@ import { baseUrl } from '../utilities/config';
 
 const SignIn = (props) => {
   useEffect(() => {
-    getData();
-    getQuestions();
+     getQuestions();
   
 
 
@@ -75,7 +74,7 @@ const SignIn = (props) => {
   const getQuestions = async () => {
     try {
 
-      setLoading(true)    
+     setLoading(true) 
       setError("Fetching data please wait..")
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -106,7 +105,7 @@ const SignIn = (props) => {
         
         .then((json) =>  setMorningQs({qs:json}))
         .catch((error) => { setError(Language.UnknownError)
-          props.navigation.navigate('SignIn')
+          props.navigation.navigate('Home')
       setLoading(false)
       })
        // .finally(() => setLoading(false));
@@ -121,8 +120,8 @@ const SignIn = (props) => {
       
       .then((json) =>  setAfternoonQs({qs:json}))
       .catch((error) => {setError(Language.UnknownError)
-        props.navigation.navigate('SignIn')
-    setLoading(false)
+        props.navigation.navigate('Home')
+    //setLoading(false)
     
       })
       .finally(() => setLoading(false));
@@ -131,35 +130,7 @@ const SignIn = (props) => {
   }
   }
 
-  const getData = async () => {
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Accept", "application/json");
-
-
-    var raw = JSON.stringify({"token":55452});
-    
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-    // console.log(caregiver)
-     fetch(baseUrl+'frontend/web/index.php?r=api/get-care-givers', requestOptions)
-      .then((response) => response.json())
-      .then((json) => {
-    
-        setResponse(json)
-       // return json;
-      })
-      .catch((error) => {
-       setError(Language.UnknownError)
-        props.navigation.navigate('SignIn')
-       
-      });
-  }
  
   
   const onForgot = async () => {
@@ -168,9 +139,7 @@ const SignIn = (props) => {
   }
   const onSignIn = async () => {
     
-    if(response.length===0){
-     await getData()
-    }
+   
 
     if (username == "") {
       setError(Language.usernameEmpty)
@@ -192,17 +161,25 @@ const SignIn = (props) => {
     const countryCode= res[0].substring(1)
     
     const user= await SignInCaregiver(username.trim(), password,countryCode)
-    console.log(user)
+ 
 
    // return;
     
     if(user.statusCode){
      // console.log(user.code+"result")
-     if(response.length===0){
-      await getData()
-     }
+     if (user.statusCode === 409) {
+        
+      setError(Language.InvalidUsernameOrPassword)
+      setPassword('')
+      setUsername('')
+      setLoading(false)
+      return;
+      // The error happens if the user didn't finish the confirmation step when signing up
+      // In this case you need to resend the code and confirm the user
+      // About how to resend the code and confirm the user, please check the signUp part
+    }
     
-       if (user.statusCode === 200) {
+      else if (user.statusCode === 200) {
     
         if(countryCode==='254'){
           //console.log("yes")
@@ -216,25 +193,23 @@ const SignIn = (props) => {
         }
         // console.log(phone_number)
       // get the response body (the method explained below)
-     var i;
-       for (i = 0; i <response.length; i++) {
-       var single= response[i].username;
-       if (single === phone_number) {
-        const caregiverData = {
-          id: response[i].id_user,
-          lastUpdate: GetShortDate(-1),
-          username:phone_number,
-          password:response[i].password_hash,
-          email:response[i].email,
-          firstName:response[i].first_name,
-          lastName:response[i].last_name,
-          phone:response[i].phone,
-          centreName:response[i].address,
-         location:response[i].city,
-          city:response[i].city,
-        }
+      const caregiverData = {
+        id: user.idLogin,
+        lastUpdate: GetShortDate(-1),
+        username:phone_number,
+        password:user.password,
+        email:user.email,
+        firstName:user.firstname,
+        lastName:user.last_name,
+        phone:user.Telephone,
+        centreName:user.address,
+       location:user.city,
+        city:user.city,
+      }
+      console.log(caregiverData)
         await CreateCaregiver(caregiverData)
         const today = GetShortDate()
+        
 
      var i;
     for (i = 0; i <morningQs.qs.length; i++) {
@@ -269,26 +244,17 @@ const SignIn = (props) => {
         }, 4000))
 
        
-        break
-      }
-         
-       
-       }
-      // return
-     
-
-      } else if (user.statusCode === 409) {
         
-        setError(Language.InvalidUsernameOrPassword)
-        setPassword('')
-        setUsername('')
+      } else  {
+      
+        setError(Language.UnknownError)
+      
         setLoading(false)
         return;
-        // The error happens if the user didn't finish the confirmation step when signing up
-        // In this case you need to resend the code and confirm the user
-        // About how to resend the code and confirm the user, please check the signUp part
+          // The error happens when the supplied username/email does not exist in the Cognito user pool
       }
-    else  {
+
+      } else  {
       
       setError(Language.UnknownError)
     
@@ -296,7 +262,7 @@ const SignIn = (props) => {
       return;
         // The error happens when the supplied username/email does not exist in the Cognito user pool
     }
-    }
+    
 
 
 //return
@@ -370,6 +336,7 @@ const SignIn = (props) => {
             <TextInput
               style={Styles.input}
               value={username}
+              keyboardType="number-pad"
               onChangeText={setUsername}
               blurOnSubmit={false}
             />

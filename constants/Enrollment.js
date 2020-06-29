@@ -8,6 +8,20 @@ export const Gender = {
   Other: "other",
 }
 
+export const City = {
+  Select: "",
+  Nairobi: "Nairobi",
+ Mombasa: "Mombasa",
+ Kisumu: "Kisumu",
+}
+
+
+export const CityStrings = {
+  [City.Select]: Language.Select,
+  [City.Nairobi]: Language.Nairobi,
+  [City.Mombasa]: Language.Mombasa,
+  [City.Kisumu]: Language.Kisumu,
+}
 
 export const GenderStrings = {
   [Gender.Select]: Language.Select,
@@ -15,7 +29,6 @@ export const GenderStrings = {
   [Gender.Female]: Language.Female,
   [Gender.Other]: Language.Other,
 }
-
 
 export const Relation = {
   Mother: "mother",
