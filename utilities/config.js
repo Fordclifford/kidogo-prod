@@ -17,4 +17,4 @@ export const ConfigureBcrypt = () => {
     return buf.map(() => Math.floor(isaac.random() * 256))
   })
 }
-export const baseUrl=" http://64.20.54.69:8080/kidogoadmin/"
+export const baseUrl="http://64.20.54.69:8080/kidogoadmin/"

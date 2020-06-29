@@ -399,7 +399,7 @@ export const Styles = StyleSheet.create({
     fontSize: 24,
     color: Colors.mainText,
     margin: 10,
-    textAlign: 'center',
+  
   },
   h23: {
     fontSize: 18,
