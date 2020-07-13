@@ -1,6 +1,6 @@
 import React, { useState,useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { TextInput, Text, AsyncStorage,TouchableOpacity, View,Picker } from 'react-native'
+import { TextInput, Text, AsyncStorage,TouchableOpacity,ScrollView, View,Picker } from 'react-native'
 import { Styles } from '../constants/Style';
 import Spacer from '../components/Spacer';
 import { SignInCaregiver } from '../utilities/auth';
@@ -21,6 +21,8 @@ import { GetShortDate,GetTOD} from '../utilities/dates';
 import { SET_QUESTIONS } from '../constants/Questions';
 import  countries from '../assets/countries.json';
 import { baseUrl } from '../utilities/config';
+import AudioPlayer from 'react-native-play-audio';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const SignIn = (props) => {
@@ -286,13 +288,14 @@ const SignIn = (props) => {
   const toggleHelpAudio = async () => {
     try {
       if (soundObject) {
-        await soundObject.stopAsync()
+        AudioPlayer.stop()
         setSoundObject(null)
       } else {
         const soundObject = new Audio.Sound()
         await soundObject.loadAsync(require('../assets/audio/signin.mp3'))
         await soundObject.playAsync()
         setSoundObject(soundObject)
+        AudioPlayer.prepareWithFile('sample', 'mp3', callback);
       }
     } catch(error) {
       console.error(error)
@@ -305,7 +308,7 @@ const SignIn = (props) => {
 
       {loading
         ? <Loading />
-        : <View>
+        :  <ScrollView >
             <Spacer large />
 
             <Text style={[Styles.h1, { fontSize: 35 }, Styles.raleway]} >
@@ -371,7 +374,7 @@ const SignIn = (props) => {
               <Text style={Styles.resendButton}>{ Language.ResetPassword }</Text>
             </TouchableOpacity>
             </View>
-          </View>
+         </ScrollView>
       }
   
   <TouchableOpacity

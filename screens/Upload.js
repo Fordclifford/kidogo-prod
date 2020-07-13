@@ -316,7 +316,7 @@ const Upload = (props) => {
           let child = children[internalId]
 
           if (child.uploaded) {
-            setError("Children already Uploaded")
+           // setError("Children already Uploaded")
           } else {
             setError("Uploading Children")
             let rs = await postChild(child, data.familyId)

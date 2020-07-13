@@ -13,6 +13,7 @@ import { Update, GetQuestions, Get } from '../utilities/localstore'
 import { RESPONSES, QUESTIONS } from '../constants/Store';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
+import { ScrollView } from 'react-native-gesture-handler'
 
 
 
@@ -179,7 +180,7 @@ var ind = numQ-1;
       <Message text={message} />
       {loading
         ? <Loading />
-        : <View style={Styles.loading} >
+        : <ScrollView style={Styles.loading} >
           <Spacer height={Size.statusbar} />
 
           
@@ -236,7 +237,7 @@ var ind = numQ-1;
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       }
     </Backdrop>
   )

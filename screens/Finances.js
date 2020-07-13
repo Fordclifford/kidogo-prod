@@ -31,6 +31,7 @@ const Finances = (props) => {
   return (
     <Backdrop>
       <Spacer height={Size.statusbar} />
+      
 
       <FinanceHeader />
 
@@ -55,6 +56,7 @@ const Finances = (props) => {
           </Text>
         </TouchableOpacity>
       </View>
+      
 
       <FinanceHistory />
 

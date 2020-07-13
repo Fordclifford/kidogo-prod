@@ -56,7 +56,7 @@ const Account = (props) => {
 
 
   const getAccountName = () => {
-    return guardians[account.guardians[0]].lastName
+    return guardians[account.guardians[0]].firstName  +" "+ guardians[account.guardians[0]].lastName
   }
 
 
@@ -151,7 +151,7 @@ const Account = (props) => {
       await Update(ACCOUNTS, accountId, { children: updatedAccount.children })
 
       const today = GetShortDate()
-      const update = { [newChildId]: { checkIn: true, checkOut: false }}
+      const update = { [newChildId]: { checkIn: false, checkOut: false }}
 
       dispatch({ type: UPDATE_ATTENDANCE, id: today, update })
       await Update(ATTENDANCE, today, update)

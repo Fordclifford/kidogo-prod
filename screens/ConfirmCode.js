@@ -25,6 +25,7 @@ import {ForgotPassword,SendSms} from '../utilities/auth';
 import userStore from '../utilities/store';
 import {saveUser}  from '../constants/User'
 import { ListDB } from '../utilities/dbstore';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const ConfirmCode = (props) => {
@@ -185,7 +186,7 @@ if(result.statusCode===200){
 
       {loading
         ? <Loading />
-        : <View>
+        : <ScrollView>
           <Text style={[Styles.h1, { fontSize: 35 }, Styles.raleway]} >
             {Language.ResetTitle}
           </Text>
@@ -240,7 +241,7 @@ if(result.statusCode===200){
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       }
     </Backdrop>
   )

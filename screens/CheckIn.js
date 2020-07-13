@@ -89,17 +89,15 @@ const CheckIn = (props) => {
 
   const getAttendanceTotals = () => {
     const currentCheckIn = getCurrentCheckIn()
-
+ 
     if (!checkInData) {
       return null
     } else if (currentCheckIn === checkInData.length) {
       return 'All children are checked in'
     } else if (currentCheckIn === 0) {
       return 'No children are checked in'
-    } else if (currentCheckIn === 1) {
-      return '1 child is checked in'
     } else {
-      return `${currentCheckIn} children are checked in`
+      return `${currentCheckIn}  out of ${checkInData.length} children checked in`
     }
   }
 

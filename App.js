@@ -5,6 +5,7 @@ import { createStore } from 'redux'
 import rootReducer from './reducers/RootReducer'
 import awsconfig from './aws-exports'
 import { AppLoading } from 'expo'
+// import * as Update from 'expo-updtes'
 
 import { LoadFonts, ConfigureBcrypt } from './utilities/config';
 import {
@@ -22,6 +23,9 @@ const store = createStore(rootReducer)
 const AppContainer = createAppContainer(AppNavigator)
 
 const App = () => {
+  useEffect(() => {
+
+  }, [])
   const [appLoading, setAppLoading] = useState(true)
 
 

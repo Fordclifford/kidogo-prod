@@ -29,11 +29,13 @@ const ChildModal = (props) => {
       setLastName(children[props.id].lastName)
       setBirthdate(children[props.id].birthdate)
       setGender(children[props.id].gender)
+      setImmunization(children[props.id].immunization)
     } else {
       setFirstName('')
       setLastName('')
       setBirthdate(null)
       setGender('')
+      setImmunization('')
     }
   }, [props.id])
 
@@ -156,7 +158,14 @@ const ChildModal = (props) => {
               </Text>
             </View>
 
-            <View style={{ flex: .5, marginLeft: 2}} >
+        
+
+           
+
+
+          </View>
+
+          <View style={{ flex: .5, marginLeft: 2}} >
               <View style={[Styles.input1, { height: 30, paddingLeft: 0 }]} >
               <Picker
               selectedValue={immunization}
@@ -174,11 +183,6 @@ const ChildModal = (props) => {
                 { Language.Immunization }
               </Text>
             </View>
-
-           
-
-
-          </View>
 
           <Spacer medium />
 

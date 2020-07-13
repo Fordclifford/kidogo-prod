@@ -13,6 +13,7 @@ import SecureInput from '../components/SecureInput';
 import { CAREGIVER } from '../constants/Store';
 import {ForgotPassword} from '../utilities/auth';
 import  countries from '../assets/countries.json';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Forgot = (props) => {
   const [username, setUsername] = useState('')
@@ -88,7 +89,7 @@ const Forgot = (props) => {
 
       {loading
         ? <Loading />
-        : <View>
+        : <ScrollView>
             <Spacer large />
 
             <Text style={[Styles.h1, { fontSize: 35 }, Styles.raleway]} >
@@ -136,7 +137,7 @@ const Forgot = (props) => {
             </TouchableOpacity>
             </View>
                      
-          </View>
+          </ScrollView>
       }
     </Backdrop>
   )
