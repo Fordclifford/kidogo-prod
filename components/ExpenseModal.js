@@ -152,7 +152,9 @@ if(amount==''){
           <Text style={[Styles.h1, Styles.raleway]} >
             { Language.Expense }
           </Text>
-
+          <Text style={Styles.label} >
+            { Language.Date }
+          </Text>
           <TouchableOpacity
             onPress={onDateSelection}
           >
@@ -161,12 +163,14 @@ if(amount==''){
             </Text>
           </TouchableOpacity>
 
-          <Text style={Styles.label} >
-            { Language.Date }
-          </Text>
+         
 
           <View style={Styles.rowElements} >
+          
             <View style={{ flex: .5, marginLeft: 5}} >
+            <Text style={Styles.label} >
+                { Language.Type}
+              </Text>
               <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
                 <Picker
                    style={Styles.financePicker}
@@ -177,12 +181,13 @@ if(amount==''){
                 </Picker>
               </View>
 
-              <Text style={Styles.label} >
-                { Language.Type}
-              </Text>
+            
             </View>
 
             <View style={Styles.rowElement} >
+            <Text style={Styles.label} >
+                { Language.Amount }
+              </Text>
               <TextInput
                 style={Styles.input}
                 maxLength={10}
@@ -191,9 +196,7 @@ if(amount==''){
                 onChangeText={setAmount}
               />
 
-              <Text style={Styles.label} >
-                { Language.Amount }
-              </Text>
+             
             </View>
           </View>
 

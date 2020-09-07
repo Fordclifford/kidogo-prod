@@ -180,7 +180,7 @@ var ind = numQ-1;
       <Message text={message} />
       {loading
         ? <Loading />
-        : <ScrollView style={Styles.loading} >
+        : <View style={Styles.loading} >
           <Spacer height={Size.statusbar} />
 
           
@@ -237,7 +237,7 @@ var ind = numQ-1;
               </Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
+        </View>
       }
     </Backdrop>
   )

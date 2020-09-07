@@ -56,8 +56,17 @@ const Account = (props) => {
 
 
   const getAccountName = () => {
-    return guardians[account.guardians[0]].firstName  +" "+ guardians[account.guardians[0]].lastName
-  }
+    
+    //console.log(account.guardians[0])
+   // console.log(guardians[account.guardians[0]])
+    if(guardians[account.guardians[0]]){
+      return guardians[account.guardians[0]].firstName  +" "+ guardians[account.guardians[0]].lastName
+  
+    }
+    else{
+      return null;
+    }
+   }
 
 
   const getChildren = () => {
@@ -107,6 +116,7 @@ const Account = (props) => {
 
   const onDeleteChild = async (id) => {
     const curAccount = { ...await Get(ACCOUNTS, accountId) }
+    console.log(curAccount)
     const updatedChildren = curAccount.children.filter((childId) =>
       id !== childId
     )

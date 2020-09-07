@@ -1,4 +1,4 @@
-import { Auth } from 'aws-amplify'
+
 import { GetCaregiver } from './localstore';
 import {AsyncStorage} from 'react-native'
 import { baseUrl } from './config';

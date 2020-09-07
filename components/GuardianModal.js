@@ -79,46 +79,48 @@ const GuardianModal = (props) => {
             source={require('../assets/images/child.png')}
           />
 
+<Text style={Styles.label} >
+            { Language.FirstName }
+          </Text>
           <TextInput
             style={Styles.input}
             value={firstName}
             onChangeText={setFirstName}
           />
 
-          <Text style={Styles.label} >
-            { Language.FirstName }
+<Text style={Styles.label} >
+            { Language.LastName }
           </Text>
-
           <TextInput
             style={Styles.input}
             value={lastName}
             onChangeText={setLastName}
           />
 
-          <Text style={Styles.label} >
-            { Language.LastName }
+        
+<Text style={Styles.label} >
+            { Language.Location }
           </Text>
-
           <TextInput
             value={address}
             style={Styles.input}
             onChangeText={setAddress}
           />
 
-          <Text style={Styles.label} >
-            { Language.Location }
-          </Text>
+        
 
+<Text style={Styles.label} >
+            { Language.City }
+          </Text>
           <TextInput
             value={city}
             style={Styles.input}
             onChangeText={setCity}
           />
 
-          <Text style={Styles.label} >
-            { Language.City }
+<Text style={Styles.label} >
+            { Language.Phone }
           </Text>
-
           <TextInput
             style={Styles.input}
             maxLength={11}
@@ -127,18 +129,17 @@ const GuardianModal = (props) => {
             onChangeText={setPhone}
           />
 
-          <Text style={Styles.label} >
-            { Language.Phone }
+         
+<Text style={Styles.label} >
+            { Language.IdentificationNumber }
           </Text>
-
-          <SecureInput
+          <TextInput
+             style={Styles.input}
             value={govtId}
             setValue={setGovtId}
           />
 
-          <Text style={Styles.label} >
-            { Language.IdentificationNumber }
-          </Text>
+        
 
           <Spacer medium />
 

@@ -212,7 +212,10 @@ const centreName= signupData.centreName;
 
 
 <View style={Styles.rowElement} >
-          <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+<Text style={Styles.label1} >
+            { Language.Gender }
+          </Text>
+          <View style={[Styles.input2, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
               selectedValue={gender}
@@ -222,9 +225,7 @@ const centreName= signupData.centreName;
             </Picker>
           </View>
 
-          <Text style={Styles.label} >
-            { Language.Gender }
-          </Text>
+          
         </View>
 
      

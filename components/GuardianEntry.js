@@ -84,6 +84,9 @@ const getCity = () => {
 
 
 <View style={Styles.rowElement} >
+<Text style={Styles.label} >
+            { Language.Location }
+          </Text>
           <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
@@ -94,13 +97,14 @@ const getCity = () => {
               { getCounties() }
             </Picker>
           </View>
-          <Text style={Styles.label} >
-            { Language.Location }
-          </Text>
+          
           </View>
 
 
           <View style={Styles.rowElement} >
+          <Text style={Styles.label} >
+            { Language.City }
+          </Text>
           <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
@@ -111,9 +115,7 @@ const getCity = () => {
               { getCity() }
             </Picker>
           </View>
-          <Text style={Styles.label} >
-            { Language.City }
-          </Text>
+         
           </View>
  
 
@@ -135,6 +137,9 @@ const getCity = () => {
 
       <View style={Styles.rowElements} >
         <View style={Styles.rowElement} >
+        <Text style={Styles.label} >
+            { Language.Relationship }
+          </Text>
           <View style={Styles.financePickerContainer} >
             <Picker
               style={Styles.financePicker}
@@ -146,9 +151,7 @@ const getCity = () => {
             </Picker>
           </View>
 
-          <Text style={Styles.label} >
-            { Language.Relationship }
-          </Text>
+         
         </View>
 
       </View>

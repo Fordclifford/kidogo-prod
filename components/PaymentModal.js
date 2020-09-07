@@ -292,6 +292,9 @@ await Update(ACCOUNTS, id, data)
 
           <View style={Styles.rowElements} >
             <View style={Styles.rowElement} >
+            <Text style={Styles.label} >
+                { Language.Family }
+              </Text>
               <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
                 <Picker
                     style={Styles.financePicker}
@@ -303,12 +306,13 @@ await Update(ACCOUNTS, id, data)
                 </Picker>
               </View>
 
-              <Text style={Styles.label} >
-                { Language.Family }
-              </Text>
+             
             </View>
 
             <View style={Styles.rowElement} >
+            <Text style={Styles.label} >
+                { Language.Date }
+              </Text>
               <TouchableOpacity
                 onPress={onDateSelection}
               >
@@ -317,14 +321,15 @@ await Update(ACCOUNTS, id, data)
                 </Text>
               </TouchableOpacity>
 
-              <Text style={Styles.label} >
-                { Language.Date }
-              </Text>
+             
             </View>
           </View>
 
           <View style={Styles.rowElements} >
             <View style={Styles.rowElement} >
+            <Text style={Styles.label} >
+                { Language.Type}
+              </Text>
               <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
                 <Picker
                     style={Styles.financePicker}
@@ -336,12 +341,13 @@ await Update(ACCOUNTS, id, data)
                 </Picker>
               </View>
 
-              <Text style={Styles.label} >
-                { Language.Type}
-              </Text>
+            
             </View>
 
             <View style={Styles.rowElement} >
+            <Text style={Styles.label} >
+                { Language.PaymentFor}
+              </Text>
               <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
                 <Picker
                     style={Styles.financePicker}
@@ -353,13 +359,15 @@ await Update(ACCOUNTS, id, data)
                 </Picker>
               </View>
 
-              <Text style={Styles.label} >
-                { Language.PaymentFor}
-              </Text>
+             
             </View>
 
 
             <View style={Styles.rowElement} >
+              
+            <Text style={Styles.label} >
+                { Language.Amount }
+              </Text>
               <TextInput
                 style={Styles.input}
                 maxLength={10}
@@ -368,9 +376,6 @@ await Update(ACCOUNTS, id, data)
                 onChangeText={setAmount}
               />
 
-              <Text style={Styles.label} >
-                { Language.Amount }
-              </Text>
             </View>
           </View>
 

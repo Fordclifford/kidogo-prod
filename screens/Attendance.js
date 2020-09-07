@@ -4,12 +4,13 @@ import { Styles, Size } from '../constants/Style';
 
 import Backdrop from '../components/Backdrop';
 import Spacer from '../components/Spacer';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Attendance = (props) => {
   return (
     <Backdrop>
       <Spacer height={Size.statusbar} />
-
+<ScrollView>
       <View style={Styles.actionsContainer}>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -66,6 +67,7 @@ const Attendance = (props) => {
           </ImageBackground>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     </Backdrop>
   )
 }

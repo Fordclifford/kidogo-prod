@@ -106,29 +106,33 @@ const ChildModal = (props) => {
             style={Styles.img}
             source={require('../assets/images/child.png')}
           />
-
+ <Text style={Styles.label} >
+            { Language.FirstName }
+          </Text>
           <TextInput
             style={Styles.input}
             value={firstName}
             onChangeText={setFirstName}
           />
 
-          <Text style={Styles.label} >
-            { Language.FirstName }
-          </Text>
+         
 
+<Text style={Styles.label} >
+            { Language.LastName }
+          </Text>
           <TextInput
             style={Styles.input}
             value={lastName}
             onChangeText={setLastName}
           />
 
-          <Text style={Styles.label} >
-            { Language.LastName }
-          </Text>
 
           <View style={Styles.rowElements} >
+          
             <View style={Styles.rowElement} >
+            <Text style={Styles.label} >
+                { Language.Birthday }
+              </Text>
               <TouchableOpacity
                 onPress={onDateSelection}
               >
@@ -137,12 +141,13 @@ const ChildModal = (props) => {
                 </Text>
               </TouchableOpacity>
 
-              <Text style={Styles.label} >
-                { Language.Birthday }
-              </Text>
+              
             </View>
 
             <View style={{ flex: .5, marginLeft: 5}} >
+            <Text style={Styles.label} >
+                { Language.Gender }
+              </Text>
               <View style={[Styles.input1, { height: 30, paddingLeft: 0 }]} >
                 <Picker
                   style={Styles.financePicker}
@@ -153,9 +158,7 @@ const ChildModal = (props) => {
                 </Picker>
               </View>
 
-              <Text style={Styles.label} >
-                { Language.Gender }
-              </Text>
+           
             </View>
 
         
@@ -166,6 +169,10 @@ const ChildModal = (props) => {
           </View>
 
           <View style={{ flex: .5, marginLeft: 2}} >
+            
+          <Text style={Styles.label} >
+                { Language.Immunization }
+              </Text>
               <View style={[Styles.input1, { height: 30, paddingLeft: 0 }]} >
               <Picker
               selectedValue={immunization}
@@ -179,9 +186,6 @@ const ChildModal = (props) => {
             </Picker>
               </View>
 
-              <Text style={Styles.label} >
-                { Language.Immunization }
-              </Text>
             </View>
 
           <Spacer medium />

@@ -9,7 +9,6 @@ import { Styles } from '../constants/Style';
 import Backdrop from '../components/Backdrop';
 import Language from '../languages'
 import { UpdateFees } from '../utilities/localstore';
-import { Auth } from 'aws-amplify';
 
 
 const Dash = (props) => {

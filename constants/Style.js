@@ -1,6 +1,4 @@
-import { StatusBar } from 'react-native'
-import { Dimensions, StyleSheet } from 'react-native'
-import CentreEntry from '../components/CentreEntry'
+import { StatusBar,Dimensions,StyleSheet } from 'react-native'
 import { colors } from 'react-native-elements'
 
 
@@ -201,6 +199,15 @@ export const Styles = StyleSheet.create({
     margin: 10,
     paddingLeft: 10,
   },
+  input2: {
+    fontSize: 18,
+    color: "black",
+    borderColor: Colors.signin,
+    borderBottomWidth: 2,
+    marginTop: 10,
+    marginBottom:10
+   // paddingLeft: 10,
+  },
 
   input1: {
     fontSize: 18,
@@ -215,7 +222,12 @@ export const Styles = StyleSheet.create({
    textfield: {
        fontSize: 18,
        color: Colors.mainText,
-       paddingLeft:5
+      
+       padding:5,
+      //  margin:5,
+      borderBottomWidth:2,
+        borderColor: Colors.signin,
+       
  
   },
   dateInput: {
@@ -256,6 +268,13 @@ export const Styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.mainText,
     marginLeft: 20,
+    marginTop:10,
+    marginBottom: 10,
+  },
+  label1: {
+    fontSize: 14,
+    color: '#000000',
+    marginTop: 5,
     marginBottom: 10,
   },
   financeRow: {
@@ -460,6 +479,7 @@ export const Styles = StyleSheet.create({
     color: Colors.mainText,
     marginLeft: 20,
     marginBottom: 10,
+    marginTop:10
   },
   passwordHolder: {
     flexDirection: 'row',

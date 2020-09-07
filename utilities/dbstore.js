@@ -1,4 +1,3 @@
-import { API, graphqlOperation } from "aws-amplify";
 import {
   QueryGetTypes,
   QueryListTypes,

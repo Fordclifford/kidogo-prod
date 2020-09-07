@@ -22,7 +22,7 @@ import { SET_QUESTIONS } from '../constants/Questions';
 import  countries from '../assets/countries.json';
 import { baseUrl } from '../utilities/config';
 import AudioPlayer from 'react-native-play-audio';
-import { ScrollView } from 'react-native-gesture-handler';
+
 
 
 const SignIn = (props) => {

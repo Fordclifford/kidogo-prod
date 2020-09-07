@@ -7,7 +7,8 @@
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -27,7 +28,8 @@
       "icon": "./assets/images/ios.png"
     },
     "android": {
-      "package": "com.kidogoApp.kidogoApp"
+      "package": "com.kidogoApp.kidogoApp",
+      "versionCode": 2
     }
   }
 }

@@ -66,36 +66,36 @@ const ContactModal = (props) => {
             style={Styles.img}
             source={require('../assets/images/child.png')}
           />
-
+ <Text style={Styles.label} >
+            { Language.FirstName }
+          </Text>
           <TextInput
             style={Styles.input}
             value={firstName}
             onChangeText={setFirstName}
           />
 
-          <Text style={Styles.label} >
-            { Language.FirstName }
+         
+<Text style={Styles.label} >
+            { Language.LastName }
           </Text>
-
           <TextInput
             style={Styles.input}
             value={lastName}
             onChangeText={setLastName}
           />
 
-          <Text style={Styles.label} >
-            { Language.LastName }
+      
+<Text style={Styles.label} >
+            { Language.Phone }
           </Text>
-
           <TextInput
             style={Styles.input}
             value={phone}
             onChangeText={setPhone}
           />
 
-          <Text style={Styles.label} >
-            { Language.Phone }
-          </Text>
+       
           <Spacer medium />
 
           <View style={Styles.rowElements} >

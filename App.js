@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import Amplify from 'aws-amplify'
+import { YellowBox } from 'react-native';
+
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import rootReducer from './reducers/RootReducer'
-import awsconfig from './aws-exports'
+
 import { AppLoading } from 'expo'
 // import * as Update from 'expo-updtes'
 
@@ -16,20 +17,21 @@ import { createAppContainer } from 'react-navigation';
 import AppNavigator from './navigators/AppNavigator';
 import userData from './reducers/User';
 
-Amplify.configure(awsconfig)
-
 const store = createStore(rootReducer)
 
 const AppContainer = createAppContainer(AppNavigator)
 
 const App = () => {
-  useEffect(() => {
 
-  }, [])
   const [appLoading, setAppLoading] = useState(true)
 
 
   const setupApp = async () => {
+    YellowBox.ignoreWarnings([
+      'Animated: `useNativeDriver` was not specified.',
+      'Using Math.random is not cryptographically secure!',
+      'Require cycles are allowed, but can result in uninitialized values.'
+    ]);
     ConfigureBcrypt()
     await LoadFonts()
 

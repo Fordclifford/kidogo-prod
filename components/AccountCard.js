@@ -8,6 +8,7 @@ import moment from 'moment'
 
 
 const AccountCard = (props) => {
+
   const children = useSelector(state => state.children)
   const guardians = useSelector(state => state.guardians)
   const contacts = useSelector(state => state.contacts)
@@ -39,10 +40,6 @@ const AccountCard = (props) => {
 
 
   const getAccountName = () => {
-    console.log("account")
-   
-    console.log(props)
-    console.log("guardians")
    
     if(guardians[props.account.guardians[0]]){
       return guardians[props.account.guardians[0]].firstName+" " +guardians[props.account.guardians[0]].lastName

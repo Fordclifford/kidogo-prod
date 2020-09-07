@@ -73,7 +73,11 @@ const ChildEntry = (props) => {
 
      
       <View style={Styles.rowElements} >
+        
         <View style={Styles.rowElement} >
+        <Text style={Styles.label} >
+            { Language.Birthday }
+          </Text>
           <TouchableOpacity
             onPress={onDateSelection}
           >
@@ -82,12 +86,13 @@ const ChildEntry = (props) => {
             </Text>
           </TouchableOpacity>
 
-          <Text style={Styles.label} >
-            { Language.Birthday }
-          </Text>
+         
         </View>
 
         <View style={Styles.rowElement} >
+        <Text style={Styles.label} >
+            { Language.Gender }
+          </Text>
           <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
@@ -98,14 +103,15 @@ const ChildEntry = (props) => {
             </Picker>
           </View>
 
-          <Text style={Styles.label} >
-            { Language.Gender }
-          </Text>
+          
         </View>
       </View>
 
       <View style={Styles.rowElements} >
         <View style={Styles.rowElement} >
+        <Text style={Styles.label} >
+            { Language.Immunization }
+          </Text>
           <View style={Styles.financePickerContainer} >
             <Picker
               selectedValue={props.immunization}
@@ -119,13 +125,14 @@ const ChildEntry = (props) => {
             </Picker>
           </View>
 
-          <Text style={Styles.label} >
-            { Language.Immunization }
-          </Text>
+          
         </View>
 
         <View style={Styles.rowElement} />
       </View>
+      <Text style={Styles.label} >
+ { Language.Notes }
+          </Text>
 
       <TextInput
         style={Styles.textArea}
@@ -135,9 +142,7 @@ const ChildEntry = (props) => {
         value={props.note}
         onChangeText={props.setNote}
       />
- <Text style={Styles.label} >
- { Language.Notes }
-          </Text>
+ 
      
     </View>
   )

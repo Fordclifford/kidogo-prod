@@ -284,7 +284,10 @@ const getTitle=()=>{
 
 
 <View style={Styles.rowElement} >
-          <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+<Text style={Styles.label1} >
+            { Language.Location }
+          </Text>
+          <View style={[Styles.input2, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
               selectedValue={address}
@@ -294,14 +297,15 @@ const getTitle=()=>{
               { getCounties() }
             </Picker>
           </View>
-          <Text style={Styles.label} >
-            { Language.Location }
-          </Text>
+         
           </View>
 
 
           <View style={Styles.rowElement} >
-          <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
+          <Text style={Styles.label1} >
+            { Language.City }
+          </Text>
+          <View style={[Styles.input2, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
               selectedValue={city}
@@ -311,9 +315,7 @@ const getTitle=()=>{
               { getCity() }
             </Picker>
           </View>
-          <Text style={Styles.label} >
-            { Language.City }
-          </Text>
+         
           </View>
  
 
@@ -329,6 +331,7 @@ const getTitle=()=>{
       />
        <TextField
             value={govtId}
+            style={Styles.textfield}
             label= { Language.IdentificationNumber }
                onChangeText={setGovtId}
           />
@@ -337,6 +340,9 @@ const getTitle=()=>{
 
       <View style={Styles.rowElements} >
         <View style={Styles.rowElement} >
+        <Text style={Styles.label} >
+            { Language.Relationship }
+          </Text>
           <View style={Styles.financePickerContainer} >
             <Picker
               style={Styles.financePicker}
@@ -348,11 +354,12 @@ const getTitle=()=>{
             </Picker>
           </View>
 
-          <Text style={Styles.label} >
-            { Language.Relationship }
-          </Text>
+          
         </View>
         <View style={Styles.rowElement} >
+        <Text style={Styles.label} >
+            { Language.JoinedDate }
+          </Text>
         <TouchableOpacity
             onPress={onDateSelection}
           >
@@ -360,15 +367,16 @@ const getTitle=()=>{
               { GetShortDate(0, date) }
             </Text>
           </TouchableOpacity>
-          <Text style={Styles.label} >
-            { Language.JoinedDate }
-          </Text>
+        
           </View>
          
       </View> 
       <View style={Styles.rowElements}>
       <View style={Styles.rowElement} >
       <View style={Styles.rowElement} >
+      <Text style={Styles.label} >
+       {Language.Rate}
+      </Text>
       <View style={Styles.rowElements} >
         <Text style={Styles.prefix} >
          KES
@@ -382,14 +390,15 @@ const getTitle=()=>{
         />
       </View>
 
-      <Text style={Styles.label} >
-       {Language.Rate}
-      </Text>
+     
     </View>
   
         </View>
 
         <View style={Styles.rowElement}>
+        <Text style={Styles.label}>
+            { Language.Frequency }
+          </Text>
           <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.financePicker}
@@ -400,9 +409,7 @@ const getTitle=()=>{
             </Picker>
           </View>
 
-          <Text style={Styles.label}>
-            { Language.Frequency }
-          </Text>
+          
         </View>
       </View>
 

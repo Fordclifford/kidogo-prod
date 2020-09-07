@@ -58,15 +58,23 @@ const CentreEntry = (props) => {
         source={require('../assets/images/centre.png')}
       />
 
-      <TextField
-        style={Styles.textfield}
-        blurOnSubmit={false}
-        value={props.centreName}
-        label={Language.centreName}
-        onChangeText={props.onChangeCentreName}
-      />
+<Text style={Styles.label} >
+            { Language.centreName }
+          </Text>
+<TextInput
+              style={Styles.input}
+              blurOnSubmit={false}
+              value={props.centreName}
+              label={Language.centreName}
+              onChangeText={props.onChangeCentreName}
+            
+              blurOnSubmit={false}
+            />
 
 <View style={Styles.rowElement} >
+<Text style={Styles.label} >
+            { Language.Location }
+          </Text>
           <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
@@ -77,13 +85,14 @@ const CentreEntry = (props) => {
               { getCounties() }
             </Picker>
           </View>
-          <Text style={Styles.label} >
-            { Language.Location }
-          </Text>
+         
           </View>
 
 
           <View style={Styles.rowElement} >
+          <Text style={Styles.label} >
+            { Language.City }
+          </Text>
           <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
@@ -94,15 +103,16 @@ const CentreEntry = (props) => {
               { getCity() }
             </Picker>
           </View>
-          <Text style={Styles.label} >
-            { Language.City }
-          </Text>
+         
           </View>
  
 
       
 
 <View style={Styles.rowElement} >
+<Text style={Styles.label} >
+            { Language.Country }
+          </Text>
           <View style={[Styles.input, { height: 30, paddingLeft: 0 }]} >
             <Picker
               style={Styles.genderPicker}
@@ -113,9 +123,7 @@ const CentreEntry = (props) => {
               { getGenderItems() }
             </Picker>
           </View>
-          <Text style={Styles.label} >
-            { Language.Country }
-          </Text>
+         
           </View>
 
       

@@ -11,6 +11,8 @@ import Spacer from '../components/Spacer';
 
 const Accounts = (props) => {
   const accounts = useSelector(state => state.accounts)
+  //console.log(accounts)
+
 
 
   const getAccountCards = () => {
