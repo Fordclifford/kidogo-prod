@@ -342,7 +342,7 @@ export const InitDatabase = async (dispatch) => {
 
 
 export const SubmitAccount = async (dispatch, newAccount) => {
-  const accountId = uuid()
+  var accountId = uuid()
 
 
 
@@ -356,8 +356,12 @@ export const SubmitAccount = async (dispatch, newAccount) => {
     guardians: [],
     contacts: [],
     hofs: [],
+    id:accountId
   }
-
+  console.log(newAccount)
+  dispatch({ type: CLEAR_NEW_ACCOUNT,id:accountId })
+  console.log(newAccount)
+  return
 
   for (const [id, child] of Object.entries(newAccount.children)) {
     accountData.children.push(id)
@@ -387,7 +391,7 @@ export const SubmitAccount = async (dispatch, newAccount) => {
 
   for (const [id, hof] of Object.entries(newAccount.hofs)) {
     accountData.hofs.push(id)
-    console.log(hof)
+   
     accountData.rate=hof.amount
     accountData.joinedon=hof.date
     accountData.frequency=hof.frequency
@@ -395,9 +399,10 @@ export const SubmitAccount = async (dispatch, newAccount) => {
     await Create(HOFS, id, { accountId, ...hof })
   }
 
-  dispatch({ type: CLEAR_NEW_ACCOUNT })
+
   dispatch({ type: SET_ACCOUNT, id: accountId, account: accountData })
   await Create(ACCOUNTS, accountId, accountData)
+  dispatch({ type: CLEAR_NEW_ACCOUNT,id:accountId })
 }
 
 

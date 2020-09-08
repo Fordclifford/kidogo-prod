@@ -39,8 +39,38 @@ const Guardians = (props) => {
 
 
   const onSubmitGuardian = () => {
+    if(firstName==""){
+      setError("Firstname Required")
+      return false
+    }
+    
+   else if(lastName==""){
+      setError("Lastname Required")
+      return false
+    }
+    else if(phone==""){
+      setError("Phone Required")
+      return false
+    }
+    else  if(govtId==""){
+      setError("Id number Required")
+      return false
+    }
+    else if(city==""){
+      setError("City Required")
+      return false
+    }
+    if(address==""){
+      setError("Location Required")
+      return false
+    }else{
+   
+   
+  
+ 
+
     const guardian = {
-      id,
+      id:uuid(),
       firstName,
       lastName,
       phone,
@@ -50,21 +80,15 @@ const Guardians = (props) => {
       relation,
     }
 
-    dispatch({ type: SET_NEW_GUARDIAN, id, guardian })
-    setError("Information submitted successfuly")
-  }
-
-
-  const onNextGuardian = () => {
-    onSubmitGuardian()
-    setError("Guardian information submitted")
-    setId(uuid())
+    dispatch({ type: SET_NEW_GUARDIAN, id:guardian.id, guardian })
+    setError("Parent added successfuly")
     resetForm()
+  }
   }
 
 
   const onAddChildren = async () => {
-    onSubmitGuardian()
+   
     clearTimeout(callbackId)
     props.navigation.navigate('Children')
   }
@@ -137,28 +161,36 @@ const Guardians = (props) => {
           setRelation={setRelation}
         />
 
-        <Spacer large />
-
-        <View  style={{ alignItems:'center' }}>
-        <TouchableOpacity
-          style={Styles.mainButton}
-          onPress={onNextGuardian}
-        >
-          <Text style={Styles.buttonText} >
-            { Language.Next } { Language.Guardian }
-          </Text>
-        </TouchableOpacity>
-        </View>
-
-     
         <Spacer medium />
+    <View style={Styles.rowElements} >
+            <TouchableOpacity
+              style={Styles.rowButton}
+              onPress={resetForm}
+            >
+              <Text style={Styles.buttonText} >
+                { Language.Cancel }
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={Styles.rowButton}
+              onPress={onSubmitGuardian}
+            >
+              <Text style={Styles.buttonText} >
+                { Language.Add }
+              </Text> 
+            </TouchableOpacity>
+          </View>
+          <Spacer medium />
+
+    
         <View  style={{ alignItems:'center' }}>
         <TouchableOpacity
           style={Styles.mainButton}
           onPress={onAddChildren}
         >
           <Text style={Styles.buttonText} >
-            { Language.Add } { Language.Children }
+            { Language.Next }
           </Text>
         </TouchableOpacity>
         </View>

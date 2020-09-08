@@ -21,12 +21,14 @@ import { FrequencyStrings, Frequency } from '../constants/Finances'
 import CurrencyInput from '../components/CurrencyInput'
 import { TextInput } from 'react-native-gesture-handler'
 import counties from '../assets/counties.json'
+import Loading from '../components/Loading'
 
 
 
 const HOFs = (props) => {
   const dispatch = useDispatch()
 
+  const [loading, setLoading] = useState(false)
   const [id, setId] = useState(uuid())
   const [date, setDate] = useState(null)
   const [frequency, setFrequency] = useState('')
@@ -99,22 +101,6 @@ const HOFs = (props) => {
   }
 
 
-  const onSubmitGuardian = () => {
-    const guardian = {
-      id,
-      firstName,
-      lastName,
-      phone,
-      govtId,
-      address,
-      city,
-      relation,
-      
-    }
-
-    dispatch({ type: SET_NEW_GUARDIAN, id, guardian })
-  }
-
   const onSubmitHof = () => {
     if(firstName==""){
       setError("Firstname Required")
@@ -147,14 +133,11 @@ const HOFs = (props) => {
     else  if(date==null){
       setError("Joined on Required")
       return false
-    }
-    else  if(amount==''){
-      setError("Joined on Required")
-      return false
-    }
+    }  
     else{
-      const hof = {
-        id,
+    
+      const guardian = {
+        id:uuid(),
         firstName,
         lastName,
         phone,
@@ -162,38 +145,44 @@ const HOFs = (props) => {
         address,
         city,
         relation,
-        amount,
-        frequency,
-        date,
+        
       }
   
-      dispatch({ type: SET_NEW_HOF, id, hof})
-      setMessage("HOF information submitted")
-      return true
+      dispatch({ type: SET_NEW_GUARDIAN, id:guardian.id, guardian })
+    
+    const hof = {
+      id:uuid(),
+      firstName,
+      lastName,
+      phone,
+      govtId,
+      address,
+      city,
+      relation,
+      amount,
+      frequency,
+      date,
+    }
+
+    dispatch({ type: SET_NEW_HOF, id:hof.id, hof})
+    
+ 
+    return true
+
     }
    
   }
+
 
   const onNextGuardian = () => {
-    var hof = onSubmitHof()
-    if(hof){
-      onSubmitGuardian()
-      setError("HOF information submitted")
-      props.navigation.navigate('Guardians')
-    }
+  //  var hof = onSubmitHof()
+    // if(hof){
+    //   onSubmitGuardian()
+    //   setError("HOF information submitted")
+       props.navigation.navigate('Guardians')
+    // }
    
   }
-
-
-  const onAddChildren = async () => {
-    var hof = onSubmitHof()
-    if(hof){
-    onSubmitGuardian()
-    clearTimeout(callbackId)
-    props.navigation.navigate('Children')
-    }
-  }
-
 
   const resetForm = () => {
     scrollRef.current.scrollTo({ x: 0, y: 0, animated: false })
@@ -239,13 +228,18 @@ const HOFs = (props) => {
     setMessage(text)
     setCallbackId(setTimeout(() => setMessage(null), 4000))
   }
-const getTitle=()=>{
-  return(
-  <View>   <Text style={[Styles.h1, Styles.raleway]} >
-  {Language.HOF}
-</Text></View>
-  )
-}
+
+  const redirect = (text) => {
+    setLoading(true)
+    clearTimeout(callbackId)
+    setMessage(text)
+    setCallbackId(setTimeout(() => {setMessage(null),props.navigation.navigate('Guardians')
+  setLoading(false)
+  }     
+    , 2000))
+  }
+
+
 
   return (
     <Backdrop>
@@ -253,7 +247,9 @@ const getTitle=()=>{
 
       <Message text={message} />
 
-
+      {loading
+        ? <Loading />
+        :     
       <ScrollView ref={scrollRef} >
       <View>
       <Text style={[Styles.h1, Styles.raleway]} >
@@ -416,9 +412,28 @@ const getTitle=()=>{
     </View>
 
   
- 
+    <Spacer medium />
+    <View style={Styles.rowElements} >
+            <TouchableOpacity
+              style={Styles.rowButton}
+              onPress={resetForm}
+            >
+              <Text style={Styles.buttonText} >
+                { Language.Cancel }
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={Styles.rowButton}
+              onPress={onSubmitHof}
+            >
+              <Text style={Styles.buttonText} >
+                { Language.Add }
+              </Text> 
+            </TouchableOpacity>
+          </View>
       
-        <Spacer large />
+        <Spacer medium />
 
         <View style={{ alignItems: 'center' }}>
           <TouchableOpacity
@@ -426,13 +441,13 @@ const getTitle=()=>{
             onPress={onNextGuardian}
           >
             <Text style={Styles.buttonText} >
-              {Language.Add} {Language.Guardian}
+             {Language.Next}
             </Text>
           </TouchableOpacity>
         </View>
 
 
-        <Spacer medium />
+        {/* <Spacer medium />
         <View style={{ alignItems: 'center' }}>
           <TouchableOpacity
             style={Styles.mainButton}
@@ -442,12 +457,14 @@ const getTitle=()=>{
               {Language.Add} {Language.Children}
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
 
 
         <Spacer height={Size.keyboard} />
+      
       </ScrollView>
+      }
 
       <TouchableOpacity
         style={Styles.helpButton}

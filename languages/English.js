@@ -46,7 +46,7 @@ const Members = {
   Caregiver: "Mamapreneur",
   Child: "Child",
   Children: "Children",
-  Guardian: "Parent",
+  Guardian: "Parent/Guardian",
   Guardians: "Parents",
   HOF: "Head of Family",
   FAM: "Family Member",

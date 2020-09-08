@@ -20,7 +20,7 @@ const Contacts = (props) => {
   const dispatch = useDispatch()
   const newAccount = useSelector(state => state.newAccount)
 
-  const [id, setId] = useState(uuid())
+  var [id, setId] = useState(uuid())
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [phone, setPhone] = useState('')
@@ -120,16 +120,29 @@ const Contacts = (props) => {
             />
 
             <Spacer large />
-            <View  style={{ alignItems:'center' }}>
-            <TouchableOpacity
-              style={Styles.mainButton}
-              onPress={onNextContact}
-            >
-              <Text style={Styles.buttonText} >
-                { Language.Next } { Language.Contact }
-              </Text>
-            </TouchableOpacity>
-            </View>
+            <Spacer medium />
+
+<View style={Styles.rowElements} >
+   <TouchableOpacity
+     style={Styles.rowButton}
+     onPress={resetForm}
+   >
+     <Text style={Styles.buttonText} >
+       { Language.Cancel }
+     </Text>
+   </TouchableOpacity>
+
+   <TouchableOpacity
+     style={Styles.rowButton}
+     onPress={onSubmitContact}
+   >
+     <Text style={Styles.buttonText} >
+       { Language.Add }
+     </Text> 
+   </TouchableOpacity>
+ </View>
+
+<Spacer medium />
 
             <Spacer medium />
             <View  style={{ alignItems:'center' }}>

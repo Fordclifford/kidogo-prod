@@ -33,18 +33,6 @@ const Children = (props) => {
 
   const scrollRef = useRef(null)
 
-  const onSubmitFamily = async () => {
-    setLoading(true)
-    onSubmitChild()
-    clearTimeout(callbackId)
-    await SubmitAccount(dispatch, newAccount)
-    setLoading(false)
-  //  setError("Family submitted")
-
-    props.navigation.navigate('Dash')
-  }
-
-
   const onSubmitChild = () => {
  
     if(firstName===""){
@@ -63,7 +51,7 @@ const Children = (props) => {
    
 
     const child = {
-      id,
+      id:uuid(),
       firstName,
       lastName,
       birthdate,
@@ -72,39 +60,19 @@ const Children = (props) => {
       note,
     }
 
-    dispatch({ type: SET_NEW_CHILD, id, child })
+    dispatch({ type: SET_NEW_CHILD, id:child.id, child })
     setError("Child information submitted")
-  }
-
-
-  const onPrevChild = () => {
-
-  }
-
-
-  const onNextChild = () => {
-    if(firstName===""){
-      alert("firstname required")
-      return;
-    }
-    onSubmitChild()
-   
-    setId(uuid())
     resetForm()
   }
 
+ 
+
   const onAddContact = async () => {
-    onSubmitChild()
+   
     clearTimeout(callbackId)
     props.navigation.navigate('Contacts')
   }
 
-
-  const onAddGuardians = async () => {
-    onSubmitChild()
-    clearTimeout(callbackId)
-    props.navigation.navigate('Guardians')
-  }
 
 
   const resetForm = () => {
@@ -166,33 +134,47 @@ const Children = (props) => {
           note={note}
           setNote={setNote}
         />
-
+        
         <Spacer medium />
-        <View style={{ alignItems: 'center' }}>
-        <TouchableOpacity
-          style={Styles.mainButton}
-          onPress={onNextChild}
-        >
-          <Text style={Styles.buttonText} >
-            { Language.Next } { Language.Child }
-          </Text>
-        </TouchableOpacity>
-        </View>
 
+         <View style={Styles.rowElements} >
+            <TouchableOpacity
+              style={Styles.rowButton}
+              onPress={resetForm}
+            >
+              <Text style={Styles.buttonText} >
+                { Language.Cancel }
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={Styles.rowButton}
+              onPress={onSubmitChild}
+            >
+              <Text style={Styles.buttonText} >
+                { Language.Add }
+              </Text> 
+            </TouchableOpacity>
+          </View>
+      
         <Spacer medium />
+
         <View  style={{ alignItems:'center' }}>
             <TouchableOpacity
               style={Styles.mainButton}
               onPress={onAddContact}
             >
               <Text style={Styles.buttonText} >
-                { Language.Add } { Language.Contact }
+                {Language.Next }
               </Text>
             </TouchableOpacity>
             </View>
 
 
+
+
         <Spacer height={Size.keyboard} />
+       
       </ScrollView>
 
       <TouchableOpacity
